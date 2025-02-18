@@ -10,13 +10,18 @@ use Illuminate\Http\Request;
 
 class FormCheckPanelController extends Controller
 {
-    public function index(): View
+    public function index(Request $request)
     {
-        $formpanels = FormChecklistPanel::latest()->paginate(5);
+        $query = FormChecklistPanel::query();
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+        }
+
+        $formpanels = $query->paginate();
 
         return view('formpanels.index', compact('formpanels'));
     }
-
     public function create(): View
     {
         return view('formpanels.create');

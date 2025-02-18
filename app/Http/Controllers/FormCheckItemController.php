@@ -39,6 +39,7 @@ class FormCheckItemController extends Controller
 
     //     return view('formitems.show', compact('formitems'));
     // }
+    
     public function edit($id)
     {
         $formitem = FormChecklistItem::findOrFail($id);

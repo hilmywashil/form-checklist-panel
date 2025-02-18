@@ -27,6 +27,25 @@
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
                         <a href="{{ route('formpanels.create') }}" class="btn btn-md btn-success mb-3">TAMBAH PANEL</a>
+                        
+                        <!-- Form Filter Tanggal -->
+                        <form action="{{ route('formpanels.index') }}" method="GET" class="mb-4">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="start_date">Dari Tanggal</label>
+                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="end_date">Sampai Tanggal</label>
+                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                                </div>
+                                <div class="form-group col-md-4 align-self-end">
+                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <a href="{{ route('formpanels.index') }}" class="btn btn-secondary">Reset</a>
+                                </div>
+                            </div>
+                        </form>
+
                         <table class="table table-bordered">
                             <thead class="thead-dark">
                                 <tr>
@@ -78,7 +97,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
-        //message with toastr
         @if (session()->has('success'))
 
             toastr.success('{{ session('success') }}', 'BERHASIL!');
