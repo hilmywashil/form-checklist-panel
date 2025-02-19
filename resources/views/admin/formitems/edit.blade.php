@@ -17,10 +17,11 @@
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">ITEM PEMERIKSAAN</label>
                             <input type="text"
-                                   class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
                                    @error('item_pemeriksaan') border-red-500 @enderror"
-                                   name="item_pemeriksaan" value="{{ old('item_pemeriksaan', $formitem->item_pemeriksaan) }}"
-                                   placeholder="Masukkan Item Pemeriksaan">
+                                name="item_pemeriksaan"
+                                value="{{ old('item_pemeriksaan', $formitem->item_pemeriksaan) }}"
+                                placeholder="Masukkan Item Pemeriksaan">
                             @error('item_pemeriksaan')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -29,10 +30,10 @@
                         <!-- KETERANGAN -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN</label>
-                            <textarea class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
+                            <textarea
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
                                       @error('keterangan') border-red-500 @enderror"
-                                      name="keterangan" rows="3"
-                                      placeholder="Masukkan Keterangan">{{ old('keterangan', $formitem->keterangan) }}</textarea>
+                                name="keterangan" rows="3" placeholder="Masukkan Keterangan">{{ old('keterangan', $formitem->keterangan) }}</textarea>
                             @error('keterangan')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -41,8 +42,9 @@
                         <!-- PANEL (Dropdown dari Panel yang Ada, Tidak Bisa Diubah) -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">PANEL</label>
-                            <select name="panel_id" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white cursor-not-allowed"
-                                    disabled>
+                            <select name="panel_id"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white cursor-not-allowed"
+                                disabled>
                                 @foreach ($panels as $panel)
                                     <option value="{{ $panel->id }}"
                                         {{ $formitem->panel_id == $panel->id ? 'selected' : '' }}>
@@ -54,14 +56,17 @@
 
                         <!-- BUTTONS -->
                         <div class="flex space-x-2">
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                                UPDATE
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                                <i class="fas fa-save mr-2"></i> UPDATE
                             </button>
-                            <button type="reset" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-                                RESET
+                            <button type="reset"
+                                class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                                <i class="fas fa-undo mr-2"></i> RESET
                             </button>
-                            <a href="{{ url()->previous() }}" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                KEMBALI
+                            <a href="{{ url()->previous() }}"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                <i class="fas fa-arrow-left mr-2"></i> KEMBALI
                             </a>
                         </div>
 

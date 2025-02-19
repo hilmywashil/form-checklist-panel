@@ -18,7 +18,7 @@ class FormCheckPanelController extends Controller
             $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
         }
 
-        $formpanels = $query->paginate();
+        $formpanels = $query->paginate(20);
 
         if (auth()->check()) {
             return view('admin.formpanels.index', compact('formpanels'));

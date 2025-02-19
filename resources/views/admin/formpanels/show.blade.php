@@ -12,7 +12,8 @@
 
                     <!-- Informasi Panel -->
                     <div class="mb-6">
-                        <p><strong><i class="fas fa-clipboard-check"></i> Nama Panel:</strong> {{ $formpanel->nama_panel }}</p>
+                        <p><strong><i class="fas fa-clipboard-check"></i> Nama Panel:</strong>
+                            {{ $formpanel->nama_panel }}</p>
                         <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}</p>
                         <p><strong><i class="fas fa-calendar-alt"></i> Tanggal:</strong> {{ $formpanel->tanggal }}</p>
                         <p><strong><i class="fas fa-user"></i> Teknisi:</strong> {{ $formpanel->teknisi }}</p>
@@ -23,7 +24,7 @@
                         <table class="table-auto w-full border border-gray-300 rounded-lg">
                             <thead class="bg-gray-700 text-white">
                                 <tr>
-                                    <th class="border px-4 py-2"> No</th> 
+                                    <th class="border px-4 py-2"> No</th>
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
                                     <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
@@ -31,7 +32,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($formitems as $index => $fi) 
+                                @forelse ($formitems as $index => $fi)
                                     <tr class="text-left bg-gray-100">
                                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
@@ -45,15 +46,24 @@
                                                 <i class="fas fa-tools"></i> Perbaikan
                                             </button>
                                         </td>
-                                        <td class="border px-4 py-2">{{ $fi->keterangan ?? 'Tidak ada Keterangan' }}</td>
+                                        <td class="border px-4 py-2">
+                                            {{ $fi->keterangan }}
+                                            @if (!$fi->keterangan)
+                                                <a href="{{ route('formitems.edit', $fi->id) }}"
+                                                    class="text-blue-500">+ Tambah Keterangan</a>
+                                            @endif
+                                        </td>
                                         <td class="border px-4 py-2 flex items-center justify-center gap-2">
                                             <a href="{{ route('formitems.edit', $fi->id) }}" class="btn btn-blue">
                                                 <i class="fas fa-edit"></i> EDIT
                                             </a>
-                                            <button type="button" class="btn btn-red delete-button" data-id="{{ $fi->id }}">
+                                            <button type="button" class="btn btn-red delete-button"
+                                                data-id="{{ $fi->id }}">
                                                 <i class="fas fa-trash"></i> HAPUS
                                             </button>
-                                            <form id="delete-form-{{ $fi->id }}" action="{{ route('formitems.destroy', $fi->id) }}" method="POST" class="hidden">
+                                            <form id="delete-form-{{ $fi->id }}"
+                                                action="{{ route('formitems.destroy', $fi->id) }}" method="POST"
+                                                class="hidden">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
@@ -63,7 +73,8 @@
                                     <tr>
                                         <td colspan="5" class="border text-center py-4">
                                             <div class="text-red-500 font-semibold">
-                                                <i class="fas fa-exclamation-triangle"></i> Data Form Item belum tersedia.
+                                                <i class="fas fa-exclamation-triangle"></i> Data Form Item belum
+                                                tersedia.
                                             </div>
                                         </td>
                                     </tr>
@@ -82,7 +93,8 @@
                         <a href="{{ url('/formpanels') }}" class="btn btn-red">
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>
-                        <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}" class="btn btn-green">
+                        <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
+                            class="btn btn-green">
                             <i class="fas fa-plus"></i> TAMBAH DATA
                         </a>
                     </div>
@@ -95,11 +107,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 const deleteButtons = document.querySelectorAll(".delete-button");
 
                 deleteButtons.forEach(button => {
-                    button.addEventListener("click", function () {
+                    button.addEventListener("click", function() {
                         const id = this.getAttribute("data-id");
 
                         Swal.fire({
@@ -125,7 +137,7 @@
                         text: "{{ session('success') }}",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
-                        confirmButtonText: "OK"
+                        confirmButtonText: "Oke, Lanjut"
                     });
                 @elseif (session()->has('error'))
                     Swal.fire({
@@ -133,7 +145,7 @@
                         text: "{{ session('error') }}",
                         icon: "error",
                         confirmButtonColor: "#d33",
-                        confirmButtonText: "OK"
+                        confirmButtonText: "Oke, Mengerti"
                     });
                 @endif
             });
@@ -157,7 +169,7 @@
                                 text: "Status berhasil diperbarui!",
                                 icon: "success",
                                 confirmButtonColor: "#3085d6",
-                                confirmButtonText: "OK"
+                                confirmButtonText: "Oke, Lanjut"
                             }).then(() => {
                                 location.reload();
                             });
@@ -167,7 +179,7 @@
                                 text: "Terjadi kesalahan!",
                                 icon: "error",
                                 confirmButtonColor: "#d33",
-                                confirmButtonText: "OK"
+                                confirmButtonText: "Oke, Mengerti"
                             });
                         }
                     })
@@ -177,7 +189,7 @@
                             text: "Terjadi kesalahan saat memperbarui!",
                             icon: "error",
                             confirmButtonColor: "#d33",
-                            confirmButtonText: "OK"
+                            confirmButtonText: "Oke, Mengerti"
                         });
                     });
             }

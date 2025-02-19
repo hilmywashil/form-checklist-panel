@@ -137,7 +137,7 @@
                         text: "{{ session('success') }}",
                         icon: "success",
                         confirmButtonColor: "#3085d6",
-                        confirmButtonText: "OK"
+                        confirmButtonText: "Oke, Lanjut"
                     });
                 @elseif (session()->has('error'))
                     Swal.fire({
@@ -145,7 +145,7 @@
                         text: "{{ session('error') }}",
                         icon: "error",
                         confirmButtonColor: "#d33",
-                        confirmButtonText: "OK"
+                        confirmButtonText: "Oke, Mengerti"
                     });
                 @endif
             });
