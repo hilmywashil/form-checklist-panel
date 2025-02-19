@@ -30,9 +30,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('/formpanels', FormCheckPanelController::class);
-Route::resource('/formitems', FormCheckItemController::class);
+Route::resource('/formpanels', FormCheckPanelController::class)->names([
+    'index' => 'formpanels.index',
+    'create' => 'formpanels.create',
+    'store' => 'formpanels.store',
+    'show' => 'formpanels.show',
+    'edit' => 'formpanels.edit',
+    'update' => 'formpanels.update',
+    'destroy' => 'formpanels.destroy',
+]);
+
+Route::resource('/formitems', FormCheckItemController::class)->names([
+    'create' => 'formitems.create',
+    'edit' => 'formitems.edit'
+]);
+
 Route::get('/formitems/create/{panel_id?}', [FormCheckItemController::class, 'create'])->name('formitems.create');
 Route::patch('/formitems/{id}/update-check', [FormCheckItemController::class, 'updateCheck'])->name('updateCheck');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

@@ -13,7 +13,7 @@ class FormCheckItemController extends Controller
     public function create($panel_id = null): View
     {
         $panels = FormChecklistPanel::all();
-        return view('formitems.create', compact('panels', 'panel_id'));
+        return view('admin.formitems.create', compact('panels', 'panel_id'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -33,18 +33,11 @@ class FormCheckItemController extends Controller
         return redirect()->route('formpanels.show', $request->panel_id)->with(['success' => 'Data berhasil ditambahkan!']);
     }
 
-    // public function show(string $id): View
-    // {
-    //     $formitem = FormChecklistItem::findOrFail($id);
-
-    //     return view('formitems.show', compact('formitems'));
-    // }
-    
     public function edit($id)
     {
         $formitem = FormChecklistItem::findOrFail($id);
-        $panels = FormChecklistPanel::all(); 
-        return view('formitems.edit', compact('formitem', 'panels'));
+        $panels = FormChecklistPanel::all();
+        return view('admin.formitems.edit', compact('formitem', 'panels'));
     }
     public function update(Request $request, $id): RedirectResponse
     {
@@ -54,25 +47,20 @@ class FormCheckItemController extends Controller
             'item_pemeriksaan' => $request->item_pemeriksaan ?? $formitem->item_pemeriksaan,
             'check' => $request->check ?? $formitem->check,
             'keterangan' => $request->keterangan ?? $formitem->keterangan,
-            'panel_id' => $request->panel_id ?? $formitem->panel_id
+            'panel_id' => $formitem->panel_id // Pastikan pakai yang asli dari database
         ]);
 
-        return redirect()->route('formpanels.show', $request->panel_id)->with(['success' => 'Data berhasil diperbarui!']);
+        return redirect()->route('formpanels.show', $formitem->panel_id)
+            ->with(['success' => 'Data berhasil diperbarui!']);
     }
 
-    public function updateCheck(Request $request, $id): RedirectResponse
+    public function updateCheck(Request $request, $id)
     {
-        $formitem = FormChecklistItem::findOrFail($id);
+        $formItem = FormChecklistItem::findOrFail($id);
+        $formItem->check = $request->check;
+        $formItem->save();
 
-        $request->validate([
-            'check' => 'required|in:normal,perbaikan'
-        ]);
-
-        $formitem->update([
-            'check' => $request->check
-        ]);
-
-        return back()->with(['success' => 'Check berhasil!']);
+        return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui!']);
     }
 
     public function destroy($id): RedirectResponse

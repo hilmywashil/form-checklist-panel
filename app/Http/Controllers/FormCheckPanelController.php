@@ -20,11 +20,15 @@ class FormCheckPanelController extends Controller
 
         $formpanels = $query->paginate();
 
-        return view('formpanels.index', compact('formpanels'));
+        if (auth()->check()) {
+            return view('admin.formpanels.index', compact('formpanels'));
+        } else {
+            return view('formpanels.index', compact('formpanels'));
+        }
     }
     public function create(): View
     {
-        return view('formpanels.create');
+        return view('admin.formpanels.create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -51,13 +55,17 @@ class FormCheckPanelController extends Controller
         $formpanel = FormChecklistPanel::findOrFail($id);
         $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->paginate();
 
-        return view('formpanels.show', compact('formpanel', 'formitems'));
+        if (auth()->check()) {
+            return view('admin.formpanels.show', compact('formpanel', 'formitems'));
+        } else {
+            return view('formpanels.show', compact('formpanel', 'formitems'));
+        }
     }
     public function edit(string $id): View
     {
         $formpanel = FormChecklistPanel::findOrFail($id);
 
-        return view('formpanels.edit', compact('formpanel'));
+        return view('admin.formpanels.edit', compact('formpanel'));
     }
 
     public function update(Request $request, $id): RedirectResponse

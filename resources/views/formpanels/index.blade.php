@@ -1,111 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('formpanels.layoutForUser.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Form Panel</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-</head>
-<style>
-    th,
-    td {
-        text-align: center
-    }
-</style>
+@section('title', 'Daftar Form Panel')
 
-<body style="background: lightgray">
+@section('content')
+    <div class="card border-0 shadow-sm rounded">
+        <div class="card-body">
+            <!-- Judul -->
+            <h2 class="text-center my-4">
+                DAFTAR FORM PANEL
+            </h2>
 
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div>
-                    <h1 class="text-center my-4">DAFTAR FORM PANEL</h1>
-                </div>
-                <div class="card border-0 shadow-sm rounded">
-                    <div class="card-body">
-                        <a href="{{ route('formpanels.create') }}" class="btn btn-md btn-success mb-3">TAMBAH PANEL</a>
-                        
-                        <!-- Form Filter Tanggal -->
-                        <form action="{{ route('formpanels.index') }}" method="GET" class="mb-4">
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="start_date">Dari Tanggal</label>
-                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="end_date">Sampai Tanggal</label>
-                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
-                                </div>
-                                <div class="form-group col-md-4 align-self-end">
-                                    <button type="submit" class="btn btn-primary">Filter</button>
-                                    <a href="{{ route('formpanels.index') }}" class="btn btn-secondary">Reset</a>
-                                </div>
-                            </div>
-                        </form>
-
-                        <table class="table table-bordered">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">NAMA PANEL</th>
-                                    <th scope="col">LOKASI</th>
-                                    <th scope="col">TANGGAL</th>
-                                    <th scope="col">TEKNISI</th>
-                                    <th scope="col">PREVIEW</th>
-                                    <th scope="col">ADMIN</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($formpanels as $fp)
-                                    <tr>
-                                        <td>{{ $fp->nama_panel }}</td>
-                                        <td>{!! $fp->lokasi !!}</td>
-                                        <td>{!! $fp->tanggal !!}</td>
-                                        <td>{!! $fp->teknisi !!}</td>
-                                        <td> <a href="{{ route('formpanels.show', $fp->id) }}"
-                                                class="btn btn-sm btn-dark">DATA <strong>{{$fp->nama_panel}}</strong></a>
-                                        </td>
-                                        <td class="text-center">
-                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                action="{{ route('formpanels.destroy', $fp->id) }}" method="POST">
-                                                <a href="{{ route('formpanels.edit', $fp->id) }}"
-                                                    class="btn btn-sm btn-primary">EDIT</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <div class="alert alert-danger">
-                                        Data Form Panel belum Tersedia.
-                                    </div>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{ $formpanels->links() }}
+            <!-- Form Filter Tanggal -->
+            <form action="{{ route('formpanels.index') }}" method="GET" class="mb-4">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="start_date">
+                            <i class="fas fa-calendar-alt"></i> Filter Dari Tanggal
+                        </label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="end_date">
+                            <i class="fas fa-calendar-alt"></i> Sampai Tanggal
+                        </label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                    </div>
+                    <div class="form-group col-md-4 align-self-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Filter
+                        </button>
+                        <a href="{{ route('formpanels.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-sync"></i> Reset
+                        </a>
                     </div>
                 </div>
-            </div>
+            </form>
+
+            <!-- Tabel -->
+            <table class="table table-bordered">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th scope="col"><i class="fas fa-th-list"></i> NAMA PANEL</th>
+                        <th scope="col"><i class="fas fa-map-marker-alt"></i> LOKASI</th>
+                        <th scope="col"><i class="fas fa-calendar"></i> TANGGAL</th>
+                        <th scope="col"><i class="fas fa-user"></i> TEKNISI</th>
+                        <th scope="col"><i class="fas fa-eye"></i> PREVIEW</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($formpanels as $fp)
+                        <tr>
+                            <td>{{ $fp->nama_panel }}</td>
+                            <td>{!! $fp->lokasi !!}</td>
+                            <td>{!! $fp->tanggal !!}</td>
+                            <td>{!! $fp->teknisi !!}</td>
+                            <td>
+                                <a href="{{ route('formpanels.show', $fp->id) }}" class="btn btn-sm btn-dark">
+                                    <i class="fas fa-eye"></i> DETAIL DATA
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <div class="alert alert-danger m-0">
+                                    <i class="fas fa-exclamation-triangle"></i> Data Form Panel belum Tersedia.
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $formpanels->links() }}
+
+            <!-- Tombol Kembali -->
+            <a href="{{ url('/') }}" class="btn btn-md btn-danger mt-3">
+                <i class="fas fa-arrow-left"></i> Kembali ke Home
+            </a>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <script>
-        @if (session()->has('success'))
-
-            toastr.success('{{ session('success') }}', 'BERHASIL!');
-        @elseif (session()->has('error'))
-
-            toastr.error('{{ session('error') }}', 'GAGAL!');
-        @endif
-    </script>
-
-</body>
-
-</html>
+@endsection
