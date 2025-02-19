@@ -23,6 +23,7 @@
                         <table class="table-auto w-full border border-gray-300 rounded-lg">
                             <thead class="bg-gray-700 text-white">
                                 <tr>
+                                    <th class="border px-4 py-2"> No</th> 
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
                                     <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
@@ -30,11 +31,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($formitems as $fi)
-                                    <tr class="text-center bg-gray-100">
+                                @forelse ($formitems as $index => $fi) 
+                                    <tr class="text-left bg-gray-100">
+                                        <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
                                         <td class="border px-4 py-2 flex justify-center gap-2">
-                                            <button class="btn {{ $fi->check == 'normal' ? 'btn-blue' : 'btn-gray' }}"
+                                            <button class="btn {{ $fi->check == 'normal' ? 'btn-green' : 'btn-gray' }}"
                                                 onclick="updateCheck({{ $fi->id }}, 'normal')">
                                                 <i class="fas fa-check"></i> Normal
                                             </button>
@@ -59,7 +61,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="border text-center py-4">
+                                        <td colspan="5" class="border text-center py-4">
                                             <div class="text-red-500 font-semibold">
                                                 <i class="fas fa-exclamation-triangle"></i> Data Form Item belum tersedia.
                                             </div>

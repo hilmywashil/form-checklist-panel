@@ -10,7 +10,9 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}?v=2">
 
     <!-- Styles -->
     @vite(['resources/css/app.css'])
@@ -25,8 +27,21 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+        }
     </style>
-    
+
     <!-- jQuery & Toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
@@ -36,7 +51,7 @@
     @vite(['resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased">
+<body class="antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
 

@@ -17,17 +17,19 @@
                         <label for="start_date">
                             <i class="fas fa-calendar-alt"></i> Filter Dari Tanggal
                         </label>
-                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ request('start_date') }}">
+                        <input type="date" class="form-control" id="start_date" name="start_date"
+                            value="{{ request('start_date') }}">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="end_date">
                             <i class="fas fa-calendar-alt"></i> Sampai Tanggal
                         </label>
-                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ request('end_date') }}">
+                        <input type="date" class="form-control" id="end_date" name="end_date"
+                            value="{{ request('end_date') }}">
                     </div>
                     <div class="form-group col-md-4 align-self-end">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i> Filter
+                            <i class="fas fa-filter"></i> Filter
                         </button>
                         <a href="{{ route('formpanels.index') }}" class="btn btn-secondary">
                             <i class="fas fa-sync"></i> Reset
@@ -40,6 +42,7 @@
             <table class="table table-bordered">
                 <thead class="thead-dark text-center">
                     <tr>
+                        <th scope="col"> NO</th>
                         <th scope="col"><i class="fas fa-th-list"></i> NAMA PANEL</th>
                         <th scope="col"><i class="fas fa-map-marker-alt"></i> LOKASI</th>
                         <th scope="col"><i class="fas fa-calendar"></i> TANGGAL</th>
@@ -48,8 +51,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($formpanels as $fp)
+                    @forelse ($formpanels as $index => $fp)
                         <tr>
+                            <td>{{ $index + 1 }}</td>
                             <td>{{ $fp->nama_panel }}</td>
                             <td>{!! $fp->lokasi !!}</td>
                             <td>{!! $fp->tanggal !!}</td>

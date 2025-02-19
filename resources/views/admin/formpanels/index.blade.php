@@ -65,16 +65,19 @@
                                         <td class="border px-4 py-2">{!! $fp->teknisi !!}</td>
                                         <td class="border px-4 py-2">
                                             <a href="{{ route('formpanels.show', $fp->id) }}" class="btn btn-black">
-                                                <i class="fas fa-eye mr-1"></i> DETAIL                                            </a>
+                                                <i class="fas fa-eye mr-1"></i> DETAIL </a>
                                         </td>
                                         <td class="border px-4 py-2">
                                             <a href="{{ route('formpanels.edit', $fp->id) }}" class="btn btn-blue">
                                                 <i class="fas fa-edit mr-1"></i> EDIT
                                             </a>
-                                            <button type="button" class="btn btn-red delete-button" data-id="{{ $fp->id }}">
+                                            <button type="button" class="btn btn-red delete-button"
+                                                data-id="{{ $fp->id }}">
                                                 <i class="fas fa-trash-alt mr-1"></i> HAPUS
                                             </button>
-                                            <form id="delete-form-{{ $fp->id }}" action="{{ route('formpanels.destroy', $fp->id) }}" method="POST" class="hidden">
+                                            <form id="delete-form-{{ $fp->id }}"
+                                                action="{{ route('formpanels.destroy', $fp->id) }}" method="POST"
+                                                class="hidden">
                                                 @csrf
                                                 @method('DELETE')
                                             </form>
@@ -104,11 +107,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 const deleteButtons = document.querySelectorAll(".delete-button");
-                
+
                 deleteButtons.forEach(button => {
-                    button.addEventListener("click", function () {
+                    button.addEventListener("click", function() {
                         const id = this.getAttribute("data-id");
 
                         Swal.fire({
