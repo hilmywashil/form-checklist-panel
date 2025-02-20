@@ -55,7 +55,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('formitems.index') }}">
+                        <a class="nav-link" href="{{ url('/') }}">
                             <i class="fas fa-user"></i> User
                         </a>
                     </li>

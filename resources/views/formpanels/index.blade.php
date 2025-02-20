@@ -66,7 +66,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center">
+                            <td colspan="6" class="text-center">
                                 <div class="alert alert-danger m-0">
                                     <i class="fas fa-exclamation-triangle"></i> Data Form Panel belum Tersedia.
                                 </div>
@@ -77,7 +77,6 @@
             </table>
             {{ $formpanels->links() }}
 
-            <!-- Tombol Kembali -->
             <a href="{{ url('/') }}" class="btn btn-md btn-danger mt-3">
                 <i class="fas fa-arrow-left"></i> Kembali ke Home
             </a>
