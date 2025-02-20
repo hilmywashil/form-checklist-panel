@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 
 class FormCheckItemController extends Controller
 {
+    // public function index(): View
+    // {
+    //     return view('admin.formitems.index');
+    // }
     public function create($panel_id = null): View
     {
         $panels = FormChecklistPanel::all();
@@ -47,7 +51,7 @@ class FormCheckItemController extends Controller
             'item_pemeriksaan' => $request->item_pemeriksaan ?? $formitem->item_pemeriksaan,
             'check' => $request->check ?? $formitem->check,
             'keterangan' => $request->keterangan ?? $formitem->keterangan,
-            'panel_id' => $formitem->panel_id // Pastikan pakai yang asli dari database
+            'panel_id' => $formitem->panel_id
         ]);
 
         return redirect()->route('formpanels.show', $formitem->panel_id)

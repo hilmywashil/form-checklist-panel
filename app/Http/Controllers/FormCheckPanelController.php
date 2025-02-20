@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\FormChecklistItem;
 use App\Models\FormChecklistPanel;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FormCheckPanelController extends Controller
 {
@@ -18,7 +21,7 @@ class FormCheckPanelController extends Controller
             $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
         }
 
-        $formpanels = $query->paginate(20);
+        $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
 
         if (auth()->check()) {
             return view('admin.formpanels.index', compact('formpanels'));
@@ -40,12 +43,24 @@ class FormCheckPanelController extends Controller
             'teknisi'   => 'required'
         ]);
 
-        FormChecklistPanel::create([
-            'nama_panel'     => $request->nama_panel,
-            'tanggal'     => $request->tanggal,
-            'lokasi'   => $request->lokasi,
-            'teknisi'   => $request->teknisi
+        $panel = FormChecklistPanel::create([
+            'nama_panel' => $request->nama_panel,
+            'tanggal'    => $request->tanggal,
+            'lokasi'     => $request->lokasi,
+            'teknisi'    => $request->teknisi
         ]);
+
+        $url = url('/formpanels/' . $panel->id);
+
+        $qrCodePath = 'qrcodes/panel_' . $panel->id . '.png';
+
+        Storage::disk('public')->put($qrCodePath, QrCode::format('png')
+            ->merge('/public/images/favicon.png')
+            ->errorCorrection('M')
+            ->size(300)
+            ->generate($url));
+
+        $panel->update(['qr_code' => $qrCodePath]);
 
         return redirect()->route('formpanels.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
@@ -61,6 +76,17 @@ class FormCheckPanelController extends Controller
             return view('formpanels.show', compact('formpanel', 'formitems'));
         }
     }
+
+    public function downloadPDF($id)
+    {
+        $formpanel = FormChecklistPanel::findOrFail($id);
+        $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->get();
+
+        $pdf = FacadePdf::loadView('admin.formpanels.pdf', compact('formpanel', 'formitems'));
+
+        return $pdf->download('formpanel_' . $formpanel->id . '.pdf');
+    }
+
     public function edit(string $id): View
     {
         $formpanel = FormChecklistPanel::findOrFail($id);
@@ -82,9 +108,15 @@ class FormCheckPanelController extends Controller
         return redirect()->route('formpanels.index')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
+
     public function destroy($id): RedirectResponse
     {
         $formpanel = FormChecklistPanel::findOrFail($id);
+
+        $qrPath = 'public/qrcodes/panel_' . $formpanel->id . '.png';
+        if (Storage::exists($qrPath)) {
+            Storage::delete($qrPath);
+        }
 
         $formpanel->delete();
 

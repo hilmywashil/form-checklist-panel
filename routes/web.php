@@ -3,6 +3,7 @@
 use App\Http\Controllers\FormCheckItemController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QrCodeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,10 +43,16 @@ Route::resource('/formpanels', FormCheckPanelController::class)->names([
 
 Route::resource('/formitems', FormCheckItemController::class)->names([
     'create' => 'formitems.create',
-    'edit' => 'formitems.edit'
+    'edit' => 'formitems.edit',
+    'index' => 'formitems.not.found'
 ]);
+
 
 Route::get('/formitems/create/{panel_id?}', [FormCheckItemController::class, 'create'])->name('formitems.create');
 Route::patch('/formitems/{id}/update-check', [FormCheckItemController::class, 'updateCheck'])->name('updateCheck');
+
+Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
+
+Route::get('/testqr', [QrCodeController::class, 'show']);
 
 require __DIR__ . '/auth.php';

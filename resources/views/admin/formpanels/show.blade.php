@@ -10,13 +10,23 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    <!-- Informasi Panel -->
-                    <div class="mb-6">
-                        <p><strong><i class="fas fa-clipboard-check"></i> Nama Panel:</strong>
-                            {{ $formpanel->nama_panel }}</p>
-                        <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}</p>
-                        <p><strong><i class="fas fa-calendar-alt"></i> Tanggal:</strong> {{ $formpanel->tanggal }}</p>
-                        <p><strong><i class="fas fa-user"></i> Teknisi:</strong> {{ $formpanel->teknisi }}</p>
+                    <div class="mb-6 flex justify-between items-start">
+                        <div>
+                            <h1><strong>Form {{ $formpanel->nama_panel }}</strong></h1>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}
+                            </p>
+                            <p><strong><i class="fas fa-calendar-alt"></i> Tanggal:</strong> {{ $formpanel->tanggal }}
+                            </p>
+                            <p><strong><i class="fas fa-user"></i> Teknisi:</strong> {{ $formpanel->teknisi }}</p>
+                        </div>
+                        <div class="text-center">
+                            <img id="qrCode" src="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
+                                alt="QR Code" class="w-32 h-32">
+                            <a id="downloadQR" href="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
+                                download="{{ $formpanel->nama_panel }}.png" class="btn btn-blue mt-2">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Table -->
@@ -24,7 +34,7 @@
                         <table class="table-auto w-full border border-gray-300 rounded-lg">
                             <thead class="bg-gray-700 text-white">
                                 <tr>
-                                    <th class="border px-4 py-2"> No</th>
+                                    <th class="border px-4 py-2">No</th>
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
                                     <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
@@ -41,16 +51,18 @@
                                                 onclick="updateCheck({{ $fi->id }}, 'normal')">
                                                 <i class="fas fa-check"></i> Normal
                                             </button>
-                                            <button class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
+                                            <button
+                                                class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
                                                 onclick="updateCheck({{ $fi->id }}, 'perbaikan')">
                                                 <i class="fas fa-tools"></i> Perbaikan
                                             </button>
                                         </td>
-                                        <td class="border px-4 py-2">
-                                            {{ $fi->keterangan }}
+                                        <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
+                                            {{ Str::limit($fi->keterangan, 25, '...') }}
                                             @if (!$fi->keterangan)
                                                 <a href="{{ route('formitems.edit', $fi->id) }}"
-                                                    class="text-blue-500">+ Tambah Keterangan</a>
+                                                    class="text-blue-500">+
+                                                    Tambah Keterangan</a>
                                             @endif
                                         </td>
                                         <td class="border px-4 py-2 flex items-center justify-center gap-2">
@@ -93,10 +105,15 @@
                         <a href="{{ url('/formpanels') }}" class="btn btn-red">
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>
-                        <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
-                            class="btn btn-green">
-                            <i class="fas fa-plus"></i> TAMBAH DATA
-                        </a>
+                        <div class="flex gap-3">
+                            <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
+                                <i class="fas fa-file-pdf"></i> DOWNLOAD PDF
+                            </a>
+                            <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
+                                class="btn btn-green">
+                                <i class="fas fa-plus"></i> TAMBAH DATA
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -163,6 +180,11 @@
                     })
                     .then(response => response.json())
                     .then(data => {
+                        // if (data.success) {
+                        //     location.reload();
+                        // } else {
+                        //     Swal.fire("Gagal!", "Terjadi kesalahan!", "error");
+                        // }
                         if (data.success) {
                             Swal.fire({
                                 title: "Berhasil!",
@@ -184,13 +206,7 @@
                         }
                     })
                     .catch(error => {
-                        Swal.fire({
-                            title: "Gagal!",
-                            text: "Terjadi kesalahan saat memperbarui!",
-                            icon: "error",
-                            confirmButtonColor: "#d33",
-                            confirmButtonText: "Oke, Mengerti"
-                        });
+                        Swal.fire("Gagal!", "Terjadi kesalahan saat memperbarui!", "error");
                     });
             }
         </script>

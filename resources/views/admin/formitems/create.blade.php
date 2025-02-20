@@ -16,10 +16,10 @@
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">ITEM PEMERIKSAAN</label>
                             <input type="text"
-                                   class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
                                    @error('item_pemeriksaan') border-red-500 @enderror"
-                                   name="item_pemeriksaan" value="{{ old('item_pemeriksaan') }}"
-                                   placeholder="Masukkan Item Pemeriksaan">
+                                name="item_pemeriksaan" value="{{ old('item_pemeriksaan') }}"
+                                placeholder="Masukkan Item Pemeriksaan">
                             @error('item_pemeriksaan')
                                 <p class="text-red-500 text-sm mt-1">Item Pemeriksaan tidak boleh kosong!</p>
                             @enderror
@@ -27,21 +27,19 @@
 
                         <!-- KETERANGAN -->
                         <div class="mb-4">
-                            <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN (Opsional)</label>
-                            <textarea class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+                            <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN
+                                (Opsional)</label>
+                            <textarea
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
                                       @error('keterangan') border-red-500 @enderror"
-                                      name="keterangan" rows="3"
-                                      placeholder="Masukkan Keterangan">{{ old('keterangan') }}</textarea>
-                            @error('keterangan')
-                                <p class="text-red-500 text-sm mt-1">Keterangan tidak boleh kosong!</p>
-                            @enderror
+                                name="keterangan" rows="3" placeholder="Masukkan Keterangan">{{ old('keterangan') }}</textarea>
                         </div>
 
                         <!-- PANEL -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">PANEL</label>
                             <select name="panel_id"
-                                    class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
                                     @error('panel_id') border-red-500 @enderror">
                                 <option value="">Pilih Panel</option>
                                 @foreach ($panels as $panel)
@@ -58,13 +56,16 @@
 
                         <!-- BUTTONS -->
                         <div class="flex space-x-2">
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                                 SIMPAN
                             </button>
-                            <button type="reset" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                            <button type="reset"
+                                class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
                                 RESET
                             </button>
-                            <a href="{{ url()->previous() }}" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            <a href="{{ url()->previous() }}"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
                                 KEMBALI
                             </a>
                         </div>

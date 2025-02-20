@@ -48,7 +48,7 @@
                                 @foreach ($panels as $panel)
                                     <option value="{{ $panel->id }}"
                                         {{ $formitem->panel_id == $panel->id ? 'selected' : '' }}>
-                                        {{ $panel->nama_panel }} (Tidak Dapat Diubah)
+                                        {{ $panel->nama_panel }} ( Tidak Dapat Diubah )
                                     </option>
                                 @endforeach
                             </select>
