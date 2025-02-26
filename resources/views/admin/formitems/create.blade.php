@@ -28,7 +28,7 @@
                         <!-- KETERANGAN -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN
-                                (Opsional)</label>
+                                (Opsional, bisa ditambah nanti)</label>
                             <textarea
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
                                       @error('keterangan') border-red-500 @enderror"
@@ -58,18 +58,17 @@
                         <div class="flex space-x-2">
                             <button type="submit"
                                 class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
-                                SIMPAN
+                                <i class="fas fa-save mr-2"></i> UPDATE
                             </button>
                             <button type="reset"
                                 class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-                                RESET
+                                <i class="fas fa-undo mr-2"></i> RESET
                             </button>
                             <a href="{{ url()->previous() }}"
                                 class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                                KEMBALI
+                                <i class="fas fa-arrow-left mr-2"></i> KEMBALI
                             </a>
                         </div>
-
                     </form>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FormCheckItemController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
@@ -48,11 +49,20 @@ Route::resource('/formitems', FormCheckItemController::class)->names([
 ]);
 
 
+Route::get('/guest', function () {
+    return view('user');
+})->name('guest');
+
 Route::get('/formitems/create/{panel_id?}', [FormCheckItemController::class, 'create'])->name('formitems.create');
 Route::patch('/formitems/{id}/update-check', [FormCheckItemController::class, 'updateCheck'])->name('updateCheck');
 
 Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
 
 Route::get('/testqr', [QrCodeController::class, 'show']);
+
+Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
+Route::delete('/attendance/{employee_name}', [AttendanceController::class, 'destroy'])
+    ->name('attendance.destroy');
 
 require __DIR__ . '/auth.php';

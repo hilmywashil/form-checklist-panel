@@ -11,9 +11,11 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <!-- Button Tambah Panel -->
-                    <a href="{{ route('formpanels.create') }}" class="btn btn-green">
-                        <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
-                    </a>
+                    @auth
+                        <a href="{{ route('formpanels.create') }}" class="btn btn-green">
+                            <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
+                        </a>
+                    @endauth
 
                     <!-- Form Filter Tanggal -->
                     <form action="{{ route('formpanels.index') }}" method="GET" class="mt-4">
@@ -53,7 +55,9 @@
                                     <th class="border px-4 py-2"><i class="fas fa-calendar"></i> TANGGAL</th>
                                     <th class="border px-4 py-2"><i class="fas fa-user"></i> TEKNISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> DETAIL</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-tools"></i> ADMIN</th>
+                                    @auth
+                                        <th class="border px-4 py-2"><i class="fas fa-tools"></i> ADMIN</th>
+                                    @endauth
                                 </tr>
                             </thead>
                             <tbody>
@@ -64,24 +68,27 @@
                                         <td class="border px-4 py-2">{!! $fp->tanggal !!}</td>
                                         <td class="border px-4 py-2">{!! $fp->teknisi !!}</td>
                                         <td class="border px-4 py-2">
-                                            <a href="{{ route('formpanels.show', $fp->id) }}" class="btn btn-black">
-                                                <i class="fas fa-eye mr-1"></i> DETAIL </a>
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            <a href="{{ route('formpanels.edit', $fp->id) }}" class="btn btn-blue">
-                                                <i class="fas fa-edit mr-1"></i> EDIT
+                                            <a href="{{ route('formpanels.show', $fp->id) }}" class="btn btn-dark">
+                                                <i class="fas fa-eye mr-1"></i> DETAIL
                                             </a>
-                                            <button type="button" class="btn btn-red delete-button"
-                                                data-id="{{ $fp->id }}">
-                                                <i class="fas fa-trash-alt mr-1"></i> HAPUS
-                                            </button>
-                                            <form id="delete-form-{{ $fp->id }}"
-                                                action="{{ route('formpanels.destroy', $fp->id) }}" method="POST"
-                                                class="hidden">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
                                         </td>
+                                        @auth
+                                            <td class="border px-4 py-2">
+                                                <a href="{{ route('formpanels.edit', $fp->id) }}" class="btn btn-blue">
+                                                    <i class="fas fa-edit mr-1"></i> EDIT
+                                                </a>
+                                                <button type="button" class="btn btn-red delete-button"
+                                                    data-id="{{ $fp->id }}">
+                                                    <i class="fas fa-trash-alt mr-1"></i> HAPUS
+                                                </button>
+                                                <form id="delete-form-{{ $fp->id }}"
+                                                    action="{{ route('formpanels.destroy', $fp->id) }}" method="POST"
+                                                    class="hidden">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
+                                        @endauth
                                     </tr>
                                 @empty
                                     <tr>

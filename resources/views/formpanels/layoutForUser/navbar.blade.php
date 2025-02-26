@@ -22,7 +22,9 @@
             font-family: 'Poppins', sans-serif;
 
         }
-        th, td {
+
+        th,
+        td {
             text-align: center;
         }
     </style>
@@ -46,16 +48,16 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('formpanels.index') }}">
-                            <i class="fas fa-clipboard-list"></i> Form Panel
+                            Form Panel
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">
-                            <i class="fas fa-tasks"></i> Form Items
+                        <a class="nav-link" href="{{ route('attendance.index') }}">
+                            Kehadiran
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">
+                        <a class="nav-link" href="{{ url('/guest') }}">
                             <i class="fas fa-user"></i> User
                         </a>
                     </li>

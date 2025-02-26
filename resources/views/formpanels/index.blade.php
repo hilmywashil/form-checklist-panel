@@ -7,7 +7,7 @@
         <div class="card-body">
             <!-- Judul -->
             <h2 class="text-center my-4">
-                DAFTAR FORM PANEL
+                Daftar Form Panel
             </h2>
 
             <!-- Form Filter Tanggal -->
@@ -35,6 +35,7 @@
                             <i class="fas fa-sync"></i> Reset
                         </a>
                     </div>
+                    
                 </div>
             </form>
 

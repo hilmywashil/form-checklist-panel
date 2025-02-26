@@ -64,7 +64,7 @@ class FormCheckItemController extends Controller
         $formItem->check = $request->check;
         $formItem->save();
 
-        return response()->json(['success' => true, 'message' => 'Status berhasil diperbarui!']);
+        return response()->json(['success' => true, 'message' => 'Kondisi berhasil diperbarui!']);
     }
 
     public function destroy($id): RedirectResponse

@@ -13,6 +13,12 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FormCheckPanelController extends Controller
 {
+    //hanya
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
     public function index(Request $request)
     {
         $query = FormChecklistPanel::query();
@@ -23,11 +29,7 @@ class FormCheckPanelController extends Controller
 
         $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
 
-        if (auth()->check()) {
-            return view('admin.formpanels.index', compact('formpanels'));
-        } else {
-            return view('formpanels.index', compact('formpanels'));
-        }
+        return view('admin.formpanels.index', compact('formpanels'));
     }
     public function create(): View
     {
@@ -70,11 +72,7 @@ class FormCheckPanelController extends Controller
         $formpanel = FormChecklistPanel::findOrFail($id);
         $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->paginate();
 
-        if (auth()->check()) {
-            return view('admin.formpanels.show', compact('formpanel', 'formitems'));
-        } else {
-            return view('formpanels.show', compact('formpanel', 'formitems'));
-        }
+        return view('admin.formpanels.show', compact('formpanel', 'formitems'));
     }
 
     public function downloadPDF($id)

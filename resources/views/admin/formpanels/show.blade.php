@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Form Checklist Panel') }}
+            {{ __('Form Panel') }}
         </h2>
     </x-slot>
 
@@ -38,7 +38,9 @@
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
                                     <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-cogs"></i> AKSI</th>
+                                    @auth
+                                        <th class="border px-4 py-2"><i class="fas fa-cogs"></i> AKSI</th>
+                                    @endauth
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,40 +48,61 @@
                                     <tr class="text-left bg-gray-100">
                                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
-                                        <td class="border px-4 py-2 flex justify-center gap-2">
-                                            <button class="btn {{ $fi->check == 'normal' ? 'btn-green' : 'btn-gray' }}"
-                                                onclick="updateCheck({{ $fi->id }}, 'normal')">
-                                                <i class="fas fa-check"></i> Normal
-                                            </button>
-                                            <button
-                                                class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
-                                                onclick="updateCheck({{ $fi->id }}, 'perbaikan')">
-                                                <i class="fas fa-tools"></i> Perbaikan
-                                            </button>
+                                        <td class="border px-4 py-2">
+                                            @if (Auth::check())
+                                                <div class="flex justify-center gap-2">
+                                                    <button
+                                                        class="btn {{ $fi->check == 'normal' ? 'btn-green' : 'btn-gray' }}"
+                                                        onclick="updateCheck({{ $fi->id }}, 'normal')">
+                                                        <i class="fas fa-check"></i> Normal
+                                                    </button>
+                                                    <button
+                                                        class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
+                                                        onclick="updateCheck({{ $fi->id }}, 'perbaikan')">
+                                                        <i class="fas fa-tools"></i> Perbaikan
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <div class="flex items-center gap-2">
+                                                    @if ($fi->check == 'normal')
+                                                        <span class="text-green-500"><i class="fas fa-check-circle"></i>
+                                                            Normal</span>
+                                                    @elseif ($fi->check == 'perbaikan')
+                                                        <span class="text-red-500"><i class="fas fa-times-circle"></i>
+                                                            Perbaikan</span>
+                                                    @else
+                                                        <span class="text-gray-500"><i
+                                                                class="fas fa-exclamation-circle"></i> Belum
+                                                            Dicek</span>
+                                                    @endif
+                                                </div>
+                                            @endif
                                         </td>
                                         <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
-                                            {{ Str::limit($fi->keterangan, 25, '...') }}
+                                            {{ Str::limit($fi->keterangan, 50, '...') }}
                                             @if (!$fi->keterangan)
                                                 <a href="{{ route('formitems.edit', $fi->id) }}"
                                                     class="text-blue-500">+
                                                     Tambah Keterangan</a>
                                             @endif
                                         </td>
-                                        <td class="border px-4 py-2 flex items-center justify-center gap-2">
-                                            <a href="{{ route('formitems.edit', $fi->id) }}" class="btn btn-blue">
-                                                <i class="fas fa-edit"></i> EDIT
-                                            </a>
-                                            <button type="button" class="btn btn-red delete-button"
-                                                data-id="{{ $fi->id }}">
-                                                <i class="fas fa-trash"></i> HAPUS
-                                            </button>
-                                            <form id="delete-form-{{ $fi->id }}"
-                                                action="{{ route('formitems.destroy', $fi->id) }}" method="POST"
-                                                class="hidden">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                        </td>
+                                        @auth
+                                            <td class="border px-4 py-2 flex items-center justify-center gap-2">
+                                                <a href="{{ route('formitems.edit', $fi->id) }}" class="btn btn-blue">
+                                                    <i class="fas fa-edit"></i> EDIT
+                                                </a>
+                                                <button type="button" class="btn btn-red delete-button"
+                                                    data-id="{{ $fi->id }}">
+                                                    <i class="fas fa-trash"></i> HAPUS
+                                                </button>
+                                                <form id="delete-form-{{ $fi->id }}"
+                                                    action="{{ route('formitems.destroy', $fi->id) }}" method="POST"
+                                                    class="hidden">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
+                                        @endauth
                                     </tr>
                                 @empty
                                     <tr>
@@ -109,10 +132,12 @@
                             <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
                                 <i class="fas fa-file-pdf"></i> DOWNLOAD PDF
                             </a>
-                            <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
-                                class="btn btn-green">
-                                <i class="fas fa-plus"></i> TAMBAH DATA
-                            </a>
+                            @auth
+                                <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
+                                    class="btn btn-green">
+                                    <i class="fas fa-plus"></i> TAMBAH DATA
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -188,7 +213,7 @@
                         if (data.success) {
                             Swal.fire({
                                 title: "Berhasil!",
-                                text: "Status berhasil diperbarui!",
+                                text: "Kondisi berhasil diperbarui!",
                                 icon: "success",
                                 confirmButtonColor: "#3085d6",
                                 confirmButtonText: "Oke, Lanjut"
