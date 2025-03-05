@@ -21,4 +21,9 @@ class FormChecklistPanel extends Model
     {
         return $this->hasMany(FormChecklistItem::class, 'panel_id');
     }
+
+    public function checklists()
+    {
+        return $this->hasMany(FormChecklistDaily::class, 'panel_id');
+    }
 }

@@ -32,7 +32,7 @@
                         <i class="fas fa-users text-3xl text-green-500"></i>
                         <div>
                             <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Absensi</h4>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm">Absensi kehadiran karyawan</p>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Absensi kehadiran karyawan.</p>
                         </div>
                     </div>
                 </a>

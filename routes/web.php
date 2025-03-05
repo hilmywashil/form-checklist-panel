@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FormCheckItemController;
+use App\Http\Controllers\FormChecklistDailyController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
@@ -64,5 +65,9 @@ Route::get('/attendance', [AttendanceController::class, 'index'])->name('attenda
 Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
 Route::delete('/attendance/{employee_name}', [AttendanceController::class, 'destroy'])
     ->name('attendance.destroy');
+
+Route::get('/checklist-daily', [FormChecklistDailyController::class, 'index']);
+Route::post('/checklist-daily', [FormChecklistDailyController::class, 'store']);
+Route::patch('/checklist-daily/{id}', [FormChecklistDailyController::class, 'updateStatus']);
 
 require __DIR__ . '/auth.php';
