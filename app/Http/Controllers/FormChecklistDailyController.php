@@ -14,6 +14,12 @@ class FormChecklistDailyController extends Controller
         return view('admin.formchecklistdaily.index', compact('panels'));
     }
 
+    public function userDaily()
+    {
+        $panels = FormChecklistPanel::with('checklists')->get();
+        return view('user.formchecklistdaily.index', compact('panels'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

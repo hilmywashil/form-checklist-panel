@@ -34,7 +34,7 @@ class FormCheckItemController extends Controller
             'keterangan'   => $request->keterangan
         ]);
 
-        return redirect()->route('formpanels.show', $request->panel_id)->with(['success' => 'Data berhasil ditambahkan!']);
+        return redirect()->route('adminFormpanelShow', $request->panel_id)->with(['success' => 'Data berhasil ditambahkan!']);
     }
 
     public function edit($id)
@@ -54,7 +54,7 @@ class FormCheckItemController extends Controller
             'panel_id' => $formitem->panel_id
         ]);
 
-        return redirect()->route('formpanels.show', $formitem->panel_id)
+        return redirect()->route('adminFormpanelShow', $formitem->panel_id)
             ->with(['success' => 'Data berhasil diperbarui!']);
     }
 
@@ -74,6 +74,6 @@ class FormCheckItemController extends Controller
 
         $formitem->delete();
 
-        return redirect()->route('formpanels.show', $panel_id)->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect()->route('adminFormpanelShow', $panel_id)->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

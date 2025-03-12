@@ -11,14 +11,12 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <!-- Button Tambah Panel -->
-                    @auth
-                        <a href="{{ route('formpanels.create') }}" class="btn btn-green">
-                            <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
-                        </a>
-                    @endauth
+                    <a href="{{ route('formpanelCreate') }}" class="btn btn-green">
+                        <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
+                    </a>
 
                     <!-- Form Filter Tanggal -->
-                    <form action="{{ route('formpanels.index') }}" method="GET" class="mt-4">
+                    <form action="{{ route('adminFormpanels') }}" method="GET" class="mt-4">
                         <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <label for="start_date" class="block text-sm font-medium">
@@ -38,7 +36,7 @@
                                 <button type="submit" class="btn btn-blue">
                                     <i class="fas fa-filter mr-1"></i> Filter
                                 </button>
-                                <a href="{{ route('formpanels.index') }}" class="btn btn-gray">
+                                <a href="{{ route('adminFormpanels') }}" class="btn btn-gray">
                                     <i class="fas fa-sync-alt mr-1"></i> Reset
                                 </a>
                             </div>
@@ -68,13 +66,13 @@
                                         <td class="border px-4 py-2">{!! $fp->tanggal !!}</td>
                                         <td class="border px-4 py-2">{!! $fp->teknisi !!}</td>
                                         <td class="border px-4 py-2">
-                                            <a href="{{ route('formpanels.show', $fp->id) }}" class="btn btn-dark">
+                                            <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">
                                                 <i class="fas fa-eye mr-1"></i> DETAIL
                                             </a>
                                         </td>
                                         @auth
                                             <td class="border px-4 py-2">
-                                                <a href="{{ route('formpanels.edit', $fp->id) }}" class="btn btn-blue">
+                                                <a href="{{ route('formpanelEdit', $fp->id) }}" class="btn btn-blue">
                                                     <i class="fas fa-edit mr-1"></i> EDIT
                                                 </a>
                                                 <button type="button" class="btn btn-red delete-button"
@@ -82,7 +80,7 @@
                                                     <i class="fas fa-trash-alt mr-1"></i> HAPUS
                                                 </button>
                                                 <form id="delete-form-{{ $fp->id }}"
-                                                    action="{{ route('formpanels.destroy', $fp->id) }}" method="POST"
+                                                    action="{{ route('formpanelDelete', $fp->id) }}" method="POST"
                                                     class="hidden">
                                                     @csrf
                                                     @method('DELETE')

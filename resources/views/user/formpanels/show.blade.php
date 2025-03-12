@@ -38,9 +38,6 @@
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
                                     <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
                                     <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
-                                    @auth
-                                        <th class="border px-4 py-2"><i class="fas fa-cogs"></i> AKSI</th>
-                                    @endauth
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,34 +46,19 @@
                                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
                                         <td class="border px-4 py-2">
-                                            @if (Auth::check())
-                                                <div class="flex justify-center gap-2">
-                                                    <button
-                                                        class="btn {{ $fi->check == 'normal' ? 'btn-green' : 'btn-gray' }}"
-                                                        onclick="updateCheck({{ $fi->id }}, 'normal')">
-                                                        <i class="fas fa-check"></i> Normal
-                                                    </button>
-                                                    <button
-                                                        class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
-                                                        onclick="updateCheck({{ $fi->id }}, 'perbaikan')">
-                                                        <i class="fas fa-tools"></i> Perbaikan
-                                                    </button>
-                                                </div>
-                                            @else
-                                                <div class="flex items-center gap-2">
-                                                    @if ($fi->check == 'normal')
-                                                        <span class="text-green-500"><i class="fas fa-check-circle"></i>
-                                                            Normal</span>
-                                                    @elseif ($fi->check == 'perbaikan')
-                                                        <span class="text-red-500"><i class="fas fa-times-circle"></i>
-                                                            Perbaikan</span>
-                                                    @else
-                                                        <span class="text-gray-500"><i
-                                                                class="fas fa-exclamation-circle"></i> Belum
-                                                            Dicek</span>
-                                                    @endif
-                                                </div>
-                                            @endif
+                                            <div class="flex items-center gap-2">
+                                                @if ($fi->check == 'normal')
+                                                    <span class="text-green-500"><i class="fas fa-check-circle"></i>
+                                                        Normal</span>
+                                                @elseif ($fi->check == 'perbaikan')
+                                                    <span class="text-red-500"><i class="fas fa-times-circle"></i>
+                                                        Perbaikan</span>
+                                                @else
+                                                    <span class="text-gray-500"><i
+                                                            class="fas fa-exclamation-circle"></i> Belum
+                                                        Dicek</span>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
                                             {{ Str::limit($fi->keterangan, 50, '...') }}
@@ -86,23 +68,6 @@
                                                     Tambah Keterangan</a>
                                             @endif
                                         </td>
-                                        @auth
-                                            <td class="border px-4 py-2 flex items-center justify-center gap-2">
-                                                <a href="{{ route('formitems.edit', $fi->id) }}" class="btn btn-blue">
-                                                    <i class="fas fa-edit"></i> EDIT
-                                                </a>
-                                                <button type="button" class="btn btn-red delete-button"
-                                                    data-id="{{ $fi->id }}">
-                                                    <i class="fas fa-trash"></i> HAPUS
-                                                </button>
-                                                <form id="delete-form-{{ $fi->id }}"
-                                                    action="{{ route('formitems.destroy', $fi->id) }}" method="POST"
-                                                    class="hidden">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
-                                        @endauth
                                     </tr>
                                 @empty
                                     <tr>
@@ -125,19 +90,13 @@
 
                     <!-- Buttons -->
                     <div class="mt-6 flex justify-between">
-                        <a href="{{ url('/formpanels') }}" class="btn btn-red">
+                        <a href="{{ route('userFormpanels') }}" class="btn btn-red">
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>
                         <div class="flex gap-3">
                             <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
                                 <i class="fas fa-file-pdf"></i> DOWNLOAD PDF
                             </a>
-                            @auth
-                                <a href="{{ route('formitems.create', ['panel_id' => $formpanel->id]) }}"
-                                    class="btn btn-green">
-                                    <i class="fas fa-plus"></i> TAMBAH DATA
-                                </a>
-                            @endauth
                         </div>
                     </div>
                 </div>

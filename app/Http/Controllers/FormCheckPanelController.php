@@ -13,12 +13,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class FormCheckPanelController extends Controller
 {
-    //hanya
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
-    }
-
     public function index(Request $request)
     {
         $query = FormChecklistPanel::query();
@@ -31,7 +25,7 @@ class FormCheckPanelController extends Controller
 
         return view('admin.formpanels.index', compact('formpanels'));
     }
-    public function panels(Request $request)
+    public function userPanels(Request $request)
     {
         $query = FormChecklistPanel::query();
 
@@ -41,7 +35,7 @@ class FormCheckPanelController extends Controller
 
         $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
 
-        return view('admin.formpanels.index', compact('formpanels'));
+        return view('user.formpanels.index', compact('formpanels'));
     }
     public function create(): View
     {
@@ -76,7 +70,7 @@ class FormCheckPanelController extends Controller
 
         $panel->update(['qr_code' => $qrCodePath]);
 
-        return redirect()->route('formpanels.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     public function show($id)
@@ -85,6 +79,14 @@ class FormCheckPanelController extends Controller
         $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->paginate();
 
         return view('admin.formpanels.show', compact('formpanel', 'formitems'));
+    }
+
+    public function userShow($id)
+    {
+        $formpanel = FormChecklistPanel::findOrFail($id);
+        $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->paginate();
+
+        return view('user.formpanels.show', compact('formpanel', 'formitems'));
     }
 
     public function downloadPDF($id)
@@ -115,7 +117,7 @@ class FormCheckPanelController extends Controller
             'teknisi' => $request->teknisi ?? $formpanel->teknisi
         ]);
 
-        return redirect()->route('formpanels.index')->with(['success' => 'Data Berhasil Diubah!']);
+        return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Diubah!']);
     }
 
 
@@ -130,6 +132,6 @@ class FormCheckPanelController extends Controller
 
         $formpanel->delete();
 
-        return redirect()->route('formpanels.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

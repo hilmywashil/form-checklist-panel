@@ -19,20 +19,32 @@
                     </div>
                 @endauth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('formpanels.index')" :active="request()->routeIs(
-                        'formpanels.index',
-                        'formpanels.create',
-                        'formpanels.show',
-                        'formitems.create',
-                        'formitems.edit',
-                    )">
-                        {{ __('Form Panel') }}
-                    </x-nav-link>
+                    @if (Auth::check())
+                        <x-nav-link :href="route('adminFormpanels')" :active="request()->routeIs(
+                            'adminFormpanels',
+                            'formpanelCreate',
+                            'formpanelShow',
+                            'formitemCreate',
+                            'formitemEdit',
+                        )">
+                            {{ __('Form Panel') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('userFormpanels')" :active="request()->routeIs('userFormpanels', 'userFormpanelShow')">
+                            {{ __('Form Panel') }}
+                        </x-nav-link>
+                    @endif
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('attendance.index')" :active="request()->routeIs('attendance.index')">
-                        {{ __('Kehadiran') }}
-                    </x-nav-link>
+                    @if (Auth::check())
+                        <x-nav-link :href="route('adminChecklistDaily')" :active="request()->routeIs('adminChecklistDaily')">
+                            {{ __('Checklist Harian') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('userChecklistDaily')" :active="request()->routeIs('userChecklistDaily')">
+                            {{ __('Checklist Harian') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
