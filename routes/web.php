@@ -27,21 +27,31 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//Middleware
 Route::middleware('auth')->group(function () {
+
+    //Admin Formpanel
+    // Route::resource('/admin/formpanels', FormCheckPanelController::class)->names([
+    //     'index' => 'admin.formpanels.index',
+    //     'create' => 'admin.formpanels.create',
+    //     'store' => 'iformpanels.store',
+    //     'show' => 'admin.formpanels.show',
+    //     'edit' => 'formpanels.edit',
+    //     'update' => 'formpanels.update',
+    //     'destroy' => 'formpanels.destroy',
+    // ]);
+
+    Route::get('/admin/formpanels', [FormCheckPanelController::class,]);
+
+    //Profile    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('/formpanels', FormCheckPanelController::class)->names([
-    'index' => 'formpanels.index',
-    'create' => 'formpanels.create',
-    'store' => 'formpanels.store',
-    'show' => 'formpanels.show',
-    'edit' => 'formpanels.edit',
-    'update' => 'formpanels.update',
-    'destroy' => 'formpanels.destroy',
-]);
+
+//User Formpanel
+Route::get('/formpanels', [FormCheckPanelController::class, 'panels'])->name('formpanels.index');
 
 Route::resource('/formitems', FormCheckItemController::class)->names([
     'create' => 'formitems.create',

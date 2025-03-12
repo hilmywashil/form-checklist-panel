@@ -31,6 +31,18 @@ class FormCheckPanelController extends Controller
 
         return view('admin.formpanels.index', compact('formpanels'));
     }
+    public function panels(Request $request)
+    {
+        $query = FormChecklistPanel::query();
+
+        if ($request->has('start_date') && $request->has('end_date')) {
+            $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+        }
+
+        $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
+
+        return view('admin.formpanels.index', compact('formpanels'));
+    }
     public function create(): View
     {
         return view('admin.formpanels.create');
