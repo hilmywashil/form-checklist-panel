@@ -43,63 +43,39 @@
                         </div>
                     </form>
 
-                    <!-- Table -->
-                    <div class="overflow-x-auto mt-4">
-                        <table class="table-auto w-full border-collapse border">
-                            <thead class="bg-gray-700 text-white">
-                                <tr>
-                                    <th class="border px-4 py-2"><i class="fas fa-th-list"></i> NAMA PANEL</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-map-marker-alt"></i> LOKASI</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-calendar"></i> TANGGAL</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-user"></i> TEKNISI</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> DETAIL</th>
+                    <!-- Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                        @forelse ($formpanels as $fp)
+                            <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+                                <h3 class="text-lg font-semibold">{{ $fp->nama_panel }}</h3>
+                                <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi : </strong>{!! $fp->lokasi !!}</p>
+                                <p><i class="fas fa-calendar mr-1"></i><strong> Tanggal : </strong>{!! $fp->tanggal !!}</p>
+                                <p><i class="fas fa-user mr-1"></i><strong> Teknisi : </strong>{!! $fp->teknisi !!}</p>
+                                <div class="mt-3 flex space-x-2">
+                                    <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">
+                                        <i class="fas fa-eye mr-1"></i> DETAIL
+                                    </a>
                                     @auth
-                                        <th class="border px-4 py-2"><i class="fas fa-tools"></i> ADMIN</th>
+                                        <a href="{{ route('formpanelEdit', $fp->id) }}" class="btn btn-blue">
+                                            <i class="fas fa-edit mr-1"></i> EDIT
+                                        </a>
+                                        <button type="button" class="btn btn-red delete-button" data-id="{{ $fp->id }}">
+                                            <i class="fas fa-trash-alt mr-1"></i> HAPUS
+                                        </button>
+                                        <form id="delete-form-{{ $fp->id }}" action="{{ route('formpanelDelete', $fp->id) }}" method="POST" class="hidden">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     @endauth
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($formpanels as $fp)
-                                    <tr class="text-center bg-gray-100">
-                                        <td class="border px-4 py-2">{{ $fp->nama_panel }}</td>
-                                        <td class="border px-4 py-2">{!! $fp->lokasi !!}</td>
-                                        <td class="border px-4 py-2">{!! $fp->tanggal !!}</td>
-                                        <td class="border px-4 py-2">{!! $fp->teknisi !!}</td>
-                                        <td class="border px-4 py-2">
-                                            <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">
-                                                <i class="fas fa-eye mr-1"></i> DETAIL
-                                            </a>
-                                        </td>
-                                        @auth
-                                            <td class="border px-4 py-2">
-                                                <a href="{{ route('formpanelEdit', $fp->id) }}" class="btn btn-blue">
-                                                    <i class="fas fa-edit mr-1"></i> EDIT
-                                                </a>
-                                                <button type="button" class="btn btn-red delete-button"
-                                                    data-id="{{ $fp->id }}">
-                                                    <i class="fas fa-trash-alt mr-1"></i> HAPUS
-                                                </button>
-                                                <form id="delete-form-{{ $fp->id }}"
-                                                    action="{{ route('formpanelDelete', $fp->id) }}" method="POST"
-                                                    class="hidden">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
-                                        @endauth
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="border text-center py-4">
-                                            <div class="alert alert-danger">
-                                                <i class="fas fa-exclamation-triangle mr-1"></i> Data Form Panel belum
-                                                tersedia.
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full text-center py-4">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> Data Form Panel belum tersedia.
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
 
                     {{ $formpanels->links() }}

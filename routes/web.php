@@ -6,6 +6,7 @@ use App\Http\Controllers\FormChecklistDailyController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
+use App\Models\FormChecklistDaily;
 use Illuminate\Support\Facades\Route;
 
 //Welcome Page
@@ -38,6 +39,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/admin/formitem/{id}', [FormCheckItemController::class, 'destroy'])->name('formitemDelete');
     Route::patch('/admin/formitem/update-check/{id}', [FormCheckItemController::class, 'updateCheck'])->name('updateCheck');
 
+    //Admin Daily with Auth
+    Route::get('/admin/formdailies', [FormChecklistDailyController::class, 'index'])->name('adminFormDaily');
+    Route::get('/admin/formdaily/create', [FormChecklistDailyController::class, 'create'])->name('formCheckDailyCreate');
+    Route::post('/admin/formdaily/store', [FormChecklistDailyController::class, 'store'])->name('formCheckDailyStore');
+    Route::get('/admin/formdaily/edit/{id}', [FormChecklistDailyController::class, 'edit'])->name('formCheckDailyEdit');
+    Route::put('/admin/formdaily/update{id}', [FormChecklistDailyController::class, 'update'])->name('formCheckDailyUpdate');
+
     //Admin Checklist with Auth
     Route::get('admin/checklist-daily', [FormChecklistDailyController::class, 'index'])->name('adminChecklistDaily');
     Route::post('/checklist-daily', [FormChecklistDailyController::class, 'store'])->name('checklistDailyStore');
@@ -55,6 +63,8 @@ Route::get('/formpanel/{id}', [FormCheckPanelController::class, 'userShow'])->na
 
 //User Checklist without Auth
 Route::get('/checklist-daily', [FormChecklistDailyController::class, 'userDaily'])->name('userChecklistDaily');
+Route::get('/checklist-daily/{id}', [FormChecklistDailyController::class, 'show'])->name('userChecklistDailyShow');
+Route::get('/checklist-table', [FormChecklistDailyController::class, 'table'])->name('dailyTableCheck');
 
 //Download PDF (Both)
 Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');

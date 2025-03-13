@@ -2,47 +2,95 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FormChecklistDaily;
-use App\Models\FormChecklistPanel;
 use Illuminate\Http\Request;
+use App\Models\FormChecklistDaily;
+use App\Models\FormChecklistDailyItem;
+use App\Models\FormChecklistPanel;
+use App\Models\FormChecklistItem;
 
 class FormChecklistDailyController extends Controller
 {
     public function index()
     {
-        $panels = FormChecklistPanel::with('checklists')->get();
-        return view('admin.formchecklistdaily.index', compact('panels'));
+        $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
+        return view('admin.formdailies.index', compact('checklists'));
     }
 
     public function userDaily()
     {
-        $panels = FormChecklistPanel::with('checklists')->get();
-        return view('user.formchecklistdaily.index', compact('panels'));
+        $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
+        return view('user.formdailies.index', compact('checklists'));
+    }
+
+    public function create()
+    {
+        $panels = FormChecklistPanel::all();
+        return view('admin.formdailies.create', compact('panels'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'item_pemeriksaan' => 'required',
-            'panel_id' => 'required|exists:form_checklist_panels,id',
+            'form_checklist_panel_id' => 'required|exists:form_checklist_panels,id',
+            'tanggal' => 'required|date'
         ]);
 
-        FormChecklistDaily::create([
-            'item_pemeriksaan' => $request->item_pemeriksaan,
-            'date' => today(),
-            'status' => false,
-            'panel_id' => $request->panel_id,
-        ]);
+        $daily = FormChecklistDaily::create($request->only('form_checklist_panel_id', 'tanggal'));
 
-        return redirect()->back()->with('success', 'Checklist harian ditambahkan.');
+        $panelItems = FormChecklistItem::where('panel_id', $request->form_checklist_panel_id)->get();
+        foreach ($panelItems as $item) {
+            FormChecklistDailyItem::create([
+                'form_checklist_daily_id' => $daily->id,
+                'form_checklist_item_id' => $item->id,
+                'kondisi' => 'baik'
+            ]);
+        }
+
+        return redirect()->route('adminFormDaily')->with('success', 'Checklist harian berhasil dibuat.');
     }
 
-    public function updateStatus(Request $request, $id)
+    public function edit($id)
     {
-        $checklist = FormChecklistDaily::findOrFail($id);
-        $checklist->status = !$checklist->status;
-        $checklist->save();
+        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+        return view('admin.formdailies.edit', compact('daily'));
+    }
 
-        return response()->json(['success' => true]);
+    public function show($id)
+    {
+        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+        return view('user.formdailies.show', compact('daily'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $daily = FormChecklistDaily::findOrFail($id);
+
+        foreach ($request->kondisi as $itemId => $kondisi) {
+            FormChecklistDailyItem::where('form_checklist_daily_id', $id)
+                ->where('form_checklist_item_id', $itemId)
+                ->update(['kondisi' => $kondisi]);
+        }
+
+        return redirect()->route('adminFormDaily')->with('success', 'Checklist harian diperbarui.');
+    }
+
+    public function table(Request $request)
+    {
+        $bulan = $request->input('bulan', date('m'));
+        $tahun = $request->input('tahun', date('Y'));
+
+        $panels = FormChecklistPanel::all();
+        $selectedPanel = $request->input('panel_id', $panels->first()->id ?? null);
+
+        $items = FormChecklistItem::where('panel_id', $selectedPanel)->get();
+
+        $checklists = FormChecklistDaily::where('form_checklist_panel_id', $selectedPanel)
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulan)
+            ->with('items.item')
+            ->get()
+            ->keyBy('tanggal'); 
+
+        return view('user.formdailies.table', compact('bulan', 'tahun', 'panels', 'selectedPanel', 'items', 'checklists'));
     }
 }

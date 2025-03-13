@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class FormChecklistDaily extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['item_pemeriksaan', 'status', 'date', 'panel_id'];
+    protected $fillable = ['form_checklist_panel_id', 'tanggal'];
 
     public function panel()
     {
-        return $this->belongsTo(FormChecklistPanel::class, 'panel_id');
+        return $this->belongsTo(FormChecklistPanel::class, 'form_checklist_panel_id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(FormChecklistDailyItem::class, 'form_checklist_daily_id');
     }
 }
