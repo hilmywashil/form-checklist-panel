@@ -76,8 +76,9 @@ class FormChecklistDailyController extends Controller
 
     public function table(Request $request)
     {
-        $bulan = $request->input('bulan', date('m'));
-        $tahun = $request->input('tahun', date('Y'));
+        $bulanInput = $request->input('bulan', date('Y-m'));
+        $bulan = date('m', strtotime($bulanInput));
+        $tahun = date('Y', strtotime($bulanInput));
 
         $panels = FormChecklistPanel::all();
         $selectedPanel = $request->input('panel_id', $panels->first()->id ?? null);
@@ -87,10 +88,22 @@ class FormChecklistDailyController extends Controller
         $checklists = FormChecklistDaily::where('form_checklist_panel_id', $selectedPanel)
             ->whereYear('tanggal', $tahun)
             ->whereMonth('tanggal', $bulan)
-            ->with('items.item')
+            ->with('items')
             ->get()
-            ->keyBy('tanggal'); 
+            ->keyBy('tanggal');
 
         return view('user.formdailies.table', compact('bulan', 'tahun', 'panels', 'selectedPanel', 'items', 'checklists'));
+    }
+    public function destroy($id)
+    {
+        $checklist = FormChecklistPanel::find($id);
+
+        if (!$checklist) {
+            return redirect()->route('dailyTableCheck')->with('error', 'Checklist tidak ditemukan.');
+        }
+
+        $checklist->delete();
+
+        return redirect()->route('dailyTableCheck')->with('success', 'Checklist berhasil dihapus.');
     }
 }

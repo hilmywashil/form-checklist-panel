@@ -61,12 +61,7 @@
                                             </div>
                                         </td>
                                         <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
-                                            {{ Str::limit($fi->keterangan, 50, '...') }}
-                                            @if (!$fi->keterangan)
-                                                <a href="{{ route('formitems.edit', $fi->id) }}"
-                                                    class="text-blue-500">+
-                                                    Tambah Keterangan</a>
-                                            @endif
+                                            {{ Str::limit($fi->keterangan, 50, '...') ?? 'Belum ada keterangan' }}
                                         </td>
                                     </tr>
                                 @empty

@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/checklist-daily', [FormChecklistDailyController::class, 'index'])->name('adminChecklistDaily');
     Route::post('/checklist-daily', [FormChecklistDailyController::class, 'store'])->name('checklistDailyStore');
     Route::patch('/checklist-daily/{id}', [FormChecklistDailyController::class, 'updateStatus'])->name('updateStatus');
+    Route::delete('/checklist/{id}', [FormChecklistDailyController::class, 'destroy'])->name('formCheckDailyDestroy');
     
     //Profile    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
