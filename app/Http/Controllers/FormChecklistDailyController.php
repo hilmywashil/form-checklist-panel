@@ -96,14 +96,14 @@ class FormChecklistDailyController extends Controller
     }
     public function destroy($id)
     {
-        $checklist = FormChecklistPanel::find($id);
+        $checklist = FormChecklistDaily::find($id);
 
         if (!$checklist) {
-            return redirect()->route('dailyTableCheck')->with('error', 'Checklist tidak ditemukan.');
+            return redirect()->route('adminFormDaily')->with('error', 'Checklist tidak ditemukan.');
         }
 
         $checklist->delete();
 
-        return redirect()->route('dailyTableCheck')->with('success', 'Checklist berhasil dihapus.');
+        return redirect()->route('adminFormDaily')->with('success', 'Checklist berhasil dihapus.');
     }
 }

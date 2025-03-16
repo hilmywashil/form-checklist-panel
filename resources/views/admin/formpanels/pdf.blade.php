@@ -27,18 +27,6 @@
         th {
             background-color: #f2f2f2;
         }
-
-        .qr-container {
-            position: absolute;
-            right: 20px;
-            bottom: 20px;
-            text-align: center;
-        }
-
-        .qr-container img {
-            width: 120px;
-            height: 120px;
-        }
     </style>
 </head>
 
@@ -49,7 +37,6 @@
     <p><strong>Tanggal:</strong> {{ $formpanel->tanggal }}</p>
     <p><strong>Teknisi:</strong> {{ $formpanel->teknisi }}</p>
 
-    <h3>Detail Pemeriksaan</h3>
     <table>
         <thead>
             <tr>
@@ -70,12 +57,6 @@
             @endforeach
         </tbody>
     </table>
-
-    <!-- QR Code di kanan bawah -->
-    <div class="qr-container">
-        <img src="{{ public_path('storage/qrcodes/panel_' . $formpanel->id . '.png') }}" alt="QR Code">
-        <p>Scan QR untuk Informasi</p>
-    </div>
 
 </body>
 

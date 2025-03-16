@@ -6,7 +6,6 @@ use App\Http\Controllers\FormChecklistDailyController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
-use App\Models\FormChecklistDaily;
 use Illuminate\Support\Facades\Route;
 
 //Welcome Page

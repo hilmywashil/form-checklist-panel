@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Dashboard Admin') }}
         </h2>
     </x-slot>
 
@@ -13,10 +13,11 @@
                     {{ __("Klik menu dibawah untuk melanjutkan.") }}
                 </div>
             </div>
-
+            <div class="text-center">MENU</div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <!-- Card 1 -->
-                <a href="/formpanels" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition">
+                <a href="/admin/formpanels"
+                    class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition">
                     <div class="flex items-center space-x-4">
                         <i class="fas fa-edit text-3xl text-blue-500"></i>
                         <div>
@@ -27,12 +28,23 @@
                 </a>
 
                 <!-- Card 2 -->
-                <a href="/attendance" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition">
+                <a href="/checklist-table"
+                    class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition">
                     <div class="flex items-center space-x-4">
-                        <i class="fas fa-users text-3xl text-green-500"></i>
+                        <i class="fas fa-table text-3xl text-green-500"></i>
                         <div>
-                            <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Absensi</h4>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm">Absensi kehadiran karyawan.</p>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Tabel Harian</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Cek Kondisi Item setiap hari.</p>
+                        </div>
+                    </div>
+                </a>
+                <a href="/checklist-table"
+                    class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-table text-3xl text-green-500"></i>
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Tabel Harian</h4>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Cek Kondisi Item setiap hari.</p>
                         </div>
                     </div>
                 </a>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('form_checklist_dailies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('form_checklist_panel_id')->constrained('form_checklist_panels')->onDelete('cascade');
+            $table->foreignId('form_checklist_panel_id')->constrained('form_checklist_panels')->onDelete('cascade')->onUpdate('cascade');
             $table->date('tanggal');
             $table->timestamps();
         });
