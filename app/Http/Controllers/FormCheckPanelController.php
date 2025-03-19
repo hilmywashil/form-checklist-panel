@@ -63,7 +63,6 @@ class FormCheckPanelController extends Controller
         $qrCodePath = 'qrcodes/panel_' . $panel->id . '.png';
 
         Storage::disk('public')->put($qrCodePath, QrCode::format('png')
-            ->merge('/public/images/favicon.png')
             ->errorCorrection('M')
             ->size(300)
             ->generate($url));

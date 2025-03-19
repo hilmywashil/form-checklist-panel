@@ -22,11 +22,11 @@
 
         <div class="mt-6 flex flex-col md:flex-row justify-center gap-4">
             <a href="{{ url('/dashboard') }}"
-                class="bg-yellow-400 text-blue-950 font-bold px-6 py-3 rounded-lg shadow-lg text-lg flex items-center gap-2 border-b-4 border-l-2 border-r-2 border-t-2 border-blue-950 hover:bg-yellow-500 hover:border-b-2 transition">
-                Masuk sebagai Admin
+                class="bg-yellow-400 text-blue-950 font-bold px-6 py-3 rounded-lg shadow-lg text-lg flex items-center gap-2 border-b-4 border-l-2 border-r-2 border-t-2 border-blue-950 hover:bg-yellow-500 transition">
+                Login sebagai Admin
             </a>
             <a href="{{ url('/formpanels') }}"
-                class="bg-slate-100 text-blue-950 font-bold px-6 py-3 rounded-lg shadow-lg text-lg flex items-center gap-2 border-b-4 border-l-2 border-r-2 border-t-2 border-blue-950 hover:bg-slate-300 hover:border-b-2 transition">
+                class="bg-slate-100 text-blue-950 font-bold px-6 py-3 rounded-lg shadow-lg text-lg flex items-center gap-2 border-b-4 border-l-2 border-r-2 border-t-2 border-blue-950 hover:bg-slate-300 transition">
                 Masuk sebagai User
             </a>
         </div>

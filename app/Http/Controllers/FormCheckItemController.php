@@ -43,6 +43,12 @@ class FormCheckItemController extends Controller
         $panels = FormChecklistPanel::all();
         return view('admin.formitems.edit', compact('formitem', 'panels'));
     }
+    public function addKeterangan($id)
+    {
+        $formitem = FormChecklistItem::findOrFail($id);
+        $panels = FormChecklistPanel::all();
+        return view('admin.formitems.tambahKeterangan', compact('formitem', 'panels'));
+    }
     public function update(Request $request, $id): RedirectResponse
     {
         $formitem = FormChecklistItem::findOrFail($id);

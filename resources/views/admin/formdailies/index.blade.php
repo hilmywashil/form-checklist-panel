@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Checklist Harian
+            Data Pemeriksaan Harian
         </h2>
     </x-slot>
 
@@ -78,7 +78,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil!',
-                text: '{{ session("success") }}',
+                text: '{{ session('success') }}',
                 showConfirmButton: true,
                 confirmButtonText: 'Oke, Lanjut!',
                 timer: 2000

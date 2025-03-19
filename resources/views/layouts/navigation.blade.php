@@ -38,11 +38,11 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if (Auth::check())
                         <x-nav-link :href="route('adminFormDaily')" :active="request()->routeIs('adminFormDaily')">
-                            {{ __('Checklist Harian') }}
+                            {{ __('Data Harian') }}
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('userChecklistDaily')" :active="request()->routeIs('userChecklistDaily')">
-                            {{ __('Checklist Harian') }}
+                            {{ __('Data Harian') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -50,6 +50,13 @@
                     <x-nav-link :href="route('dailyTableCheck')" :active="request()->routeIs('dailyTableCheck')">
                         {{ __('Tabel Harian') }}
                     </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @auth
+                        <x-nav-link :href="route('adminList')" :active="request()->routeIs('adminList')">
+                            {{ __('Daftar Admin') }}
+                        </x-nav-link>
+                    @endauth
                 </div>
             </div>
 

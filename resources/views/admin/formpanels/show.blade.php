@@ -63,7 +63,7 @@
                                         <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
                                             {{ Str::limit($fi->keterangan, 50, '...') }}
                                             @if (!$fi->keterangan)
-                                                <a href="{{ route('formitemEdit', $fi->id) }}" class="text-blue-500">+
+                                                <a href="{{ route('formitemAddKeterangan', $fi->id) }}" class="text-blue-500">+
                                                     Tambah Keterangan</a>
                                             @endif
                                         </td>

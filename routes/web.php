@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FormCheckItemController;
 use App\Http\Controllers\FormChecklistDailyController;
 use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Support\Facades\Route;
 
 //Welcome Page
@@ -34,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/formitem/create/{panel_id?}', [FormCheckItemController::class, 'create'])->name('formitemCreate');
     Route::post('/admin/formitem/store', [FormCheckItemController::class, 'store'])->name('formitemStore');
     Route::get('/admin/formitem/edit/{id}', [FormCheckItemController::class, 'edit'])->name('formitemEdit');
+    Route::get('/admin/formitem/add_keterangan/{id}', [FormCheckItemController::class, 'addKeterangan'])->name('formitemAddKeterangan');
     Route::put('/admin/formitem/update/{id}', [FormCheckItemController::class, 'update'])->name('formitemUpdate');
     Route::delete('/admin/formitem/{id}', [FormCheckItemController::class, 'destroy'])->name('formitemDelete');
     Route::patch('/admin/formitem/update-check/{id}', [FormCheckItemController::class, 'updateCheck'])->name('updateCheck');
@@ -55,6 +58,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    //Route Lainnya
+    Route::get('/admin/list', [AdminController::class, 'index'])->name('adminList');
+    Route::get('/admin/panduan-penggunaan', [TutorialController::class, 'index'])->name('tutorial');
+
 });
 
 //User Formpanel without Auth
