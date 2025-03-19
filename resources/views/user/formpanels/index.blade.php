@@ -42,7 +42,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         @forelse ($formpanels as $fp)
                             <div
-                                class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg hover:shadow-2xl hover:scale-105 transition-transform duration-300">
+                                class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
                                 <h3 class="text-lg font-semibold">{{ $fp->nama_panel }}</h3>
                                 <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi :
                                     </strong>{!! $fp->lokasi !!}</p>

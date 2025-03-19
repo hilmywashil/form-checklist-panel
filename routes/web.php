@@ -70,9 +70,9 @@ Route::get('/formpanels', [FormCheckPanelController::class, 'userPanels'])->name
 Route::get('/formpanel/{id}', [FormCheckPanelController::class, 'userShow'])->name('userFormpanelShow');
 
 //User Checklist without Auth
-Route::get('/checklist-daily', [FormChecklistDailyController::class, 'userDaily'])->name('userChecklistDaily');
-Route::get('/checklist-daily/{id}', [FormChecklistDailyController::class, 'show'])->name('userChecklistDailyShow');
 Route::get('/checklist-table', [FormChecklistDailyController::class, 'table'])->name('dailyTableCheck');
+// Route::get('/checklist-daily', [FormChecklistDailyController::class, 'userDaily'])->name('userChecklistDaily');
+// Route::get('/checklist-daily/{id}', [FormChecklistDailyController::class, 'show'])->name('userChecklistDailyShow');
 
 //Download PDF (Both)
 Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');

@@ -58,7 +58,8 @@
                 </a>
 
                 <!-- Monitoring Card 1 -->
-                <div class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <a href="{{ route('adminFormpanels') }}"
+                    class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <i class="fas fa-clipboard-list text-3xl text-purple-500"></i>
                         <div>
@@ -68,10 +69,10 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Monitoring Card 2 -->
-                <div class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <a href="{{ route('adminFormDaily') }}" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <i class="fas fa-list text-3xl text-orange-500"></i>
                         <div>
@@ -81,10 +82,10 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </a>
 
                 <!-- Monitoring Card 3 -->
-                <div class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <a href="{{ route('adminList') }}" class="block p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
                     <div class="flex items-center space-x-4">
                         <i class="fas fa-user text-3xl text-red-500"></i>
                         <div>
@@ -93,7 +94,7 @@
                                 Admin</p>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>

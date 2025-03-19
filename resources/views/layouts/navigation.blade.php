@@ -20,13 +20,7 @@
                 @endauth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     @if (Auth::check())
-                        <x-nav-link :href="route('adminFormpanels')" :active="request()->routeIs(
-                            'adminFormpanels',
-                            'formpanelCreate',
-                            'formpanelShow',
-                            'formitemCreate',
-                            'formitemEdit',
-                        )">
+                        <x-nav-link :href="route('adminFormpanels')" :active="request()->routeIs('adminFormpanels')">
                             {{ __('Form Panel') }}
                         </x-nav-link>
                     @else
@@ -35,17 +29,13 @@
                         </x-nav-link>
                     @endif
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if (Auth::check())
+                @auth
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('adminFormDaily')" :active="request()->routeIs('adminFormDaily')">
                             {{ __('Data Harian') }}
                         </x-nav-link>
-                    @else
-                        <x-nav-link :href="route('userChecklistDaily')" :active="request()->routeIs('userChecklistDaily')">
-                            {{ __('Data Harian') }}
-                        </x-nav-link>
-                    @endif
-                </div>
+                    </div>
+                @endauth
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dailyTableCheck')" :active="request()->routeIs('dailyTableCheck')">
                         {{ __('Tabel Harian') }}
@@ -141,10 +131,15 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('userFormpanels')">
-                    {{ __('Form Panel') }}
-                </x-responsive-nav-link>
-
+                @if (Auth::check())
+                    <x-responsive-nav-link :href="route('adminFormpanels')">
+                        {{ __('Form Panel') }}
+                    </x-responsive-nav-link>
+                @else
+                    <x-responsive-nav-link :href="route('userFormpanels')">
+                        {{ __('Form Panel') }}
+                    </x-responsive-nav-link>
+                @endif
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

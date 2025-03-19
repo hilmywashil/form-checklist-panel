@@ -10,10 +10,21 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    <div class="mb-4">
+                    <div class="mb-4 flex justify-between items-center">
                         <a href="{{ route('formCheckDailyCreate') }}" class="btn btn-green">
                             <i class="fas fa-plus-circle mr-1"></i> Buat pemeriksaan hari ini
                         </a>
+
+                        <form method="GET" action="{{ route('adminChecklistDaily') }}">
+                            <select name="bulan" class="form-select" onchange="this.form.submit()">
+                                <option value="">Semua Bulan</option>
+                                @foreach (range(1, 12) as $month)
+                                    <option value="{{ $month }}" {{ request('bulan') == $month ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::create()->month($month)->translatedFormat('F') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
                     </div>
 
                     @if ($checklists->isEmpty())
@@ -21,48 +32,50 @@
                     @else
                         <div class="space-y-4">
                             @foreach ($checklists->groupBy('tanggal') as $tanggal => $dailyChecklists)
-                                <details class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow p-4">
-                                    <summary
-                                        class="cursor-pointer font-semibold text-lg text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 px-2 py-1 rounded">
-                                        {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y') }}
-                                    </summary>
-                                    <div class="overflow-x-auto mt-3">
-                                        <table
-                                            class="table-auto w-full bg-white dark:bg-gray-900 rounded-lg shadow text-center">
-                                            <thead class="bg-gray-200 dark:bg-gray-700">
-                                                <tr>
-                                                    <th class="px-4 py-2 text-center">Panel yang diperiksa</th>
-                                                    <th class="px-4 py-2 text-center">Aksi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($dailyChecklists as $checklist)
-                                                    <tr class="border-b dark:border-gray-700">
-                                                        <td class="px-4 py-2">{{ $checklist->panel->nama_panel }}</td>
-                                                        <td class="px-4 py-2">
-                                                            <div class="flex flex-wrap justify-center gap-2">
-                                                                <a href="{{ route('formCheckDailyEdit', $checklist->id) }}"
-                                                                    class="btn btn-blue w-full sm:w-auto">
-                                                                    <i class="fas fa-edit mr-1"></i> Periksa
-                                                                </a>
-                                                                <button onclick="confirmDelete({{ $checklist->id }})"
-                                                                    class="btn btn-red w-full sm:w-auto">
-                                                                    <i class="fas fa-trash-alt mr-1"></i> Hapus
-                                                                </button>
-                                                                <form id="delete-form-{{ $checklist->id }}"
-                                                                    action="{{ route('formCheckDailyDestroy', $checklist->id) }}"
-                                                                    method="POST" style="display: none;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                </form>
-                                                            </div>
-                                                        </td>
+                                @if (\Carbon\Carbon::parse($tanggal)->month == request('bulan') || !request('bulan'))
+                                    <details class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow p-4">
+                                        <summary
+                                            class="cursor-pointer font-semibold text-lg text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 px-2 py-1 rounded">
+                                            {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y') }}
+                                        </summary>
+                                        <div class="overflow-x-auto mt-3">
+                                            <table
+                                                class="table-auto w-full bg-white dark:bg-gray-900 rounded-lg shadow text-center">
+                                                <thead class="bg-gray-200 dark:bg-gray-700">
+                                                    <tr>
+                                                        <th class="px-4 py-2 text-center">Panel yang diperiksa</th>
+                                                        <th class="px-4 py-2 text-center">Aksi</th>
                                                     </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </details>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($dailyChecklists as $checklist)
+                                                        <tr class="border-b dark:border-gray-700">
+                                                            <td class="px-4 py-2">{{ $checklist->panel->nama_panel }}</td>
+                                                            <td class="px-4 py-2">
+                                                                <div class="flex flex-wrap justify-center gap-2">
+                                                                    <a href="{{ route('formCheckDailyEdit', $checklist->id) }}"
+                                                                        class="btn btn-blue w-full sm:w-auto">
+                                                                        <i class="fas fa-edit mr-1"></i> Periksa
+                                                                    </a>
+                                                                    <button onclick="confirmDelete({{ $checklist->id }})"
+                                                                        class="btn btn-red w-full sm:w-auto">
+                                                                        <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                                                    </button>
+                                                                    <form id="delete-form-{{ $checklist->id }}"
+                                                                        action="{{ route('formCheckDailyDestroy', $checklist->id) }}"
+                                                                        method="POST" style="display: none;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                    </form>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </details>
+                                @endif
                             @endforeach
                         </div>
                     @endif

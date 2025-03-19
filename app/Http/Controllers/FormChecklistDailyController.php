@@ -16,11 +16,11 @@ class FormChecklistDailyController extends Controller
         return view('admin.formdailies.index', compact('checklists'));
     }
 
-    public function userDaily()
-    {
-        $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
-        return view('user.formdailies.index', compact('checklists'));
-    }
+    // public function userDaily()
+    // {
+    //     $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
+    //     return view('user.formdailies.index', compact('checklists'));
+    // }
 
     public function create()
     {
@@ -55,11 +55,11 @@ class FormChecklistDailyController extends Controller
         return view('admin.formdailies.edit', compact('daily'));
     }
 
-    public function show($id)
-    {
-        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
-        return view('user.formdailies.show', compact('daily'));
-    }
+    // public function show($id)
+    // {
+    //     $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+    //     return view('user.formdailies.show', compact('daily'));
+    // }
 
     public function update(Request $request, $id)
     {
