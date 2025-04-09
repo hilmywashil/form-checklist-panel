@@ -49,8 +49,14 @@
                                                 optional($checklists[$tanggal] ?? null)->items,
                                             )->firstWhere('form_checklist_item_id', $item->id);
                                             $kondisi = $dailyItem->kondisi ?? null;
+                                            $keterangan = $dailyItem->keterangan ?? '';
                                         @endphp
-                                        <td class="border px-2 py-2 min-w-[40px] text-center {{ $kondisi === 'baik' ? 'bg-green-500 text-white' : ($kondisi ? 'bg-red-500 text-white' : 'bg-gray-300') }}">
+                                        <td 
+                                            class="border px-2 py-2 min-w-[40px] text-center {{ $kondisi === 'baik' ? 'bg-green-500 text-white' : ($kondisi ? 'bg-red-500 text-white' : 'bg-gray-300') }}"
+                                            data-kondisi="{{ $kondisi }}"
+                                            data-keterangan="{{ $keterangan }}"
+                                            onclick="showModal(this)"
+                                        >
                                             {{ $kondisi ? ($kondisi === 'baik' ? 'B' : 'TB') : '-' }}
                                         </td>
                                     @endfor
@@ -64,7 +70,15 @@
         </div>
     </div>
 
-    <!-- Script untuk Drag Scroll -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-96">
+            <h3 class="text-lg font-semibold mb-4">Detail Kondisi</h3>
+            <p><strong>Kondisi:</strong> <span id="modal-kondisi"></span></p>
+            <p><strong>Keterangan:</strong> <span id="modal-keterangan"></span></p>
+            <button onclick="closeModal()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Tutup</button>
+        </div>
+    </div>
+
     <script>
         const tableContainer = document.getElementById('table-container');
         let isDown = false;
@@ -95,6 +109,18 @@
             const walk = (x - startX) * 2; // Kecepatan geser
             tableContainer.scrollLeft = scrollLeft - walk;
         });
+
+        function showModal(cell) {
+            const kondisi = (cell.getAttribute('data-kondisi') || '-').charAt(0).toUpperCase() + (cell.getAttribute('data-kondisi') || '-').slice(1);
+            const keterangan = cell.getAttribute('data-keterangan') || 'Tidak ada keterangan';
+            document.getElementById('modal-kondisi').textContent = kondisi;
+            document.getElementById('modal-keterangan').textContent = keterangan;
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
     </script>
 
 </x-app-layout>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FormChecklistDailyItem extends Model
 {
     use HasFactory;
-    protected $fillable = ['form_checklist_daily_id', 'form_checklist_item_id', 'kondisi'];
+    protected $fillable = ['form_checklist_daily_id', 'form_checklist_item_id', 'kondisi', 'keterangan'];
 
     public function daily()
     {

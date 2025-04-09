@@ -11,54 +11,48 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <div class="mb-4 flex justify-between items-center">
-                        <a href="{{ route('formCheckDailyCreate') }}" class="btn btn-green">
-                            <i class="fas fa-plus-circle mr-1"></i> Buat pemeriksaan hari ini
+                        <a href="{{ route('formCheckDailyCreate') }}" class="btn btn-primary">
+                            <i class="fas fa-plus-circle mr-1"></i> Tambah Pemeriksaan
                         </a>
-
-                        <form method="GET" action="{{ route('adminChecklistDaily') }}">
-                            <select name="bulan" class="form-select" onchange="this.form.submit()">
-                                <option value="">Semua Bulan</option>
-                                @foreach (range(1, 12) as $month)
-                                    <option value="{{ $month }}" {{ request('bulan') == $month ? 'selected' : '' }}>
-                                        {{ \Carbon\Carbon::create()->month($month)->translatedFormat('F') }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </form>
                     </div>
 
                     @if ($checklists->isEmpty())
-                        <p class="text-gray-500 dark:text-gray-400 text-center">Belum ada checklist harian.</p>
+                        <div class="text-center py-6">
+                            <p class="text-gray-500 dark:text-gray-400">Belum ada checklist harian.</p>
+                        </div>
                     @else
-                        <div class="space-y-4">
+                        <div class="grid grid-cols-1 gap-6">
                             @foreach ($checklists->groupBy('tanggal') as $tanggal => $dailyChecklists)
                                 @if (\Carbon\Carbon::parse($tanggal)->month == request('bulan') || !request('bulan'))
-                                    <details class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow p-4">
-                                        <summary
-                                            class="cursor-pointer font-semibold text-lg text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 px-2 py-1 rounded">
+                                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow p-4">
+                                        <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">
                                             {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y') }}
-                                        </summary>
+                                        </h3>
                                         <div class="overflow-x-auto mt-3">
                                             <table
                                                 class="table-auto w-full bg-white dark:bg-gray-900 rounded-lg shadow text-center">
                                                 <thead class="bg-gray-200 dark:bg-gray-700">
                                                     <tr>
-                                                        <th class="px-4 py-2 text-center">Panel yang diperiksa</th>
-                                                        <th class="px-4 py-2 text-center">Aksi</th>
+                                                        <th class="px-4 py-2">Panel</th>
+                                                        <th class="px-4 py-2">Teknisi</th>
+                                                        <th class="px-4 py-2">Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($dailyChecklists as $checklist)
                                                         <tr class="border-b dark:border-gray-700">
-                                                            <td class="px-4 py-2">{{ $checklist->panel->nama_panel }}</td>
+                                                            <td class="px-4 py-2">{{ $checklist->panel->nama_panel }}
+                                                            </td>
+                                                            <td class="px-4 py-2">{{ $checklist->teknisi }}</td>
                                                             <td class="px-4 py-2">
-                                                                <div class="flex flex-wrap justify-center gap-2">
+                                                                <div class="flex justify-center gap-2">
                                                                     <a href="{{ route('formCheckDailyEdit', $checklist->id) }}"
-                                                                        class="btn btn-blue w-full sm:w-auto">
-                                                                        <i class="fas fa-edit mr-1"></i> Periksa
+                                                                        class="btn btn-blue">
+                                                                        <i class="fas fa-edit mr-1"></i> Edit
                                                                     </a>
-                                                                    <button onclick="confirmDelete({{ $checklist->id }})"
-                                                                        class="btn btn-red w-full sm:w-auto">
+                                                                    <button
+                                                                        onclick="confirmDelete({{ $checklist->id }})"
+                                                                        class="btn btn-red">
                                                                         <i class="fas fa-trash-alt mr-1"></i> Hapus
                                                                     </button>
                                                                     <form id="delete-form-{{ $checklist->id }}"
@@ -74,7 +68,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </details>
+                                    </div>
                                 @endif
                             @endforeach
                         </div>
@@ -115,5 +109,4 @@
             });
         }
     </script>
-
 </x-app-layout>

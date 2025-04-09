@@ -77,7 +77,7 @@
                             </x-dropdown-link>
                         @else
                             <x-dropdown-link :href="route('login')">
-                                {{ __('Login') }}
+                                {{ __('Login sebagai Admin') }}
                             </x-dropdown-link>
                         @endif
                         @auth

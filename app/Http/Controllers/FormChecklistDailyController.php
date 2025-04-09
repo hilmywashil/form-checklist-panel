@@ -7,12 +7,17 @@ use App\Models\FormChecklistDaily;
 use App\Models\FormChecklistDailyItem;
 use App\Models\FormChecklistPanel;
 use App\Models\FormChecklistItem;
+use Illuminate\Support\Facades\Auth;
 
 class FormChecklistDailyController extends Controller
 {
     public function index()
     {
-        $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
+        $today = date('Y-m-d');
+        $checklists = FormChecklistDaily::with('panel')
+            ->whereDate('tanggal', $today)
+            ->orderBy('tanggal', 'desc')
+            ->get();
         return view('admin.formdailies.index', compact('checklists'));
     }
 
@@ -32,10 +37,14 @@ class FormChecklistDailyController extends Controller
     {
         $request->validate([
             'form_checklist_panel_id' => 'required|exists:form_checklist_panels,id',
-            'tanggal' => 'required|date'
+            'tanggal' => 'required|date',
         ]);
 
-        $daily = FormChecklistDaily::create($request->only('form_checklist_panel_id', 'tanggal'));
+        $daily = FormChecklistDaily::create([
+            'form_checklist_panel_id' => $request->form_checklist_panel_id,
+            'tanggal' => $request->tanggal,
+            'teknisi' => Auth::user()->name,
+        ]);
 
         $panelItems = FormChecklistItem::where('panel_id', $request->form_checklist_panel_id)->get();
         foreach ($panelItems as $item) {
@@ -45,7 +54,6 @@ class FormChecklistDailyController extends Controller
                 'kondisi' => 'baik'
             ]);
         }
-
         return redirect()->route('adminFormDaily')->with('success', 'Checklist harian berhasil dibuat.');
     }
 
@@ -66,9 +74,14 @@ class FormChecklistDailyController extends Controller
         $daily = FormChecklistDaily::findOrFail($id);
 
         foreach ($request->kondisi as $itemId => $kondisi) {
+            $keterangan = $request->keterangan[$itemId] ?? null;
+
             FormChecklistDailyItem::where('form_checklist_daily_id', $id)
                 ->where('form_checklist_item_id', $itemId)
-                ->update(['kondisi' => $kondisi]);
+                ->update([
+                    'kondisi' => $kondisi,
+                    'keterangan' => $keterangan,
+                ]);
         }
 
         return redirect()->route('adminFormDaily')->with('success', 'Checklist harian diperbarui.');

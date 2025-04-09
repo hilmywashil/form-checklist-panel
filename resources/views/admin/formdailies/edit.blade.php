@@ -19,17 +19,27 @@
                                     <tr>
                                         <th class="px-4 py-2 text-left">Item Pemeriksaan</th>
                                         <th class="px-4 py-2 text-left">Kondisi</th>
+                                        <th class="px-4 py-2 text-left">Keterangan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($daily->items as $item)
-                                        <tr class="border-b dark:border-gray-700">
+                                        <tr class="border dark:border-gray-700">
                                             <td class="px-4 py-2">{{ $item->item->item_pemeriksaan }}</td>
                                             <td class="px-4 py-2">
-                                                <select name="kondisi[{{ $item->form_checklist_item_id }}]" class="form-input w-full">
-                                                    <option value="baik" {{ $item->kondisi == 'baik' ? 'selected' : '' }}>Baik</option>
-                                                    <option value="tidak baik" {{ $item->kondisi == 'tidak baik' ? 'selected' : '' }}>Tidak Baik</option>
+                                                <select name="kondisi[{{ $item->form_checklist_item_id ?? 'default_id' }}]"
+                                                    class="form-input w-full">
+                                                    <option value="baik"
+                                                        {{ $item->kondisi == 'baik' ? 'selected' : '' }}>Baik</option>
+                                                    <option value="tidak baik"
+                                                        {{ $item->kondisi == 'tidak baik' ? 'selected' : '' }}>Tidak
+                                                        Baik</option>
                                                 </select>
+                                            </td>
+                                            <td class="px-4 py-2 truncate-text" title="{{ Str::limit($item->item->keterangan, 100) }}">
+                                                <input type="text" name="keterangan[{{ $item->form_checklist_item_id }}]" 
+                                                    value="{{ $item->keterangan ?? '' }}" 
+                                                    class="form-input w-full">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -37,7 +47,7 @@
                             </table>
                         </div>
 
-                        <button type="submit" class="btn btn-blue mt-4">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600">
                             <i class="fas fa-save mr-1"></i> Simpan Perubahan
                         </button>
                     </form>
