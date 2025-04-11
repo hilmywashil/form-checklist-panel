@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FormCheckItemController;
 use App\Http\Controllers\FormChecklistDailyController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\FormCheckPanelController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 //Welcome Page
@@ -20,7 +20,15 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-//Middleware for Admin
+//Middleware Admin
+Route::middleware('auth', 'admin')->group(function () {
+
+    Route::get('/admin/list', [UserController::class, 'index'])->name('adminList');
+    Route::get('/admin/create', [UserController::class, 'create'])->name('adminCreate');
+    Route::post('/admin/create', [UserController::class, 'store'])->name('adminStore');
+});
+
+//Middleware for Auth
 Route::middleware('auth')->group(function () {
 
     //Admin Formpanel with Auth
@@ -53,16 +61,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/checklist-daily', [FormChecklistDailyController::class, 'store'])->name('checklistDailyStore');
     Route::patch('/checklist-daily/{id}', [FormChecklistDailyController::class, 'updateStatus'])->name('updateStatus');
     Route::delete('/checklist/{id}', [FormChecklistDailyController::class, 'destroy'])->name('formCheckDailyDestroy');
-    
+
     //Profile    
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //Route Lainnya
-    Route::get('/admin/list', [AdminController::class, 'index'])->name('adminList');
     Route::get('/admin/panduan-penggunaan', [TutorialController::class, 'index'])->name('tutorial');
-
 });
 
 //User Formpanel without Auth
@@ -92,5 +98,6 @@ Route::delete('/attendance/{employee_name}', [AttendanceController::class, 'dest
     ->name('attendance.destroy');
 
 //Checklist Daily
+Route::get('/daily-table/pdf', [FormChecklistDailyController::class, 'exportPdf'])->name('dailyTableCheck.pdf');
 
 require __DIR__ . '/auth.php';

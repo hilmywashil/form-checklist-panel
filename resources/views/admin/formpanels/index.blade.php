@@ -15,34 +15,6 @@
                         <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
                     </a>
 
-                    <!-- Form Filter Tanggal -->
-                    <form action="{{ route('adminFormpanels') }}" method="GET" class="mt-4">
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label for="start_date" class="block text-sm font-medium">
-                                    <i class="fas fa-calendar-alt mr-1"></i> Filter dari Tanggal
-                                </label>
-                                <input type="date" class="form-input w-full" id="start_date" name="start_date"
-                                    value="{{ request('start_date') }}">
-                            </div>
-                            <div>
-                                <label for="end_date" class="block text-sm font-medium">
-                                    <i class="fas fa-calendar-check mr-1"></i> Sampai Tanggal
-                                </label>
-                                <input type="date" class="form-input w-full" id="end_date" name="end_date"
-                                    value="{{ request('end_date') }}">
-                            </div>
-                            <div class="flex items-end space-x-2">
-                                <button type="submit" class="btn btn-blue">
-                                    <i class="fas fa-filter mr-1"></i> Filter
-                                </button>
-                                <a href="{{ route('adminFormpanels') }}" class="btn btn-gray">
-                                    <i class="fas fa-sync-alt mr-1"></i> Reset
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-
                     <!-- Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         @forelse ($formpanels as $fp)

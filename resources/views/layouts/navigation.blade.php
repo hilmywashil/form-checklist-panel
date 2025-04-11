@@ -41,13 +41,15 @@
                         {{ __('Tabel Harian') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @auth
-                        <x-nav-link :href="route('adminList')" :active="request()->routeIs('adminList')">
-                            {{ __('Daftar Admin') }}
-                        </x-nav-link>
-                    @endauth
-                </div>
+                @if (Auth::check() && Auth::user()->role === 'admin')
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        @auth
+                            <x-nav-link :href="route('adminList')" :active="request()->routeIs('adminList')">
+                                {{ __('Daftar Admin') }}
+                            </x-nav-link>
+                        @endauth
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

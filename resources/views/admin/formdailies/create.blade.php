@@ -20,10 +20,7 @@
                             </select>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium mb-1">Tanggal</label>
-                            <input type="date" name="tanggal" class="form-input w-full">
-                        </div>
+                        <input type="hidden" name="tanggal" value="{{ now()->toDateString() }}">
 
                         <button type="submit" class="btn btn-green">
                             <i class="fas fa-save mr-1"></i> Simpan

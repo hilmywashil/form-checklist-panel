@@ -9,26 +9,33 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="mb-4 flex justify-start">
+                        <a href="{{ route('adminCreate') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Tambah Admin
+                        </a>
+                    </div>
                     <table class="table-auto w-full bg-white dark:bg-gray-900 rounded-lg shadow text-center">
                         <thead class="bg-gray-200 dark:bg-gray-700">
                             <tr>
                                 <th class="px-4 py-2">Nama</th>
                                 <th class="px-4 py-2">Email</th>
+                                <th class="px-4 py-2">Role</th>
                                 <th class="px-4 py-2">Terdaftar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($admins as $admin)
+                            @foreach ($users as $admin)
                                 <tr class="border-b dark:border-gray-700">
                                     <td class="px-4 py-2">{{ $admin->name }}</td>
                                     <td class="px-4 py-2">{{ $admin->email }}</td>
+                                    <td class="px-4 py-2">{{ ucfirst($admin->role) }}</td>
                                     <td class="px-4 py-2">{{ $admin->created_at->translatedFormat('F Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    @if ($admins->isEmpty())
+                    @if ($users->isEmpty())
                         <p class="text-gray-500 dark:text-gray-400 text-center mt-4">Tidak ada admin yang terdaftar.</p>
                     @endif
                 </div>

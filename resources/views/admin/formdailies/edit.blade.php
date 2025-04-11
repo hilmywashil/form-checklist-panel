@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ route('formCheckDailyUpdate', $daily->id) }}" method="POST">
+                    <form action="{{ route('formCheckDailyUpdate', $daily->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -27,8 +27,12 @@
                                         <tr class="border dark:border-gray-700">
                                             <td class="px-4 py-2">{{ $item->item->item_pemeriksaan }}</td>
                                             <td class="px-4 py-2">
-                                                <select name="kondisi[{{ $item->form_checklist_item_id ?? 'default_id' }}]"
+                                                <select
+                                                    name="kondisi[{{ $item->form_checklist_item_id ?? 'default_id' }}]"
                                                     class="form-input w-full">
+                                                    <option value=""
+                                                        {{ $item->kondisi == null ? 'selected' : '' }}>Belum diperiksa
+                                                    </option>
                                                     <option value="baik"
                                                         {{ $item->kondisi == 'baik' ? 'selected' : '' }}>Baik</option>
                                                     <option value="tidak baik"
@@ -36,13 +40,14 @@
                                                         Baik</option>
                                                 </select>
                                             </td>
-                                            <td class="px-4 py-2 truncate-text" title="{{ Str::limit($item->item->keterangan, 100) }}">
-                                                <input type="text" name="keterangan[{{ $item->form_checklist_item_id }}]" 
-                                                    value="{{ $item->keterangan ?? '' }}" 
-                                                    class="form-input w-full">
+                                            <td class="px-4 py-2 truncate-text"
+                                                title="{{ Str::limit($item->item->keterangan, 100) }}">
+                                                <input type="text"
+                                                    name="keterangan[{{ $item->form_checklist_item_id }}]"
+                                                    value="{{ $item->keterangan ?? '' }}" class="form-input w-full">
                                             </td>
                                         </tr>
-                                    @endforeach
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>

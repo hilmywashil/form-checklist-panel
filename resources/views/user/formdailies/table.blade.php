@@ -11,25 +11,31 @@
 
                 <!-- Filter Panel & Bulan -->
                 <form method="GET" action="{{ route('dailyTableCheck') }}" class="mb-4 flex flex-wrap gap-3">
-                    <select name="panel_id" class="form-select px-3 py-2 border rounded w-full sm:w-auto">
+                    <select name="panel_id" class="form-select px-3 py-2 border rounded w-full sm:w-auto"
+                        onchange="this.form.submit()">
                         @foreach ($panels as $panel)
                             <option value="{{ $panel->id }}" {{ $selectedPanel == $panel->id ? 'selected' : '' }}>
                                 {{ $panel->nama_panel }}
                             </option>
                         @endforeach
                     </select>
-                    <input type="month" name="bulan" value="{{ $tahun . '-' . $bulan }}" class="form-input px-3 py-2 border rounded w-full sm:w-auto">
-                    <button type="submit" class="btn btn-blue w-full sm:w-auto">
-                        <i class="fas fa-level-up mr-1"></i> Update
-                    </button>
+                    <input type="month" name="bulan" value="{{ $tahun . '-' . $bulan }}"
+                        onchange="this.form.submit()" class="form-input px-3 py-2 border rounded w-full sm:w-auto">
+                    <a href="{{ route('dailyTableCheck.pdf', ['panel_id' => $selectedPanel, 'bulan' => $tahun . '-' . $bulan]) }}"
+                        target="_blank" class="btn btn-red w-full sm:w-auto">
+                        <i class="fas fa-file-pdf mr-1"></i> Export PDF
+                    </a>
                 </form>
 
                 <!-- Tabel Absensi dengan Drag Scroll -->
-                <div id="table-container" class="overflow-auto whitespace-nowrap border rounded-lg cursor-grab active:cursor-grabbing" style="user-select: none;">
+                <div id="table-container"
+                    class="overflow-auto whitespace-nowrap border rounded-lg cursor-grab active:cursor-grabbing"
+                    style="user-select: none;">
                     <table class="table-auto w-full border-collapse border min-w-max">
                         <thead class="bg-gray-700 text-white">
                             <tr>
-                                <th class="border text-center px-4 py-2 min-w-[200px]" rowspan="2">Item Pemeriksaan</th>
+                                <th class="border text-center px-4 py-2 min-w-[200px]" rowspan="2">Item Pemeriksaan
+                                </th>
                                 <th class="border text-center px-2 py-2 min-w-[40px]" colspan="31">Tanggal</th>
                             </tr>
                             <tr>
@@ -41,7 +47,8 @@
                         <tbody>
                             @foreach ($items as $item)
                                 <tr class="text-center">
-                                    <td class="border px-4 py-2 text-left min-w-[200px]">{{ $item->item_pemeriksaan }}</td>
+                                    <td class="border px-4 py-2 text-left min-w-[200px]">{{ $item->item_pemeriksaan }}
+                                    </td>
                                     @for ($i = 1; $i <= 31; $i++)
                                         @php
                                             $tanggal = sprintf('%s-%02d-%02d', $tahun, $bulan, $i);
@@ -51,12 +58,9 @@
                                             $kondisi = $dailyItem->kondisi ?? null;
                                             $keterangan = $dailyItem->keterangan ?? '';
                                         @endphp
-                                        <td 
-                                            class="border px-2 py-2 min-w-[40px] text-center {{ $kondisi === 'baik' ? 'bg-green-500 text-white' : ($kondisi ? 'bg-red-500 text-white' : 'bg-gray-300') }}"
-                                            data-kondisi="{{ $kondisi }}"
-                                            data-keterangan="{{ $keterangan }}"
-                                            onclick="showModal(this)"
-                                        >
+                                        <td class="border px-2 py-2 min-w-[40px] text-center {{ $kondisi === 'baik' ? 'bg-green-500 text-white' : ($kondisi ? 'bg-red-500 text-white' : 'bg-gray-300') }}"
+                                            data-kondisi="{{ $kondisi }}" data-keterangan="{{ $keterangan }}"
+                                            onclick="showModal(this)">
                                             {{ $kondisi ? ($kondisi === 'baik' ? 'B' : 'TB') : '-' }}
                                         </td>
                                     @endfor
@@ -111,8 +115,9 @@
         });
 
         function showModal(cell) {
-            const kondisi = (cell.getAttribute('data-kondisi') || '-').charAt(0).toUpperCase() + (cell.getAttribute('data-kondisi') || '-').slice(1);
-            const keterangan = cell.getAttribute('data-keterangan') || 'Tidak ada keterangan';
+            const kondisi = (cell.getAttribute('data-kondisi') || '-').charAt(0).toUpperCase() + (cell.getAttribute(
+                'data-kondisi') || '-').slice(1);
+            const keterangan = cell.getAttribute('data-keterangan') || '-';
             document.getElementById('modal-kondisi').textContent = kondisi;
             document.getElementById('modal-keterangan').textContent = keterangan;
             document.getElementById('modal').classList.remove('hidden');

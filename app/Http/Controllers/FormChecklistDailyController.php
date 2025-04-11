@@ -7,17 +7,27 @@ use App\Models\FormChecklistDaily;
 use App\Models\FormChecklistDailyItem;
 use App\Models\FormChecklistPanel;
 use App\Models\FormChecklistItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 
 class FormChecklistDailyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $today = date('Y-m-d');
-        $checklists = FormChecklistDaily::with('panel')
-            ->whereDate('tanggal', $today)
-            ->orderBy('tanggal', 'desc')
-            ->get();
+        $query = FormChecklistDaily::with('panel');
+
+        if ($request->filled('panel')) {
+            $query->whereHas('panel', function ($q) use ($request) {
+                $q->where('nama_panel', 'like', '%' . $request->panel . '%');
+            });
+        }
+
+        if ($request->filled('bulan')) {
+            $query->whereMonth('tanggal', $request->bulan);
+        }
+
+        $checklists = $query->orderBy('tanggal', 'desc')->paginate(12);
+
         return view('admin.formdailies.index', compact('checklists'));
     }
 
@@ -51,7 +61,7 @@ class FormChecklistDailyController extends Controller
             FormChecklistDailyItem::create([
                 'form_checklist_daily_id' => $daily->id,
                 'form_checklist_item_id' => $item->id,
-                'kondisi' => 'baik'
+                'kondisi' => null
             ]);
         }
         return redirect()->route('adminFormDaily')->with('success', 'Checklist harian berhasil dibuat.');
@@ -118,5 +128,40 @@ class FormChecklistDailyController extends Controller
         $checklist->delete();
 
         return redirect()->route('adminFormDaily')->with('success', 'Checklist berhasil dihapus.');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $panel_id = $request->input('panel_id');
+        $bulan = $request->input('bulan');
+
+        $tahun = date('Y', strtotime($bulan));
+        $bulan = date('m', strtotime($bulan));
+
+        $panel = FormChecklistPanel::find($panel_id);
+
+        $panels = FormChecklistPanel::all();
+        $selectedPanel = $panel_id;
+
+        $items = FormChecklistItem::where('panel_id', $panel_id)->get();
+
+        $checklists = FormChecklistDaily::with('items')
+            ->where('form_checklist_panel_id', $panel_id)
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get()
+            ->keyBy('tanggal');
+
+        return Pdf::loadView('admin.formdailies.daily-pdf', compact(
+            'panels',
+            'selectedPanel',
+            'bulan',
+            'tahun',
+            'items',
+            'checklists',
+            'panel'
+        ))->setPaper('a4', 'landscape')->download('tabel-harian.pdf');
+
+        return $pdf->download('tabel-harian.pdf');
     }
 }

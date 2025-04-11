@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('form_checklist_daily_id')->constrained('form_checklist_dailies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('form_checklist_item_id')->constrained('form_checklist_items')->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('kondisi', ['baik', 'tidak baik']);
+            $table->enum('kondisi', ['baik', 'tidak baik'])->nullable()->default(null);
             $table->string('keterangan')->nullable();
             $table->timestamps();
         });

@@ -1,112 +1,124 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Data Pemeriksaan Harian
+            {{ __('Pemeriksaan Harian Panel') }}
         </h2>
     </x-slot>
 
-    <div class="py-6">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    <div class="mb-4 flex justify-between items-center">
-                        <a href="{{ route('formCheckDailyCreate') }}" class="btn btn-primary">
-                            <i class="fas fa-plus-circle mr-1"></i> Tambah Pemeriksaan
-                        </a>
+                    <!-- Tombol Tambah Pemeriksaan -->
+                    <a href="{{ route('formCheckDailyCreate') }}" class="btn btn-green">
+                        <i class="fas fa-plus-circle mr-1"></i> TAMBAH PEMERIKSAAN
+                    </a>
+
+                    <!-- Form Filter -->
+                    <form action="{{ route('adminFormDaily') }}" method="GET" class="mt-4">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label for="panel" class="block text-sm font-medium">
+                                    <i class="fas fa-tools mr-1"></i> Filter Nama Panel
+                                </label>
+                                <input type="text" name="panel" id="panel" value="{{ request('panel') }}"
+                                    class="form-input w-full" placeholder="Masukkan nama panel...">
+                            </div>
+                            <div>
+                                <label for="bulan" class="block text-sm font-medium">
+                                    <i class="fas fa-calendar mr-1"></i> Bulan Pemeriksaan
+                                </label>
+                                <select name="bulan" id="bulan" class="form-input w-full" onchange="this.form.submit()">
+                                    <option value="">Semua</option>
+                                    @foreach (range(1, 12) as $bln)
+                                        <option value="{{ $bln }}"
+                                            {{ request('bulan') == $bln ? 'selected' : '' }}>
+                                            {{ \Carbon\Carbon::create()->month($bln)->translatedFormat('F') }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex items-end space-x-2">
+                                <button type="submit" class="btn btn-blue">
+                                    <i class="fas fa-filter mr-1"></i> Filter
+                                </button>
+                                <a href="{{ route('adminFormDaily') }}" class="btn btn-gray">
+                                    <i class="fas fa-sync-alt mr-1"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Kartu Checklist -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                        @forelse ($checklists as $checklist)
+                            <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
+                                <h3 class="text-lg font-semibold">{{ $checklist->panel->nama_panel }}</h3>
+                                <p><i class="fas fa-calendar mr-1"></i> {{ \Carbon\Carbon::parse($checklist->tanggal)->translatedFormat('l, d F Y') }}</p>
+                                <p><i class="fas fa-user mr-1"></i> Teknisi: {{ $checklist->teknisi }}</p>
+                                <div class="mt-3 flex space-x-2">
+                                    <a href="{{ route('formCheckDailyEdit', $checklist->id) }}" class="btn btn-blue">
+                                        <i class="fas fa-edit mr-1"></i> EDIT
+                                    </a>
+                                    <button type="button" class="btn btn-red delete-button" data-id="{{ $checklist->id }}">
+                                        <i class="fas fa-trash-alt mr-1"></i> HAPUS
+                                    </button>
+                                    <form id="delete-form-{{ $checklist->id }}" action="{{ route('formCheckDailyDestroy', $checklist->id) }}" method="POST" class="hidden">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full text-center py-4">
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i> Tidak ada data pemeriksaan.
+                                </div>
+                            </div>
+                        @endforelse
                     </div>
 
-                    @if ($checklists->isEmpty())
-                        <div class="text-center py-6">
-                            <p class="text-gray-500 dark:text-gray-400">Belum ada checklist harian.</p>
-                        </div>
-                    @else
-                        <div class="grid grid-cols-1 gap-6">
-                            @foreach ($checklists->groupBy('tanggal') as $tanggal => $dailyChecklists)
-                                @if (\Carbon\Carbon::parse($tanggal)->month == request('bulan') || !request('bulan'))
-                                    <div class="bg-gray-100 dark:bg-gray-700 rounded-lg shadow p-4">
-                                        <h3 class="font-semibold text-lg text-gray-800 dark:text-gray-200">
-                                            {{ \Carbon\Carbon::parse($tanggal)->translatedFormat('l, d F Y') }}
-                                        </h3>
-                                        <div class="overflow-x-auto mt-3">
-                                            <table
-                                                class="table-auto w-full bg-white dark:bg-gray-900 rounded-lg shadow text-center">
-                                                <thead class="bg-gray-200 dark:bg-gray-700">
-                                                    <tr>
-                                                        <th class="px-4 py-2">Panel</th>
-                                                        <th class="px-4 py-2">Teknisi</th>
-                                                        <th class="px-4 py-2">Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($dailyChecklists as $checklist)
-                                                        <tr class="border-b dark:border-gray-700">
-                                                            <td class="px-4 py-2">{{ $checklist->panel->nama_panel }}
-                                                            </td>
-                                                            <td class="px-4 py-2">{{ $checklist->teknisi }}</td>
-                                                            <td class="px-4 py-2">
-                                                                <div class="flex justify-center gap-2">
-                                                                    <a href="{{ route('formCheckDailyEdit', $checklist->id) }}"
-                                                                        class="btn btn-blue">
-                                                                        <i class="fas fa-edit mr-1"></i> Edit
-                                                                    </a>
-                                                                    <button
-                                                                        onclick="confirmDelete({{ $checklist->id }})"
-                                                                        class="btn btn-red">
-                                                                        <i class="fas fa-trash-alt mr-1"></i> Hapus
-                                                                    </button>
-                                                                    <form id="delete-form-{{ $checklist->id }}"
-                                                                        action="{{ route('formCheckDailyDestroy', $checklist->id) }}"
-                                                                        method="POST" style="display: none;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                    </form>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    @endif
-
+                    {{ $checklists->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: '{{ session('success') }}',
-                showConfirmButton: true,
-                confirmButtonText: 'Oke, Lanjut!',
-                timer: 2000
-            });
-        @endif
+    @push('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".delete-button").forEach(button => {
+                    button.addEventListener("click", function () {
+                        const id = this.getAttribute("data-id");
 
-        function confirmDelete(id) {
-            Swal.fire({
-                title: 'Hapus Checklist?',
-                text: "Apakah Anda yakin ingin menghapus checklist ini?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form-' + id).submit();
-                }
+                        Swal.fire({
+                            title: "Hapus Data?",
+                            text: "Data ini akan dihapus permanen!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Ya, Hapus!",
+                            cancelButtonText: "Batal"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById(`delete-form-${id}`).submit();
+                            }
+                        });
+                    });
+                });
+
+                @if (session('success'))
+                    Swal.fire({
+                        title: "Berhasil!",
+                        text: "{{ session('success') }}",
+                        icon: "success",
+                        confirmButtonColor: "#3085d6"
+                    });
+                @endif
             });
-        }
-    </script>
+        </script>
+    @endpush
 </x-app-layout>
