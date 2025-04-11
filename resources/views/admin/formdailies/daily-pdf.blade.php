@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <h2>Pemeliharaan Bulanan - {{ $bulan }}/{{ $tahun }}</h2>
+    <h2>Data Bulanan - {{ $bulan }}/{{ $tahun }}</h2>
     <h4>Panel: {{ $panel->nama_panel }}</h4>
 
     <table>

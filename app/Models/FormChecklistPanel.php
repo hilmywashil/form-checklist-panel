@@ -12,9 +12,10 @@ class FormChecklistPanel extends Model
 
     protected $fillable = [
         'nama_panel',
-        'tanggal',
         'lokasi',
-        'teknisi'
+        'nama_pekerjaan',
+        'nomor_spk',
+        'tanggal_spk'
     ];
 
     public function formitems(): HasMany

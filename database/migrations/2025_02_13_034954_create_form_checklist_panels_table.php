@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('form_checklist_panels', function (Blueprint $table) {
             $table->id();
             $table->string('nama_panel');
-            $table->date('tanggal');
             $table->string('lokasi');
-            $table->string('teknisi');
+            $table->string('nama_pekerjaan');
+            $table->integer('nomor_spk');
+            $table->date('tanggal_spk');
             $table->timestamps();
         });
     }

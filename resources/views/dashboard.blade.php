@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Admin') }}
+            {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
@@ -10,12 +10,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h3 class="text-2xl font-bold mb-3">👋 Selamat datang, {{ Auth::user()->name }}!</h3>
-                    <p class="mb-3">Klik "Get Started" dibawah untuk melihat Panduan Penggunaan.</p>
-                    <div class="flex gap-3">
-                        <a href="{{ route('tutorial') }}" class="btn btn-blue">
-                            Get Started
-                        </a>
-                    </div>
+                    <p class="mb-3">Pilih menu dibawah untuk melanjutkan.</p>
                 </div>
             </div>
             <div class="text-center font-semibold mt-4 text-xl">Main Menu</div>

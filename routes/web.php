@@ -91,12 +91,6 @@ Route::get('/guest', function () {
 //Test QR (Not Important)
 Route::get('/testqr', [QrCodeController::class, 'show']);
 
-//Attendance (Not Important)
-Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
-Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendance.store');
-Route::delete('/attendance/{employee_name}', [AttendanceController::class, 'destroy'])
-    ->name('attendance.destroy');
-
 //Checklist Daily
 Route::get('/daily-table/pdf', [FormChecklistDailyController::class, 'exportPdf'])->name('dailyTableCheck.pdf');
 

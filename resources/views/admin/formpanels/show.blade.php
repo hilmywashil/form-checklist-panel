@@ -12,12 +12,15 @@
 
                     <div class="mb-6 flex justify-between items-start">
                         <div>
-                            <h1><strong>Form {{ $formpanel->nama_panel }}</strong></h1>
+                            <h1 class="mb-4 text-2xl"><strong>{{ $formpanel->nama_panel }}</strong></h1>
                             <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}
                             </p>
-                            <p><strong><i class="fas fa-calendar-alt"></i> Tanggal:</strong> {{ $formpanel->tanggal }}
+                            <p><strong><i class="fas fa-briefcase"></i> Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan }}
                             </p>
-                            <p><strong><i class="fas fa-user"></i> Teknisi:</strong> {{ $formpanel->teknisi }}</p>
+                            <p><strong><i class="fas fa-hashtag"></i> Nomor SPK:</strong> {{ $formpanel->nomor_spk }}
+                            </p>
+                            <p><strong><i class="fas fa-calendar"></i> Tanggal SPK:</strong> {{ $formpanel->tanggal_spk }}
+                            </p>
                         </div>
                         <div class="text-center">
                             <img id="qrCode" src="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
@@ -36,9 +39,7 @@
                                 <tr>
                                     <th class="border px-4 py-2">No</th>
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-cogs"></i> AKSI</th>
+                                    <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,27 +47,6 @@
                                     <tr class="text-left bg-gray-100">
                                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
-                                        <td class="border px-4 py-2">
-                                            <div class="flex justify-center gap-2">
-                                                <button
-                                                    class="btn {{ $fi->check == 'normal' ? 'btn-green' : 'btn-gray' }}"
-                                                    onclick="updateCheck({{ $fi->id }}, 'normal')">
-                                                    <i class="fas fa-check"></i> Normal
-                                                </button>
-                                                <button
-                                                    class="btn {{ $fi->check == 'perbaikan' ? 'btn-red' : 'btn-gray' }}"
-                                                    onclick="updateCheck({{ $fi->id }}, 'perbaikan')">
-                                                    <i class="fas fa-tools"></i> Perbaikan
-                                                </button>
-                                            </div>
-                                        </td>
-                                        <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
-                                            {{ Str::limit($fi->keterangan, 50, '...') }}
-                                            @if (!$fi->keterangan)
-                                                <a href="{{ route('formitemAddKeterangan', $fi->id) }}" class="text-blue-500">+
-                                                    Tambah Keterangan</a>
-                                            @endif
-                                        </td>
                                         <td class="border px-4 py-2 flex items-center justify-center gap-2">
                                             <a href="{{ route('formitemEdit', $fi->id) }}" class="btn btn-blue">
                                                 <i class="fas fa-edit"></i> EDIT
@@ -171,48 +151,6 @@
                 @endif
             });
 
-            function updateCheck(itemId, value) {
-                fetch(`/admin/formitem/update-check/${itemId}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            check: value
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // if (data.success) {
-                        //     location.reload();
-                        // } else {
-                        //     Swal.fire("Gagal!", "Terjadi kesalahan!", "error");
-                        // }
-                        if (data.success) {
-                            Swal.fire({
-                                title: "Berhasil!",
-                                text: "Kondisi berhasil diperbarui!",
-                                icon: "success",
-                                confirmButtonColor: "#3085d6",
-                                confirmButtonText: "Oke, Lanjut"
-                            }).then(() => {
-                                location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "Gagal!",
-                                text: "Terjadi kesalahan!",
-                                icon: "error",
-                                confirmButtonColor: "#d33",
-                                confirmButtonText: "Oke, Mengerti"
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire("Gagal!", "Terjadi kesalahan saat memperbarui!", "error");
-                    });
-            }
         </script>
     @endpush
 </x-app-layout>

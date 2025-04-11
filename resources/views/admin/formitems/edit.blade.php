@@ -27,18 +27,6 @@
                             @enderror
                         </div>
 
-                        <!-- KETERANGAN -->
-                        <div class="mb-4">
-                            <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN</label>
-                            <textarea
-                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
-                                      @error('keterangan') border-red-500 @enderror"
-                                name="keterangan" rows="3" placeholder="Masukkan Keterangan">{{ old('keterangan', $formitem->keterangan) }}</textarea>
-                            @error('keterangan')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         <!-- PANEL (Dropdown dari Panel yang Ada, Tidak Bisa Diubah) -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">PANEL</label>

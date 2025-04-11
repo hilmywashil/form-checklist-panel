@@ -29,7 +29,8 @@
                                 <label for="bulan" class="block text-sm font-medium">
                                     <i class="fas fa-calendar mr-1"></i> Bulan Pemeriksaan
                                 </label>
-                                <select name="bulan" id="bulan" class="form-input w-full" onchange="this.form.submit()">
+                                <select name="bulan" id="bulan" class="form-input w-full"
+                                    onchange="this.form.submit()">
                                     <option value="">Semua</option>
                                     @foreach (range(1, 12) as $bln)
                                         <option value="{{ $bln }}"
@@ -55,16 +56,20 @@
                         @forelse ($checklists as $checklist)
                             <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
                                 <h3 class="text-lg font-semibold">{{ $checklist->panel->nama_panel }}</h3>
-                                <p><i class="fas fa-calendar mr-1"></i> {{ \Carbon\Carbon::parse($checklist->tanggal)->translatedFormat('l, d F Y') }}</p>
+                                <p><i class="fas fa-calendar mr-1"></i>
+                                    {{ \Carbon\Carbon::parse($checklist->tanggal)->translatedFormat('l, d F Y') }}</p>
                                 <p><i class="fas fa-user mr-1"></i> Teknisi: {{ $checklist->teknisi }}</p>
                                 <div class="mt-3 flex space-x-2">
                                     <a href="{{ route('formCheckDailyEdit', $checklist->id) }}" class="btn btn-blue">
                                         <i class="fas fa-edit mr-1"></i> EDIT
                                     </a>
-                                    <button type="button" class="btn btn-red delete-button" data-id="{{ $checklist->id }}">
+                                    <button type="button" class="btn btn-red delete-button"
+                                        data-id="{{ $checklist->id }}">
                                         <i class="fas fa-trash-alt mr-1"></i> HAPUS
                                     </button>
-                                    <form id="delete-form-{{ $checklist->id }}" action="{{ route('formCheckDailyDestroy', $checklist->id) }}" method="POST" class="hidden">
+                                    <form id="delete-form-{{ $checklist->id }}"
+                                        action="{{ route('formCheckDailyDestroy', $checklist->id) }}" method="POST"
+                                        class="hidden">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -88,9 +93,9 @@
     @push('scripts')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 document.querySelectorAll(".delete-button").forEach(button => {
-                    button.addEventListener("click", function () {
+                    button.addEventListener("click", function() {
                         const id = this.getAttribute("data-id");
 
                         Swal.fire({
@@ -115,6 +120,13 @@
                         title: "Berhasil!",
                         text: "{{ session('success') }}",
                         icon: "success",
+                        confirmButtonColor: "#3085d6"
+                    });
+                @elseif (session('error'))
+                    Swal.fire({
+                        title: "Gagal!",
+                        text: "{{ session('error') }}",
+                        icon: "error",
                         confirmButtonColor: "#3085d6"
                     });
                 @endif

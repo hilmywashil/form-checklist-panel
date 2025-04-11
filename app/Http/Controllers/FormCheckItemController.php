@@ -25,13 +25,11 @@ class FormCheckItemController extends Controller
         $this->validate($request, [
             'panel_id' => 'required|exists:form_checklist_panels,id',
             'item_pemeriksaan'     => 'required',
-            'keterangan'   => 'nullable'
         ]);
 
         FormChecklistItem::create([
             'panel_id'   => $request->panel_id,
             'item_pemeriksaan'     => $request->item_pemeriksaan,
-            'keterangan'   => $request->keterangan
         ]);
 
         return redirect()->route('adminFormpanelShow', $request->panel_id)->with(['success' => 'Data berhasil ditambahkan!']);
@@ -55,22 +53,11 @@ class FormCheckItemController extends Controller
 
         $formitem->update([
             'item_pemeriksaan' => $request->item_pemeriksaan ?? $formitem->item_pemeriksaan,
-            'check' => $request->check ?? $formitem->check,
-            'keterangan' => $request->keterangan ?? $formitem->keterangan,
             'panel_id' => $formitem->panel_id
         ]);
 
         return redirect()->route('adminFormpanelShow', $formitem->panel_id)
             ->with(['success' => 'Data berhasil diperbarui!']);
-    }
-
-    public function updateCheck(Request $request, $id)
-    {
-        $formItem = FormChecklistItem::findOrFail($id);
-        $formItem->check = $request->check;
-        $formItem->save();
-
-        return response()->json(['success' => true, 'message' => 'Kondisi berhasil diperbarui!']);
     }
 
     public function destroy($id): RedirectResponse

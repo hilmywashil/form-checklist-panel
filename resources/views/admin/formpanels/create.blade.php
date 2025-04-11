@@ -16,9 +16,10 @@
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 <i class="fas fa-layer-group"></i> NAMA PANEL
                             </label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                            <input type="text"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('nama_panel') border-red-500 @enderror"
-                                   name="nama_panel" value="{{ old('nama_panel') }}" placeholder="Masukkan Nama Panel">
+                                name="nama_panel" value="{{ old('nama_panel') }}" placeholder="Masukkan Nama Panel">
                             @error('nama_panel')
                                 <p class="text-red-500 text-sm mt-1">Nama Panel tidak boleh kosong!</p>
                             @enderror
@@ -28,46 +29,66 @@
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 <i class="fas fa-map-marker-alt"></i> LOKASI
                             </label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                            <input type="text"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('lokasi') border-red-500 @enderror"
-                                   name="lokasi" value="{{ old('lokasi') }}" placeholder="Masukkan Lokasi">
+                                name="lokasi" value="{{ old('lokasi') }}" placeholder="Masukkan Lokasi">
                             @error('lokasi')
                                 <p class="text-red-500 text-sm mt-1">Lokasi tidak boleh kosong!</p>
                             @enderror
                         </div>
-
+                        
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-calendar-alt"></i> TANGGAL
+                                <i class="fas fa-user"></i> NAMA PEKERJAAN
                             </label>
-                            <input type="date" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
-                                   dark:border-gray-600 dark:text-white @error('tanggal') border-red-500 @enderror"
-                                   name="tanggal" value="{{ old('tanggal') }}">
-                            @error('tanggal')
-                                <p class="text-red-500 text-sm mt-1">Tanggal tidak boleh kosong!</p>
+                            <input type="text"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('nama_pekerjaan') border-red-500 @enderror"
+                                name="nama_pekerjaan" value="{{ old('nama_pekerjaan') }}" placeholder="Masukkan Nama Pekerjaan">
+                            @error('nama_pekerjaan')
+                                <p class="text-red-500 text-sm mt-1">Nama Pekerjaan tidak boleh kosong!</p>
                             @enderror
                         </div>
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-user"></i> TEKNISI
+                                <i class="fas fa-user"></i> NOMOR SPK
                             </label>
-                            <input type="text" class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
-                                   dark:border-gray-600 dark:text-white @error('teknisi') border-red-500 @enderror"
-                                   name="teknisi" value="{{ old('teknisi') }}" placeholder="Masukkan Nama Teknisi">
-                            @error('teknisi')
-                                <p class="text-red-500 text-sm mt-1">Nama teknisi tidak boleh kosong!</p>
+                            <input type="number"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('nomor_spk') border-red-500 @enderror"
+                                name="nomor_spk" value="{{ old('nomor_spk') }}" placeholder="Masukkan Nomor SPK">
+                            @error('nomor_spk')
+                                <p class="text-red-500 text-sm mt-1">Nomor SPK tidak boleh kosong!</p>
                             @enderror
                         </div>
+
+                        <div class="mb-4">
+                            <label class="block font-bold text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-calendar-alt"></i> TANGGAL SPK
+                            </label>
+                            <input type="date"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('tanggal_spk') border-red-500 @enderror"
+                                name="tanggal_spk" value="{{ old('tanggal_spk') }}">
+                            @error('tanggal_spk')
+                                <p class="text-red-500 text-sm mt-1">Tanggal SPK boleh kosong!</p>
+                            @enderror
+                        </div>
+
 
                         <div class="flex space-x-2">
-                            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            <button type="submit"
+                                class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                                 <i class="fas fa-save"></i> SIMPAN
                             </button>
-                            <button type="reset" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                            <button type="reset"
+                                class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
                                 <i class="fas fa-undo-alt"></i> RESET
                             </button>
-                            <a href="{{ route('adminFormpanels') }}" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            <a href="{{ route('adminFormpanels') }}"
+                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
                                 <i class="fas fa-arrow-left"></i> KEMBALI
                             </a>
                         </div>

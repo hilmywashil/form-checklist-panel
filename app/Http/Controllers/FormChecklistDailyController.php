@@ -50,6 +50,14 @@ class FormChecklistDailyController extends Controller
             'tanggal' => 'required|date',
         ]);
 
+        $exists = FormChecklistDaily::where('form_checklist_panel_id', $request->form_checklist_panel_id)
+            ->whereDate('tanggal', $request->tanggal)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->route('adminFormDaily')->with('error', 'Checklist untuk panel ini pada tanggal tersebut sudah ada.');
+        }
+
         $daily = FormChecklistDaily::create([
             'form_checklist_panel_id' => $request->form_checklist_panel_id,
             'tanggal' => $request->tanggal,

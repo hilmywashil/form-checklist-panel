@@ -25,16 +25,6 @@
                             @enderror
                         </div>
 
-                        <!-- KETERANGAN -->
-                        <div class="mb-4">
-                            <label class="block font-bold text-gray-700 dark:text-gray-300">KETERANGAN
-                                (Opsional, bisa ditambah nanti)</label>
-                            <textarea
-                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white 
-                                      @error('keterangan') border-red-500 @enderror"
-                                name="keterangan" rows="3" placeholder="Masukkan Keterangan">{{ old('keterangan') }}</textarea>
-                        </div>
-
                         <!-- PANEL -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">PANEL</label>

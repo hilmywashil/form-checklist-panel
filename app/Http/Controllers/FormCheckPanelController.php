@@ -15,25 +15,13 @@ class FormCheckPanelController extends Controller
 {
     public function index(Request $request)
     {
-        $query = FormChecklistPanel::query();
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
-        }
-
-        $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
+        $formpanels = FormChecklistPanel::query()->paginate();
 
         return view('admin.formpanels.index', compact('formpanels'));
     }
     public function userPanels(Request $request)
     {
-        $query = FormChecklistPanel::query();
-
-        if ($request->has('start_date') && $request->has('end_date')) {
-            $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
-        }
-
-        $formpanels = $query->orderBy('tanggal', 'desc')->paginate(20);
+        $formpanels = FormChecklistPanel::class()->paginate();
 
         return view('user.formpanels.index', compact('formpanels'));
     }
@@ -46,16 +34,18 @@ class FormCheckPanelController extends Controller
     {
         $this->validate($request, [
             'nama_panel'     => 'required',
-            'tanggal'   => 'required',
             'lokasi'   => 'required',
-            'teknisi'   => 'required'
+            'nama_pekerjaan'   => 'required',
+            'nomor_spk'   => 'required',
+            'tanggal_spk'   => 'required'
         ]);
 
         $panel = FormChecklistPanel::create([
             'nama_panel' => $request->nama_panel,
-            'tanggal'    => $request->tanggal,
             'lokasi'     => $request->lokasi,
-            'teknisi'    => $request->teknisi
+            'nama_pekerjaan'    => $request->nama_pekerjaan,
+            'nomor_spk'    => $request->nomor_spk,
+            'tanggal_spk'    => $request->tanggal_spk
         ]);
 
         $url = url('/formpanels/' . $panel->id);
@@ -112,8 +102,9 @@ class FormCheckPanelController extends Controller
         $formpanel->update([
             'nama_panel' => $request->nama_panel ?? $formpanel->nama_panel,
             'lokasi' => $request->lokasi ?? $formpanel->lokasi,
-            'tanggal' => $request->tanggal ?? $formpanel->tanggal,
-            'teknisi' => $request->teknisi ?? $formpanel->teknisi
+            'nama_pekerjaan' => $request->nama_pekerjaan ?? $formpanel->nama_pekerjaan,
+            'nomor_spk' => $request->nomor_spk ?? $formpanel->nomor_spk,
+            'tanggal_spk' => $request->tanggal_spk ?? $formpanel->tanggal_spk
         ]);
 
         return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Diubah!']);

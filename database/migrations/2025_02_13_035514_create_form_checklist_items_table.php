@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('panel_id')->constrained('form_checklist_panels')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('item_pemeriksaan');
-            $table->enum('check', ['normal', 'perbaikan'])->nullable();
-            $table->longText('keterangan')->nullable();
             $table->timestamps();
         });
     }
