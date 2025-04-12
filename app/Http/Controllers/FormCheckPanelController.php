@@ -21,7 +21,7 @@ class FormCheckPanelController extends Controller
     }
     public function userPanels(Request $request)
     {
-        $formpanels = FormChecklistPanel::class()->paginate();
+        $formpanels = FormChecklistPanel::query()->paginate();
 
         return view('user.formpanels.index', compact('formpanels'));
     }

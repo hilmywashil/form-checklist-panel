@@ -40,7 +40,7 @@
                         
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-user"></i> NAMA PEKERJAAN
+                                <i class="fas fa-briefcase"></i> NAMA PEKERJAAN
                             </label>
                             <input type="text"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
@@ -53,7 +53,7 @@
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-user"></i> NOMOR SPK
+                                <i class="fas fa-file-contract"></i> NOMOR SPK
                             </label>
                             <input type="number"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
