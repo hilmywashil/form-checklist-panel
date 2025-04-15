@@ -19,4 +19,9 @@ class FormChecklistDailyItem extends Model
     {
         return $this->belongsTo(FormChecklistItem::class, 'form_checklist_item_id');
     }
+
+    public function panel()
+    {
+        return $this->belongsTo(FormChecklistPanel::class, 'form_checklist_panel_id');
+    }
 }

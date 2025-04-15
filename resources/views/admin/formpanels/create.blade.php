@@ -29,15 +29,20 @@
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 <i class="fas fa-map-marker-alt"></i> LOKASI
                             </label>
-                            <input type="text"
+                            <select name="lokasi" 
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
-                                   dark:border-gray-600 dark:text-white @error('lokasi') border-red-500 @enderror"
-                                name="lokasi" value="{{ old('lokasi') }}" placeholder="Masukkan Lokasi">
+                                   dark:border-gray-600 dark:text-white @error('lokasi') border-red-500 @enderror">
+                                <option value="" disabled selected> Pilih Lokasi </option>
+                                @foreach($lokasiList as $lokasi)
+                                    <option value="{{ $lokasi->id }}" {{ old('lokasi') == $lokasi->id ? 'selected' : '' }}>
+                                        {{ $lokasi->nama_lokasi }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('lokasi')
                                 <p class="text-red-500 text-sm mt-1">Lokasi tidak boleh kosong!</p>
                             @enderror
                         </div>
-                        
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 <i class="fas fa-briefcase"></i> NAMA PEKERJAAN (Opsional)
@@ -76,7 +81,6 @@
                                 <p class="text-red-500 text-sm mt-1">Tanggal SPK boleh kosong!</p>
                             @enderror
                         </div>
-
 
                         <div class="flex space-x-2">
                             <button type="submit"

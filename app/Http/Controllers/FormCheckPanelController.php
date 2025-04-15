@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FormChecklistItem;
 use App\Models\FormChecklistPanel;
+use App\Models\Lokasi;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -15,7 +16,7 @@ class FormCheckPanelController extends Controller
 {
     public function index(Request $request)
     {
-        $formpanels = FormChecklistPanel::query()->paginate();
+        $formpanels = FormChecklistPanel::with('lokasiRel')->paginate();
 
         return view('admin.formpanels.index', compact('formpanels'));
     }
@@ -27,44 +28,35 @@ class FormCheckPanelController extends Controller
     }
     public function create(): View
     {
-        return view('admin.formpanels.create');
+
+        $lokasiList = Lokasi::all();
+        return view('admin.formpanels.create', compact('lokasiList'));
     }
 
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'nama_panel'     => 'required',
-            'lokasi'   => 'required',
-            'nama_pekerjaan'   => 'nullable',
-            'nomor_spk'   => 'nullable',
-            'tanggal_spk'   => 'nullable'
+            'nama_panel' => 'required',
+            'lokasi' => 'required',
+            'nama_pekerjaan' => 'nullable',
+            'nomor_spk' => 'nullable',
+            'tanggal_spk' => 'nullable'
         ]);
 
-        $panel = FormChecklistPanel::create([
+        FormChecklistPanel::create([
             'nama_panel' => $request->nama_panel,
-            'lokasi'     => $request->lokasi,
-            'nama_pekerjaan'    => $request->nama_pekerjaan,
-            'nomor_spk'    => $request->nomor_spk,
-            'tanggal_spk'    => $request->tanggal_spk
+            'lokasi' => $request->lokasi,
+            'nama_pekerjaan' => $request->nama_pekerjaan,
+            'nomor_spk' => $request->nomor_spk,
+            'tanggal_spk' => $request->tanggal_spk
         ]);
-
-        $url = url('/formpanels/' . $panel->id);
-
-        $qrCodePath = 'qrcodes/panel_' . $panel->id . '.png';
-
-        Storage::disk('public')->put($qrCodePath, QrCode::format('png')
-            ->errorCorrection('M')
-            ->size(300)
-            ->generate($url));
-
-        $panel->update(['qr_code' => $qrCodePath]);
 
         return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     public function show($id)
     {
-        $formpanel = FormChecklistPanel::findOrFail($id);
+        $formpanel = FormChecklistPanel::with('lokasiRel')->findOrFail($id);
         $formitems = FormChecklistItem::where('panel_id', $formpanel->id)->paginate();
 
         return view('admin.formpanels.show', compact('formpanel', 'formitems'));

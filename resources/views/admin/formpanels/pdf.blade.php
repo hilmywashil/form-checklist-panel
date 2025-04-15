@@ -34,16 +34,15 @@
 
     <h2>Form {{ $formpanel->nama_panel }}</h2>
     <p><strong>Lokasi:</strong> {{ $formpanel->lokasi }}</p>
-    <p><strong>Tanggal:</strong> {{ $formpanel->tanggal }}</p>
-    <p><strong>Teknisi:</strong> {{ $formpanel->teknisi }}</p>
-
+    <p><strong>Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan }}</p>
+    <p><strong>Nomor SPK:</strong> {{ $formpanel->nomor_spk }}</p>
+    <p><strong>Tanggal SPK:</strong> {{ $formpanel->tanggal_spk }}</p>
+    <br>
     <table>
         <thead>
             <tr>
                 <th>No</th>
                 <th>Item Pemeriksaan</th>
-                <th>Kondisi</th>
-                <th>Keterangan</th>
             </tr>
         </thead>
         <tbody>
@@ -51,8 +50,6 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $fi->item_pemeriksaan }}</td>
-                    <td>{{ ucfirst($fi->check) ?? 'Belum dicek' }}</td>
-                    <td>{{ $fi->keterangan ?? '-' }}</td>
                 </tr>
             @endforeach
         </tbody>

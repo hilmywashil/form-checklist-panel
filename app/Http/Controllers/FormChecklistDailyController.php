@@ -7,8 +7,10 @@ use App\Models\FormChecklistDaily;
 use App\Models\FormChecklistDailyItem;
 use App\Models\FormChecklistPanel;
 use App\Models\FormChecklistItem;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FormChecklistDailyController extends Controller
 {
@@ -72,20 +74,32 @@ class FormChecklistDailyController extends Controller
                 'kondisi' => null
             ]);
         }
+
+        $url = url('/checklist-daily/' . $daily->id);
+
+        $qrCodePath = 'qrcodes/ceklis_' . $daily->id . '.png';
+
+        Storage::disk('public')->put($qrCodePath, QrCode::format('png')
+            ->errorCorrection('M')
+            ->size(300)
+            ->generate($url));
+
+        $daily->update(['qr_code' => $qrCodePath]);
+
         return redirect()->route('adminFormDaily')->with('success', 'Checklist harian berhasil dibuat.');
     }
 
     public function edit($id)
     {
-        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+        $daily = FormChecklistDaily::with('items.item', 'panel')->findOrFail($id);
         return view('admin.formdailies.edit', compact('daily'));
     }
 
-    // public function show($id)
-    // {
-    //     $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
-    //     return view('user.formdailies.show', compact('daily'));
-    // }
+    public function show($id)
+    {
+        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+        return view('user.formdailies.show', compact('daily'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -133,7 +147,13 @@ class FormChecklistDailyController extends Controller
             return redirect()->route('adminFormDaily')->with('error', 'Checklist tidak ditemukan.');
         }
 
+        $qrPath = 'public/qrcodes/ceklis_' . $checklist->id . '.png';
+        if (Storage::exists($qrPath)) {
+            Storage::delete($qrPath);
+        }
+
         $checklist->delete();
+
 
         return redirect()->route('adminFormDaily')->with('success', 'Checklist berhasil dihapus.');
     }

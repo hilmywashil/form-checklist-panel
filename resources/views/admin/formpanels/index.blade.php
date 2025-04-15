@@ -20,8 +20,11 @@
                         @forelse ($formpanels as $fp)
                             <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
                                 <h3 class="text-lg font-semibold">{{ $fp->nama_panel }}</h3>
-                                <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi : </strong>{!! $fp->lokasi !!}</p>
-                                <p><i class="fas fa-hashtag mr-1"></i><strong> Nomor SPK : </strong>{!! $fp->nomor_spk !!}</p>
+                                <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi :
+                                    </strong>{!! $fp->lokasiRel->nama_lokasi !!}
+                                </p>
+                                <p><i class="fas fa-hashtag mr-1"></i><strong> Nomor SPK : </strong>{!! $fp->nomor_spk !!}
+                                </p>
                                 <div class="mt-3 flex space-x-2">
                                     <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">
                                         <i class="fas fa-eye mr-1"></i> DETAIL
@@ -33,7 +36,8 @@
                                         <button type="button" class="btn btn-red delete-button" data-id="{{ $fp->id }}">
                                             <i class="fas fa-trash-alt mr-1"></i> HAPUS
                                         </button>
-                                        <form id="delete-form-{{ $fp->id }}" action="{{ route('formpanelDelete', $fp->id) }}" method="POST" class="hidden">
+                                        <form id="delete-form-{{ $fp->id }}" action="{{ route('formpanelDelete', $fp->id) }}"
+                                            method="POST" class="hidden">
                                             @csrf
                                             @method('DELETE')
                                         </form>
@@ -59,11 +63,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function () {
                 const deleteButtons = document.querySelectorAll(".delete-button");
 
                 deleteButtons.forEach(button => {
-                    button.addEventListener("click", function() {
+                    button.addEventListener("click", function () {
                         const id = this.getAttribute("data-id");
 
                         Swal.fire({
@@ -100,7 +104,7 @@
                         confirmButtonText: "Oke, Mengerti"
                     });
                 @endif
-            });
+                });
         </script>
     @endpush
 </x-app-layout>

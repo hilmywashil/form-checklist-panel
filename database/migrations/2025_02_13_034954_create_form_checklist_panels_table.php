@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('form_checklist_panels', function (Blueprint $table) {
             $table->id();
             $table->string('nama_panel');
-            $table->string('lokasi');
+            $table->foreignId('lokasi')->constrained('lokasis')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama_pekerjaan')->nullable();
             $table->integer('nomor_spk')->nullable();
             $table->date('tanggal_spk')->nullable();

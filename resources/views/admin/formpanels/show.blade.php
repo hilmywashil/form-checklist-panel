@@ -12,7 +12,7 @@
 
                     <div class="mb-6 flex justify-between items-start">
                         <div>
-                            <h1 class="mb-4 text-2xl"><strong>{{ $formpanel->nama_panel }}</strong></h1>
+                            <h1 class="mb-2 text-2xl"><strong>{{ strtoupper($formpanel->nama_panel) }}</strong></h1>
                             <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}
                             </p>
                             <p><strong><i class="fas fa-briefcase"></i> Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan }}
@@ -21,14 +21,6 @@
                             </p>
                             <p><strong><i class="fas fa-calendar"></i> Tanggal SPK:</strong> {{ $formpanel->tanggal_spk }}
                             </p>
-                        </div>
-                        <div class="text-center">
-                            <img id="qrCode" src="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
-                                alt="QR Code" class="w-32 h-32">
-                            <a id="downloadQR" href="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
-                                download="{{ $formpanel->nama_panel }}.png" class="btn btn-blue mt-2">
-                                <i class="fas fa-download"></i> Download
-                            </a>
                         </div>
                     </div>
 
