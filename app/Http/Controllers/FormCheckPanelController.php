@@ -35,9 +35,9 @@ class FormCheckPanelController extends Controller
         $this->validate($request, [
             'nama_panel'     => 'required',
             'lokasi'   => 'required',
-            'nama_pekerjaan'   => 'required',
-            'nomor_spk'   => 'required',
-            'tanggal_spk'   => 'required'
+            'nama_pekerjaan'   => 'nullable',
+            'nomor_spk'   => 'nullable',
+            'tanggal_spk'   => 'nullable'
         ]);
 
         $panel = FormChecklistPanel::create([

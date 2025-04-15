@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nama_panel');
             $table->string('lokasi');
-            $table->string('nama_pekerjaan');
-            $table->integer('nomor_spk');
-            $table->date('tanggal_spk');
+            $table->string('nama_pekerjaan')->nullable();
+            $table->integer('nomor_spk')->nullable();
+            $table->date('tanggal_spk')->nullable();
             $table->timestamps();
         });
     }
