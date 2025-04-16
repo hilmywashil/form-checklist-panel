@@ -12,20 +12,15 @@
 
                     <div class="mb-6 flex justify-between items-start">
                         <div>
-                            <h1><strong>Form {{ $formpanel->nama_panel }}</strong></h1>
-                            <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}
+                            <h1 class="mb-2 text-2xl"><strong>{{ strtoupper($formpanel->nama_panel) }}</strong></h1>
+                            <p><strong>Lokasi:</strong> {{ $formpanel->lokasiRel->nama_lokasi }}
                             </p>
-                            <p><strong><i class="fas fa-calendar-alt"></i> Tanggal:</strong> {{ $formpanel->tanggal }}
+                            <p><strong>Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan ?? '-' }}
                             </p>
-                            <p><strong><i class="fas fa-user"></i> Teknisi:</strong> {{ $formpanel->teknisi }}</p>
-                        </div>
-                        <div class="text-center">
-                            <img id="qrCode" src="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
-                                alt="QR Code" class="w-32 h-32">
-                            <a id="downloadQR" href="{{ asset('storage/qrcodes/panel_' . $formpanel->id . '.png') }}"
-                                download="{{ $formpanel->nama_panel }}.png" class="btn btn-blue mt-2">
-                                <i class="fas fa-download"></i> Download
-                            </a>
+                            <p><strong>Nomor SPK:</strong> {{ $formpanel->nomor_spk ?? '-' }}
+                            </p>
+                            <p><strong>Tanggal SPK:</strong> {{ $formpanel->tanggal_spk ?? '-' }}
+                            </p>
                         </div>
                     </div>
 
@@ -36,8 +31,6 @@
                                 <tr>
                                     <th class="border px-4 py-2">No</th>
                                     <th class="border px-4 py-2"><i class="fas fa-tasks"></i> ITEM PEMERIKSAAN</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-check-circle"></i> KONDISI</th>
-                                    <th class="border px-4 py-2"><i class="fas fa-info-circle"></i> KETERANGAN</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,24 +38,6 @@
                                     <tr class="text-left bg-gray-100">
                                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                         <td class="border px-4 py-2">{{ $fi->item_pemeriksaan }}</td>
-                                        <td class="border px-4 py-2">
-                                            <div class="flex items-center gap-2">
-                                                @if ($fi->check == 'normal')
-                                                    <span class="text-green-500"><i class="fas fa-check-circle"></i>
-                                                        Normal</span>
-                                                @elseif ($fi->check == 'perbaikan')
-                                                    <span class="text-red-500"><i class="fas fa-times-circle"></i>
-                                                        Perbaikan</span>
-                                                @else
-                                                    <span class="text-gray-500"><i
-                                                            class="fas fa-exclamation-circle"></i> Belum
-                                                        Dicek</span>
-                                                @endif
-                                            </div>
-                                        </td>
-                                        <td class="border px-4 py-2 truncate-text" title="{{ $fi->keterangan }}">
-                                            {{ Str::limit($fi->keterangan, 50, '...') ?? 'Belum ada keterangan' }}
-                                        </td>
                                     </tr>
                                 @empty
                                     <tr>

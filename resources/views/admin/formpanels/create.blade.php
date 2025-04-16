@@ -14,7 +14,7 @@
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-layer-group"></i> NAMA PANEL
+                                NAMA PANEL
                             </label>
                             <input type="text"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
@@ -27,14 +27,15 @@
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-map-marker-alt"></i> LOKASI
+                                LOKASI
                             </label>
-                            <select name="lokasi" 
+                            <select name="lokasi"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('lokasi') border-red-500 @enderror">
                                 <option value="" disabled selected> Pilih Lokasi </option>
-                                @foreach($lokasiList as $lokasi)
-                                    <option value="{{ $lokasi->id }}" {{ old('lokasi') == $lokasi->id ? 'selected' : '' }}>
+                                @foreach ($lokasiList as $lokasi)
+                                    <option value="{{ $lokasi->id }}"
+                                        {{ old('lokasi') == $lokasi->id ? 'selected' : '' }}>
                                         {{ $lokasi->nama_lokasi }}
                                     </option>
                                 @endforeach
@@ -45,12 +46,13 @@
                         </div>
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-briefcase"></i> NAMA PEKERJAAN (Opsional)
+                                NAMA PEKERJAAN
                             </label>
                             <input type="text"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('nama_pekerjaan') border-red-500 @enderror"
-                                name="nama_pekerjaan" value="{{ old('nama_pekerjaan') }}" placeholder="Masukkan Nama Pekerjaan">
+                                name="nama_pekerjaan" value="{{ old('nama_pekerjaan') }}"
+                                placeholder="Masukkan Nama Pekerjaan (Opsional)">
                             @error('nama_pekerjaan')
                                 <p class="text-red-500 text-sm mt-1">Nama Pekerjaan tidak boleh kosong!</p>
                             @enderror
@@ -58,12 +60,12 @@
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-file-contract"></i> NOMOR SPK (Opsional)
+                                NOMOR SPK
                             </label>
                             <input type="number"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('nomor_spk') border-red-500 @enderror"
-                                name="nomor_spk" value="{{ old('nomor_spk') }}" placeholder="Masukkan Nomor SPK">
+                                name="nomor_spk" value="{{ old('nomor_spk') }}" placeholder="Masukkan Nomor SPK (Opsional)">
                             @error('nomor_spk')
                                 <p class="text-red-500 text-sm mt-1">Nomor SPK tidak boleh kosong!</p>
                             @enderror
@@ -71,7 +73,7 @@
 
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-calendar-alt"></i> TANGGAL SPK (Opsional)
+                                TANGGAL SPK
                             </label>
                             <input type="date"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 

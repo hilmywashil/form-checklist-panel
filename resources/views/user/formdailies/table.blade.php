@@ -110,7 +110,7 @@
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - tableContainer.offsetLeft;
-            const walk = (x - startX) * 2; // Kecepatan geser
+            const walk = (x - startX) * 2;
             tableContainer.scrollLeft = scrollLeft - walk;
         });
 

@@ -25,7 +25,7 @@ class FormChecklistPanel extends Model
 
     public function checklists()
     {
-        return $this->hasMany(FormChecklistDaily::class, 'panel_id');
+        return $this->hasMany(FormChecklistDaily::class, 'form_checklist_panel_id');
     }
 
     public function lokasiRel()

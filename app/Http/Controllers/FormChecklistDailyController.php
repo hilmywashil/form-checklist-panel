@@ -7,6 +7,7 @@ use App\Models\FormChecklistDaily;
 use App\Models\FormChecklistDailyItem;
 use App\Models\FormChecklistPanel;
 use App\Models\FormChecklistItem;
+use App\Models\Lokasi;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
@@ -16,33 +17,107 @@ class FormChecklistDailyController extends Controller
 {
     public function index(Request $request)
     {
-        $query = FormChecklistDaily::with('panel');
+        $lokasis = Lokasi::all();
 
-        if ($request->filled('panel')) {
-            $query->whereHas('panel', function ($q) use ($request) {
-                $q->where('nama_panel', 'like', '%' . $request->panel . '%');
-            });
+        $query = FormChecklistPanel::with('lokasiRel', 'checklists');
+
+        if ($request->filled('lokasi')) {
+            $query->where('lokasi', $request->lokasi);
         }
 
-        if ($request->filled('bulan')) {
-            $query->whereMonth('tanggal', $request->bulan);
+        $panels = $query->get();
+
+        return view('admin.formdailies.index', compact('panels', 'lokasis'));
+    }
+    public function laporan(Request $request)
+    {
+        $lokasis = Lokasi::all();
+        $panels = collect();
+
+        if ($request->has('lokasi')) {
+            $panels = FormChecklistPanel::where('lokasi', $request->lokasi)->get();
         }
 
-        $checklists = $query->orderBy('tanggal', 'desc')->paginate(12);
-
-        return view('admin.formdailies.index', compact('checklists'));
+        return view('user.formdailies.laporan', compact('lokasis', 'panels'));
     }
 
-    // public function userDaily()
-    // {
-    //     $checklists = FormChecklistDaily::with('panel')->orderBy('tanggal', 'desc')->get();
-    //     return view('user.formdailies.index', compact('checklists'));
-    // }
+    public function laporanDetail($id)
+    {
+        $panel = FormChecklistPanel::with('checklists')->findOrFail($id);
+
+        $startDate = now()->subDays(7);
+        $endDate = now();
+
+        $tanggalList = collect();
+        for ($date = $startDate->copy(); $date <= $endDate; $date->addDay()) {
+            $tanggalList->push($date->format('Y-m-d'));
+        }
+
+        $checklists = $panel->checklists->keyBy(function ($item) {
+            return \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d');
+        });
+
+        $selectedDate = request('tanggal', today()->toDateString());
+
+        $dailyChecklist = $checklists->get($selectedDate);
+
+        $daily = $dailyChecklist;
+
+        $panelStatus = $dailyChecklist
+            ? 'Panel diperiksa'
+            : 'Panel tidak diperiksa pada tanggal ' . \Carbon\Carbon::parse($selectedDate)->translatedFormat('l, d F Y');
+
+        return view('user.formdailies.laporan-detail', compact(
+            'panel',
+            'tanggalList',
+            'checklists',
+            'selectedDate',
+            'dailyChecklist',
+            'panelStatus',
+            'daily'
+        ));
+    }
 
     public function create()
     {
         $panels = FormChecklistPanel::all();
         return view('admin.formdailies.create', compact('panels'));
+    }
+
+    public function quickCreate(FormChecklistPanel $panel)
+    {
+        $existing = $panel->checklists()->whereDate('tanggal', today())->first();
+        if ($existing) {
+            return redirect()->route('adminFormDaily')->with('error', 'Pemeriksaan hari ini sudah ada untuk panel ini.');
+        }
+
+        $newChecklist = new FormChecklistDaily();
+        $newChecklist->form_checklist_panel_id = $panel->id;
+        $newChecklist->tanggal = today();
+        $newChecklist->teknisi = auth()->user()->name ?? 'Teknisi';
+        $newChecklist->save();
+
+        $panelItems = $panel->formitems;
+        foreach ($panelItems as $item) {
+            FormChecklistDailyItem::create([
+                'form_checklist_daily_id' => $newChecklist->id,
+                'form_checklist_item_id' => $item->id,
+                'kondisi' => null,
+                'keterangan' => null,
+            ]);
+        }
+
+        $url = url('/checklist-daily/' . $newChecklist->id);
+        $qrCodePath = 'qrcodes/ceklis_' . $newChecklist->id . '.png';
+
+        Storage::disk('public')->put($qrCodePath, QrCode::format('png')
+            ->errorCorrection('M')
+            ->size(300)
+            ->generate($url));
+
+        $newChecklist->update(['qr_code' => $qrCodePath]);
+
+        return redirect()->back()->with('success', 'Pemeriksaan berhasil dibuat.');
     }
 
     public function store(Request $request)
@@ -91,7 +166,7 @@ class FormChecklistDailyController extends Controller
 
     public function edit($id)
     {
-        $daily = FormChecklistDaily::with('items.item', 'panel')->findOrFail($id);
+        $daily = FormChecklistDaily::with('items.item', 'panel.lokasiRel')->findOrFail($id);
         return view('admin.formdailies.edit', compact('daily'));
     }
 
@@ -105,6 +180,10 @@ class FormChecklistDailyController extends Controller
     {
         $daily = FormChecklistDaily::findOrFail($id);
 
+        if (!$request->has('kondisi')) {
+            return redirect()->back()->with('error', 'Tidak ada data kondisi yang dikirim.');
+        }
+
         foreach ($request->kondisi as $itemId => $kondisi) {
             $keterangan = $request->keterangan[$itemId] ?? null;
 
@@ -116,7 +195,7 @@ class FormChecklistDailyController extends Controller
                 ]);
         }
 
-        return redirect()->route('adminFormDaily')->with('success', 'Checklist harian diperbarui.');
+        return redirect()->back()->with('success', 'Checklist harian diperbarui.');
     }
 
     public function table(Request $request)
@@ -191,5 +270,23 @@ class FormChecklistDailyController extends Controller
         ))->setPaper('a4', 'landscape')->download('tabel-harian.pdf');
 
         return $pdf->download('tabel-harian.pdf');
+    }
+
+    public function laporanPdf($panelId, Request $request)
+    {
+        $tanggal = $request->query('tanggal', now()->toDateString());
+        $panel = FormChecklistPanel::with('lokasiRel', 'formitems')->findOrFail($panelId);
+
+        $daily = FormChecklistDaily::where('form_checklist_panel_id', $panelId)
+            ->whereDate('tanggal', $tanggal)
+            ->first();
+
+        $dailyChecklist = optional($daily)->load('items');
+
+        $panelStatus = $dailyChecklist ? 'Panel diperiksa' : 'Panel belum diperiksa';
+
+        $pdf = Pdf::loadView('laporan.pdf', compact('panel', 'daily', 'dailyChecklist', 'tanggal', 'panelStatus'));
+
+        return $pdf->download('laporan-harian.pdf');
     }
 }

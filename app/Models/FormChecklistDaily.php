@@ -19,4 +19,9 @@ class FormChecklistDaily extends Model
     {
         return $this->hasMany(FormChecklistDailyItem::class, 'form_checklist_daily_id');
     }
+
+    public function lokasiRel()
+    {
+        return $this->belongsTo(Lokasi::class, 'lokasi');
+    }
 }

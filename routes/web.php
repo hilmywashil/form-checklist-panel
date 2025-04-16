@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
 
     //Admin Daily with Auth
     Route::get('/admin/formdailies', [FormChecklistDailyController::class, 'index'])->name('adminFormDaily');
+    Route::post('/form-daily/quick-create/{panel}', [FormChecklistDailyController::class, 'quickCreate'])
+        ->name('formCheckDailyQuickCreate');
     Route::get('/admin/formdaily/create', [FormChecklistDailyController::class, 'create'])->name('formCheckDailyCreate');
     Route::post('/admin/formdaily/store', [FormChecklistDailyController::class, 'store'])->name('formCheckDailyStore');
     Route::get('/admin/formdaily/edit/{id}', [FormChecklistDailyController::class, 'edit'])->name('formCheckDailyEdit');
@@ -78,10 +80,12 @@ Route::get('/formpanel/{id}', [FormCheckPanelController::class, 'userShow'])->na
 //User Checklist without Auth
 Route::get('/checklist-table', [FormChecklistDailyController::class, 'table'])->name('dailyTableCheck');
 Route::get('/checklist-daily/{id}', [FormChecklistDailyController::class, 'show'])->name('userChecklistDailyShow');
-// Route::get('/checklist-daily', [FormChecklistDailyController::class, 'userDaily'])->name('userChecklistDaily');
 
-//Download PDF (Both)
-Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
+Route::get('/laporan-harian', [FormChecklistDailyController::class, 'laporan'])->name('laporanHarian');
+Route::get('/laporan-harian/panel/{id}', [FormChecklistDailyController::class, 'laporanDetail'])->name('laporanHarianDetail');
+Route::get('/laporan-harian/{panel}/export-pdf', [FormChecklistDailyController::class, 'laporanPdf'])->name('laporanHarian.exportPdf');
+
+// Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
 
 //Guest Page
 Route::get('/guest', function () {

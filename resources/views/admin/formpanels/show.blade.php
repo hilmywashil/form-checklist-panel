@@ -13,13 +13,13 @@
                     <div class="mb-6 flex justify-between items-start">
                         <div>
                             <h1 class="mb-2 text-2xl"><strong>{{ strtoupper($formpanel->nama_panel) }}</strong></h1>
-                            <p><strong><i class="fas fa-map-marker-alt"></i> Lokasi:</strong> {{ $formpanel->lokasi }}
+                            <p><strong>Lokasi:</strong> {{ $formpanel->lokasiRel->nama_lokasi }}
                             </p>
-                            <p><strong><i class="fas fa-briefcase"></i> Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan }}
+                            <p><strong>Nama Pekerjaan:</strong> {{ $formpanel->nama_pekerjaan }}
                             </p>
-                            <p><strong><i class="fas fa-hashtag"></i> Nomor SPK:</strong> {{ $formpanel->nomor_spk }}
+                            <p><strong>Nomor SPK:</strong> {{ $formpanel->nomor_spk }}
                             </p>
-                            <p><strong><i class="fas fa-calendar"></i> Tanggal SPK:</strong> {{ $formpanel->tanggal_spk }}
+                            <p><strong>Tanggal SPK:</strong> {{ $formpanel->tanggal_spk }}
                             </p>
                         </div>
                     </div>
@@ -80,13 +80,13 @@
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>
                         <div class="flex gap-3">
-                            <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
+                            {{-- <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
                                 <i class="fas fa-file-pdf"></i> DOWNLOAD PDF
-                            </a>
+                            </a> --}}
                             @auth
                                 <a href="{{ route('formitemCreate', ['panel_id' => $formpanel->id]) }}"
                                     class="btn btn-green">
-                                    <i class="fas fa-plus"></i> TAMBAH DATA
+                                    <i class="fas fa-plus"></i> TAMBAH ITEM PEMERIKSAAN
                                 </a>
                             @endauth
                         </div>

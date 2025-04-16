@@ -23,7 +23,7 @@
                                 <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi :
                                     </strong>{!! $fp->lokasiRel->nama_lokasi !!}
                                 </p>
-                                <p><i class="fas fa-hashtag mr-1"></i><strong> Nomor SPK : </strong>{!! $fp->nomor_spk !!}
+                                <p><i class="fas fa-hashtag mr-1"></i><strong> Nomor SPK : </strong>{!! $fp->nomor_spk ?? '-' !!}
                                 </p>
                                 <div class="mt-3 flex space-x-2">
                                     <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">

@@ -15,9 +15,9 @@ class LokasiSeeder extends Seeder
     public function run()
     {
         DB::table('lokasis')->insert([
-            ['nama_lokasi' => 'Lokasi 1', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_lokasi' => 'Lokasi 2', 'created_at' => now(), 'updated_at' => now()],
-            ['nama_lokasi' => 'Lokasi 3', 'created_at' => now(), 'updated_at' => now()],
+            ['nama_lokasi' => 'Bank BJB RSMB', 'created_at' => now(), 'updated_at' => now()],
+            ['nama_lokasi' => 'Lazismu UMB', 'created_at' => now(), 'updated_at' => now()],
+            ['nama_lokasi' => 'Rajakon Teknik', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
