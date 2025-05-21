@@ -63,11 +63,6 @@
                         <a href="{{ route('userFormpanels') }}" class="btn btn-red">
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>
-                        <div class="flex gap-3">
-                            <a href="{{ route('formpanels.pdf', $formpanel->id) }}" class="btn btn-blue">
-                                <i class="fas fa-file-pdf"></i> DOWNLOAD PDF
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>

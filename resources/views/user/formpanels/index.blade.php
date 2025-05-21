@@ -10,48 +10,18 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    <!-- Form Filter Tanggal -->
-                    <form action="{{ route('adminFormpanels') }}" method="GET" class="mt-4">
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label for="start_date" class="block text-sm font-medium">
-                                    <i class="fas fa-calendar-alt mr-1"></i> Filter dari Tanggal
-                                </label>
-                                <input type="date" class="form-input w-full" id="start_date" name="start_date"
-                                    value="{{ request('start_date') }}">
-                            </div>
-                            <div>
-                                <label for="end_date" class="block text-sm font-medium">
-                                    <i class="fas fa-calendar-check mr-1"></i> Sampai Tanggal
-                                </label>
-                                <input type="date" class="form-input w-full" id="end_date" name="end_date"
-                                    value="{{ request('end_date') }}">
-                            </div>
-                            <div class="flex items-end space-x-2">
-                                <button type="submit" class="btn btn-blue">
-                                    <i class="fas fa-filter mr-1"></i> Filter
-                                </button>
-                                <a href="{{ route('adminFormpanels') }}" class="btn btn-gray">
-                                    <i class="fas fa-sync-alt mr-1"></i> Reset
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-
                     <!-- Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         @forelse ($formpanels as $fp)
-                            <div
-                                class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
+                            <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
                                 <h3 class="text-lg font-semibold">{{ $fp->nama_panel }}</h3>
                                 <p><i class="fas fa-map-marker-alt mr-1"></i><strong> Lokasi :
-                                    </strong>{!! $fp->lokasi !!}</p>
-                                <p><i class="fas fa-calendar mr-1"></i><strong> Tanggal :
-                                    </strong>{!! $fp->tanggal !!}</p>
-                                <p><i class="fas fa-user mr-1"></i><strong> Teknisi : </strong>{!! $fp->teknisi !!}
+                                    </strong>{!! $fp->lokasiRel->nama_lokasi !!}
+                                </p>
+                                <p><i class="fas fa-hashtag mr-1"></i><strong> Nomor SPK : </strong>{!! $fp->nomor_spk ?? '-' !!}
                                 </p>
                                 <div class="mt-3 flex space-x-2">
-                                    <a href="{{ route('userFormpanelShow', $fp->id) }}" class="btn btn-secondary">
+                                    <a href="{{ route('userFormpanelShow', $fp->id) }}" class="btn btn-dark">
                                         <i class="fas fa-eye mr-1"></i> DETAIL
                                     </a>
                                 </div>
