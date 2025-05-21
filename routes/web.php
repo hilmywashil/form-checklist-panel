@@ -85,7 +85,7 @@ Route::get('/laporan-harian', [FormChecklistDailyController::class, 'laporan'])-
 Route::get('/laporan-harian/panel/{id}', [FormChecklistDailyController::class, 'laporanDetail'])->name('laporanHarianDetail');
 Route::get('/laporan-harian/{panel}/export-pdf', [FormChecklistDailyController::class, 'laporanPdf'])->name('laporanHarian.exportPdf');
 
-// Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
+Route::get('/formpanels/{id}/pdf', [FormCheckPanelController::class, 'downloadPDF'])->name('formpanels.pdf');
 
 //Guest Page
 Route::get('/guest', function () {
