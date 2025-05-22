@@ -108,7 +108,7 @@ class FormChecklistDailyController extends Controller
             ]);
         }
 
-        $url = url('/checklist-daily/' . $newChecklist->id);
+        $url = url('/laporan-harian/panel/' . $newChecklist->id);
         $qrCodePath = 'qrcodes/ceklis_' . $newChecklist->id . '.png';
 
         Storage::disk('public')->put($qrCodePath, QrCode::format('png')
