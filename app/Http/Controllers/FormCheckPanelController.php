@@ -83,8 +83,9 @@ class FormCheckPanelController extends Controller
     public function edit(string $id): View
     {
         $formpanel = FormChecklistPanel::findOrFail($id);
+        $lokasiList = Lokasi::all();
 
-        return view('admin.formpanels.edit', compact('formpanel'));
+        return view('admin.formpanels.edit', compact('formpanel', 'lokasiList'));
     }
 
     public function update(Request $request, $id): RedirectResponse
