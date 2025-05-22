@@ -10,17 +10,27 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 <!-- Filter Panel & Bulan -->
-                <form method="GET" action="{{ route('dailyTableCheck') }}" class="mb-4 flex flex-wrap gap-3">
-                    <select name="panel_id" class="form-select px-3 py-2 border rounded w-full sm:w-auto"
+                <form method="GET" action="{{ route('dailyTableCheck') }}" class="mb-4 grid grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-rows-1 lg:grid-cols-4  gap-3">
+                    <select name="lokasi_id" class="form-select px-3 py-2 border rounded"
                         onchange="this.form.submit()">
-                        @foreach ($panels as $panel)
-                            <option value="{{ $panel->id }}" {{ $selectedPanel == $panel->id ? 'selected' : '' }}>
-                                {{ $panel->nama_panel }}
+                        <option value="">-</option>
+                        @foreach ($lokasis as $key => $lokasi)
+                            <option value="{{ $key }}" {{ old('lokasi_id', $selectedLocation) == $key ? 'selected' : '' }}>
+                                {{ $lokasi }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <select name="panel_id" class="form-select px-3 py-2 border rounded"
+                        onchange="this.form.submit()">
+                        <option value="">-</option>
+                        @foreach ($panels as $key => $panel)
+                            <option value="{{ $key }}" {{ $selectedPanel == $key ? 'selected' : '' }}>
+                                {{ $panel }}
                             </option>
                         @endforeach
                     </select>
                     <input type="month" name="bulan" value="{{ $tahun . '-' . $bulan }}"
-                        onchange="this.form.submit()" class="form-input px-3 py-2 border rounded w-full sm:w-auto">
+                        onchange="this.form.submit()" class="form-input px-3 py-2 border rounded">
                     <a href="{{ route('dailyTableCheck.pdf', ['panel_id' => $selectedPanel, 'bulan' => $tahun . '-' . $bulan]) }}"
                         target="_blank" class="btn btn-red w-full sm:w-auto">
                         <i class="fas fa-file-pdf mr-1"></i> Export PDF

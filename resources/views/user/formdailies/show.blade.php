@@ -10,6 +10,16 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
+                    <!-- Form Input Tanggal -->
+                    <form method="GET" action="{{ route('userChecklistDailyShow', $daily->id) }}" class="mb-6">
+                        <label for="tanggal" class="text-lg font-semibold">Tanggal:</label>
+                        <select name="tanggal" id="tanggal" class="form-input w-full max-w-xs mt-2" onchange="this.form.submit()">
+                            @foreach ($dateList as $key => $item)
+                                <option value="{{ $key }}">{{ Carbon\Carbon::parse($item)->format('d F Y') }}</option>
+                            @endforeach
+                        </select>
+                    </form>
+
                     <!-- Pesan Status Pemeriksaan Panel -->
                     <div class="mb-4">
                         <span class="text-lg font-semibold">
@@ -95,7 +105,12 @@
                     </div>
 
 
-                    <div class="mt-6">
+                    <div class="mt-6 flex flex-col gap-4 md:flex-row">
+                        @if (Auth::check() && Auth::user()->role == 'admin')
+                            <a href="{{ route('formCheckDailyEdit', $daily->id) }}" class="btn btn-dark">
+                                <i class="fas fa-pencil"></i> Edit
+                            </a>
+                        @endif
                         <a href="{{ route('laporanHarian.exportPdf', $daily->panel->id) }}?tanggal={{ $daily->tanggal }}"
                             target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                             <i class="fas fa-file-pdf mr-1"></i> Export PDF

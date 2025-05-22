@@ -29,7 +29,7 @@ class FormChecklistDailyController extends Controller
 
         return view('admin.formdailies.index', compact('panels', 'lokasis'));
     }
-    
+
     public function laporan(Request $request)
     {
         $lokasis = Lokasi::all();
@@ -171,10 +171,21 @@ class FormChecklistDailyController extends Controller
         return view('admin.formdailies.edit', compact('daily'));
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $daily = FormChecklistDaily::with('items.item', 'panel.lokasiRel')->findOrFail($id);
-        return view('user.formdailies.show', compact('daily'));
+        $panel = FormChecklistDaily::with('items.item', 'panel.lokasiRel')->findOrFail($id);
+        $daily = FormChecklistDaily::with('items.item', 'panel.lokasiRel')
+            ->where('form_checklist_panel_id', $panel->form_checklist_panel_id)
+            ->latest()
+            ->when($request->has('tanggal'), function ($query) use ($request) {
+                return $query->whereDate('tanggal', $request->tanggal);
+            })
+            ->first();
+
+        $dateList = FormChecklistDaily::where('form_checklist_panel_id', $panel->form_checklist_panel_id)
+            ->pluck('tanggal', 'id');
+
+        return view('user.formdailies.show', compact('daily', 'dateList'));
     }
 
     public function update(Request $request, $id)
@@ -205,19 +216,26 @@ class FormChecklistDailyController extends Controller
         $bulan = date('m', strtotime($bulanInput));
         $tahun = date('Y', strtotime($bulanInput));
 
-        $panels = FormChecklistPanel::all();
-        $selectedPanel = $request->input('panel_id', $panels->first()->id ?? null);
+        $lokasis = Lokasi::pluck('nama_lokasi', 'id');
+        $panels = FormChecklistPanel::when($request->lokasi_id, function ($query) use ($request) {
+            return $query
+                ->where('lokasi', $request->lokasi_id)
+                ->pluck('nama_panel', 'id');
+        });
 
-        $items = FormChecklistItem::where('panel_id', $selectedPanel)->get();
+        $items = FormChecklistItem::where('panel_id', $request->panel_id)->get();
 
-        $checklists = FormChecklistDaily::where('form_checklist_panel_id', $selectedPanel)
+        $checklists = FormChecklistDaily::where('form_checklist_panel_id', $request->panel_id)
             ->whereYear('tanggal', $tahun)
             ->whereMonth('tanggal', $bulan)
             ->with('items')
             ->get()
             ->keyBy('tanggal');
 
-        return view('user.formdailies.table', compact('bulan', 'tahun', 'panels', 'selectedPanel', 'items', 'checklists'));
+        $selectedPanel = $request->panel_id;
+        $selectedLocation = $request->lokasi_id;
+
+        return view('user.formdailies.table', compact('bulan', 'tahun', 'lokasis', 'panels', 'selectedPanel', 'selectedLocation', 'items', 'checklists'));
     }
     public function destroy($id)
     {
