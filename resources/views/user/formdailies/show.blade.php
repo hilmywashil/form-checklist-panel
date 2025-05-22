@@ -70,7 +70,7 @@
                                             @php
                                                 $dailyItem = $daily->items->firstWhere(
                                                     'form_checklist_item_id',
-                                                    $item->id,
+                                                    $item->item->id,
                                                 );
                                             @endphp
                                             @if ($dailyItem)
@@ -84,7 +84,7 @@
                                             @php
                                                 $dailyItem = $daily->items->firstWhere(
                                                     'form_checklist_item_id',
-                                                    $item->id,
+                                                    $item->item->id,
                                                 );
                                             @endphp
                                             @if ($dailyItem)
