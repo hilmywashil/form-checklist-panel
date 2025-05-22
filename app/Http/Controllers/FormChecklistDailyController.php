@@ -29,6 +29,7 @@ class FormChecklistDailyController extends Controller
 
         return view('admin.formdailies.index', compact('panels', 'lokasis'));
     }
+    
     public function laporan(Request $request)
     {
         $lokasis = Lokasi::all();
@@ -117,7 +118,7 @@ class FormChecklistDailyController extends Controller
 
         $newChecklist->update(['qr_code' => $qrCodePath]);
 
-        return redirect()->back()->with('success', 'Pemeriksaan berhasil dibuat.');
+        return redirect()->route('formCheckDailyEdit', ['id' => $newChecklist->id])->with('success', 'Pemeriksaan berhasil dibuat.');
     }
 
     public function store(Request $request)
