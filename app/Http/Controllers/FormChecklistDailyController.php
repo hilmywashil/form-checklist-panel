@@ -173,7 +173,7 @@ class FormChecklistDailyController extends Controller
 
     public function show($id)
     {
-        $daily = FormChecklistDaily::with('items.item')->findOrFail($id);
+        $daily = FormChecklistDaily::with('items.item', 'panel.lokasiRel')->findOrFail($id);
         return view('user.formdailies.show', compact('daily'));
     }
 
