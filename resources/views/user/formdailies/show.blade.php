@@ -10,13 +10,6 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    {{-- <!-- Form Input Tanggal -->
-                    <form method="GET" action="{{ route('laporanHarianDetail', $daily->panel->id) }}" class="mb-6">
-                        <label for="tanggal" class="text-lg font-semibold">Tanggal:</label>
-                        <input type="date" name="tanggal" id="tanggal" class="form-input w-full max-w-xs mt-2"
-                            value="{{ $selectedDate }}" onchange="this.form.submit()">
-                    </form> --}}
-
                     <!-- Pesan Status Pemeriksaan Panel -->
                     <div class="mb-4">
                         <span class="text-lg font-semibold">
@@ -25,7 +18,7 @@
                     </div>
 
                     <!-- Informasi Panel & QR Code -->
-                    <div class="flex justify-between items-start mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
                         <div>
                             <h1 class="text-2xl font-bold mb-2">LAPORAN HARIAN</h1>
 
@@ -37,12 +30,14 @@
                                     class="font-normal">{{ $daily->panel->nama_pekerjaan ?? '-' }}</span></h3>
                             <h3 class="text-lg font-semibold">Nomor SPK: <span
                                     class="font-normal">{{ $daily->panel->nomor_spk ?? '-' }}</span></h3>
+                            <h3 class="text-lg font-semibold">Teknisi: <span
+                                    class="font-normal">{{ $daily->teknisi ?? '-' }}</span></h3>
                         </div>
 
                         @if ($daily && $daily->id)
-                            <div class="text-center -mr-14">
+                            <div class="text-sm-left text-md-center -mr-14">
                                 <img src="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" alt="QR Code"
-                                    class="w-50 h-50 mx-auto">
+                                    class="w-50 h-50 mx-md-auto">
                                 <a href="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" download
                                     class="mt-2 inline-block bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
                                     <i class="fas fa-download mr-1"></i> Download QR

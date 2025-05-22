@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <!-- Informasi Panel & QR Code -->
-                    <div class="flex justify-between items-start mb-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
                         <div>
                             <h1 class="text-2xl font-bold mb-2">CHECKLIST HARIAN</h1>
                             <h3 class="text-lg font-semibold">Nama Panel: <span
@@ -23,11 +23,13 @@
                             </h3>
                             <h3 class="text-lg font-semibold">Lokasi Panel: <span
                                     class="font-normal">{{ $daily->panel->lokasiRel->nama_lokasi }}</span></h3>
+                            <h3 class="text-lg font-semibold">Teknisi: <span
+                                    class="font-normal">{{ $daily->teknisi ?? '-' }}</span></h3>
                         </div>
 
-                        <div class="text-center -mr-14">
+                        <div class="text-sm-left text-md-center -mr-14">
                             <img src="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" alt="QR Code"
-                                class="w-50 h-50 mx-auto">
+                                class="w-50 h-50 mx-md-auto">
                             <a href="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" download
                                 class="mt-2 inline-block bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
                                 <i class="fas fa-download mr-1"></i> Download QR
@@ -89,13 +91,16 @@
                             </table>
                         </div>
 
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600">
-                            <i class="fas fa-save mr-1"></i> Simpan Perubahan
-                        </button>
-                        <a href="{{ route('adminChecklistDaily') }}"
-                            class="bg-red-500 text-white px-4 py-2 rounded mt-4 hover:bg-red-600">
-                            <i class="fas fa-arrow-left mr-1"></i>Kembali
-                        </a>
+                        <div class="mt-6 flex flex-col gap-2 md:flex-row">
+                            <button type="submit"
+                                class="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600">
+                                <i class="fas fa-save mr-1"></i> Simpan Perubahan
+                            </button>
+                            <a href="{{ route('adminChecklistDaily') }}"
+                                class="bg-red-500 text-white px-4 py-2 rounded mt-4 hover:bg-red-600">
+                                <i class="fas fa-arrow-left mr-1"></i>Kembali
+                            </a>
+                        </div>
                     </form>
 
                 </div>
