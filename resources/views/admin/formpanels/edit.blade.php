@@ -33,46 +33,65 @@
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 <i class="fas fa-map-marker-alt"></i> LOKASI
                             </label>
-                            <input type="text"
-                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white
-                                   @error('lokasi') border-red-500 @enderror"
-                                name="lokasi" value="{{ old('lokasi', $formpanel->lokasi) }}"
-                                placeholder="Masukkan Lokasi">
+                            <select name="lokasi"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('lokasi') border-red-500 @enderror">
+                                <option value="" disabled selected> Pilih Lokasi </option>
+                                @foreach ($lokasiList as $lokasi)
+                                    <option value="{{ $lokasi->id }}"
+                                        {{ $lokasi->id == old('lokasi', $formpanel->lokasi) ? 'selected' : '' }}>
+                                        {{ $lokasi->nama_lokasi }}
+                                    </option>
+                                @endforeach
+                            </select>
                             @error('lokasi')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- TANGGAL -->
                         <div class="mb-4">
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-calendar-alt"></i> TANGGAL
-                            </label>
-                            <input type="date"
-                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
-                                   dark:border-gray-600 dark:text-white @error('tanggal') border-red-500 @enderror"
-                                name="tanggal" value="{{ old('tanggal', $formpanel->tanggal) }}">
-                            @error('tanggal')
-                                <p class="text-red-500 text-sm mt-1">Tanggal tidak boleh kosong!</p>
-                            @enderror
-                        </div>
-
-                        <!-- TEKNISI -->
-                        <div class="mb-4">
-                            <label class="block font-bold text-gray-700 dark:text-gray-300">
-                                <i class="fas fa-user"></i> TEKNISI
+                                NAMA PEKERJAAN
                             </label>
                             <input type="text"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
-                                   dark:border-gray-600 dark:text-white @error('teknisi') border-red-500 @enderror"
-                                name="teknisi" value="{{ old('teknisi', $formpanel->teknisi) }}" placeholder="Masukkan Nama Teknisi">
-                            @error('teknisi')
-                                <p class="text-red-500 text-sm mt-1">Nama teknisi tidak boleh kosong!</p>
+                                   dark:border-gray-600 dark:text-white @error('nama_pekerjaan') border-red-500 @enderror"
+                                name="nama_pekerjaan" value="{{ old('nama_pekerjaan', $formpanel->nama_pekerjaan) }}"
+                                placeholder="Masukkan Nama Pekerjaan (Opsional)">
+                            @error('nama_pekerjaan')
+                                <p class="text-red-500 text-sm mt-1">Nama Pekerjaan tidak boleh kosong!</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block font-bold text-gray-700 dark:text-gray-300">
+                                NOMOR SPK
+                            </label>
+                            <input type="text"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('nomor_spk') border-red-500 @enderror"
+                                name="nomor_spk" value="{{ old('nomor_spk', $formpanel->nomor_spk) }}"
+                                placeholder="Masukkan Nomor SPK (Opsional)">
+                            @error('nomor_spk')
+                                <p class="text-red-500 text-sm mt-1">Nomor SPK tidak boleh kosong!</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block font-bold text-gray-700 dark:text-gray-300">
+                                TANGGAL SPK
+                            </label>
+                            <input type="date"
+                                class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
+                                   dark:border-gray-600 dark:text-white @error('tanggal_spk') border-red-500 @enderror"
+                                name="tanggal_spk" value="{{ old('tanggal_spk', $formpanel->tanggal_spk) }}">
+                            @error('tanggal_spk')
+                                <p class="text-red-500 text-sm mt-1">Tanggal SPK boleh kosong!</p>
                             @enderror
                         </div>
 
                         <!-- BUTTONS -->
-                        <div class="flex space-x-2">
+                        <div class="flex flex-col md:flex-row gap-2">
                             <button type="submit"
                                 class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                                 <i class="fas fa-save"></i> UPDATE
@@ -82,7 +101,7 @@
                                 <i class="fas fa-undo-alt"></i> RESET
                             </button>
                             <a href="{{ route('adminFormpanels') }}"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                class="px-4 py-2 text-center bg-red-600 text-white rounded-md hover:bg-red-700">
                                 <i class="fas fa-arrow-left"></i> KEMBALI
                             </a>
                         </div>

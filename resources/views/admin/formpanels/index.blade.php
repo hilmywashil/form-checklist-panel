@@ -104,7 +104,7 @@
                         confirmButtonText: "Oke, Mengerti"
                     });
                 @endif
-                });
+            });
         </script>
     @endpush
 </x-app-layout>

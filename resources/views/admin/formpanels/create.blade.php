@@ -62,7 +62,7 @@
                             <label class="block font-bold text-gray-700 dark:text-gray-300">
                                 NOMOR SPK
                             </label>
-                            <input type="number"
+                            <input type="text"
                                 class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 
                                    dark:border-gray-600 dark:text-white @error('nomor_spk') border-red-500 @enderror"
                                 name="nomor_spk" value="{{ old('nomor_spk') }}" placeholder="Masukkan Nomor SPK (Opsional)">
@@ -84,7 +84,7 @@
                             @enderror
                         </div>
 
-                        <div class="flex space-x-2">
+                        <div class="flex flex-col md:flex-row gap-2">
                             <button type="submit"
                                 class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
                                 <i class="fas fa-save"></i> SIMPAN
@@ -94,7 +94,7 @@
                                 <i class="fas fa-undo-alt"></i> RESET
                             </button>
                             <a href="{{ route('adminFormpanels') }}"
-                                class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                                class="px-4 py-2 text-center bg-red-600 text-white rounded-md hover:bg-red-700">
                                 <i class="fas fa-arrow-left"></i> KEMBALI
                             </a>
                         </div>

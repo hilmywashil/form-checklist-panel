@@ -75,7 +75,7 @@
                     </div>
 
                     <!-- Buttons -->
-                    <div class="mt-6 flex justify-between">
+                    <div class="mt-6 flex justify-between gap-2">
                         <a href="{{ route('adminFormpanels') }}" class="btn btn-red">
                             <i class="fas fa-arrow-left"></i> KEMBALI
                         </a>

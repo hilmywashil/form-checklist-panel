@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_panel');
             $table->foreignId('lokasi')->constrained('lokasis')->onDelete('cascade')->onUpdate('cascade');
             $table->string('nama_pekerjaan')->nullable();
-            $table->integer('nomor_spk')->nullable();
+            $table->string('nomor_spk', 100)->nullable();
             $table->date('tanggal_spk')->nullable();
             $table->timestamps();
         });

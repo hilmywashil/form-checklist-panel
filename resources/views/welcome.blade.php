@@ -15,10 +15,10 @@
 
 </head>
 
-<body class="bg-gradient-to-b from-white to-blue-100 flex items-center justify-center min-h-screen">
-    <div class="text-center">
-        <h1 class="text-5xl font-bold text-gray-800">Selamat Datang!</h1>
-        <p class="text-gray-600 font-semibold text-2xl">Klik untuk melanjutkan...</p>
+<body class="bg-gradient-to-b from-white to-blue-100 flex items-center justify-center min-h-screen p-4">
+    <div class="w-full text-left md:text-center">
+        <h1 class="text-xl md:text-5xl font-bold text-gray-800">Selamat Datang!</h1>
+        <p class="text-gray-600 font-semibold text-lg md:text-2xl">Klik untuk melanjutkan...</p>
 
         <div class="mt-6 flex flex-col md:flex-row justify-center gap-4">
             <a href="{{ url('/dashboard') }}"

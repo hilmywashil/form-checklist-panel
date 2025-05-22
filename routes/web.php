@@ -4,6 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\FormCheckItemController;
 use App\Http\Controllers\FormChecklistDailyController;
 use App\Http\Controllers\FormCheckPanelController;
+use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QrCodeController;
 use App\Http\Controllers\TutorialController;
@@ -57,6 +58,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/formdaily/store', [FormChecklistDailyController::class, 'store'])->name('formCheckDailyStore');
     Route::get('/admin/formdaily/edit/{id}', [FormChecklistDailyController::class, 'edit'])->name('formCheckDailyEdit');
     Route::put('/admin/formdaily/update{id}', [FormChecklistDailyController::class, 'update'])->name('formCheckDailyUpdate');
+
+    // Lokasi with Auth
+    Route::get('/admin/lokasi', [LokasiController::class, 'index'])->name('lokasi');
+    Route::get('/admin/lokasi/create', [LokasiController::class, 'create'])->name('lokasiCreate');
+    Route::post('/admin/lokasi', [LokasiController::class, 'store'])->name('lokasiStore');
+    Route::get('/admin/lokasi/{id}', [LokasiController::class, 'edit'])->name('lokasiEdit');
+    Route::put('/admin/lokasi/{id}', [LokasiController::class, 'update'])->name('lokasiUpdate');
+    Route::delete('/admin/lokasi/{id}', [LokasiController::class, 'destroy'])->name('lokasiDelete');
 
     //Admin Checklist with Auth
     Route::get('admin/checklist-daily', [FormChecklistDailyController::class, 'index'])->name('adminChecklistDaily');

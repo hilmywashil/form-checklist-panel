@@ -42,6 +42,9 @@
                 @if (Auth::check() && Auth::user()->role === 'admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         @auth
+                            <x-nav-link :href="route('lokasi')" :active="request()->routeIs('lokasi')">
+                                {{ __('Lokasi') }}
+                            </x-nav-link>
                             <x-nav-link :href="route('adminList')" :active="request()->routeIs('adminList')">
                                 {{ __('Daftar Admin') }}
                             </x-nav-link>
@@ -113,12 +116,6 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -131,13 +128,37 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                @auth
+                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-responsive-nav-link>
+                @endauth
                 @if (Auth::check())
-                    <x-responsive-nav-link :href="route('adminFormpanels')">
+                    <x-responsive-nav-link :href="route('adminFormpanels')" :active="request()->routeIs('adminFormpanels')">
                         {{ __('Form Panel') }}
                     </x-responsive-nav-link>
                 @else
-                    <x-responsive-nav-link :href="route('userFormpanels')">
+                    <x-responsive-nav-link :href="route('userFormpanels')" :active="request()->routeIs('userFormpanels', 'userFormpanelShow')">
                         {{ __('Form Panel') }}
+                    </x-responsive-nav-link>
+                @endif
+                <x-responsive-nav-link :href="route('laporanHarian')" :active="request()->routeIs('laporanHarian')">
+                    {{ __('Laporan Harian') }}
+                </x-responsive-nav-link>
+                @auth
+                    <x-responsive-nav-link :href="route('adminFormDaily')" :active="request()->routeIs('adminFormDaily')">
+                        {{ __('Data Harian') }}
+                    </x-responsive-nav-link>
+                @endauth
+                <x-responsive-nav-link :href="route('dailyTableCheck')" :active="request()->routeIs('dailyTableCheck')">
+                    {{ __('Tabel Harian') }}
+                </x-responsive-nav-link>
+                @if (Auth::check() && Auth::user()->role === 'admin')
+                    <x-responsive-nav-link :href="route('lokasi')" :active="request()->routeIs('lokasi')">
+                        {{ __('Lokasi') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('adminList')" :active="request()->routeIs('adminList')">
+                        {{ __('Daftar Admin') }}
                     </x-responsive-nav-link>
                 @endif
                 <!-- Authentication -->
