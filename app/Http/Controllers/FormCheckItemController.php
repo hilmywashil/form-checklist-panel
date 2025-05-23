@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FormChecklistDaily;
 use App\Models\FormChecklistItem;
 use App\Models\FormChecklistPanel;
 use Illuminate\Http\RedirectResponse;
@@ -27,10 +28,20 @@ class FormCheckItemController extends Controller
             'item_pemeriksaan'     => 'required',
         ]);
 
-        FormChecklistItem::create([
+        $formChecklistItem = FormChecklistItem::create([
             'panel_id'   => $request->panel_id,
             'item_pemeriksaan'     => $request->item_pemeriksaan,
         ]);
+
+        $formChecklistDailys = FormChecklistDaily::where('form_checklist_panel_id', $request->panel_id)
+        ->with('items')
+        ->get();
+
+        foreach ($formChecklistDailys as $key => $value) {
+            $value->items()->create([
+                'form_checklist_item_id' => $formChecklistItem->id
+            ]);
+        }
 
         return redirect()->route('adminFormpanelShow', $request->panel_id)->with(['success' => 'Data berhasil ditambahkan!']);
     }
