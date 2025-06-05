@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/formpanels', [FormCheckPanelController::class, 'index'])->name('adminFormpanels');
     Route::get('/admin/formpanel/create', [FormCheckPanelController::class, 'create'])->name('formpanelCreate');
     Route::post('/admin/formpanel/store', [FormCheckPanelController::class, 'store'])->name('formpanelStore');
+    Route::get('/admin/formpanel/copy/{id}', [FormCheckPanelController::class, 'copy'])->name('formpanelCopy');
     Route::get('/admin/formpanel/{id}', [FormCheckPanelController::class, 'show'])->name('adminFormpanelShow');
     Route::get('/admin/formpanel/edit/{id}', [FormCheckPanelController::class, 'edit'])->name('formpanelEdit');
     Route::put('/admin/formpanel/update/{id}', [FormCheckPanelController::class, 'update'])->name('formpanelUpdate');
