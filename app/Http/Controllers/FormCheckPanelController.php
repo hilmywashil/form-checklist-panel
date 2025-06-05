@@ -6,6 +6,7 @@ use App\Models\FormChecklistItem;
 use App\Models\FormChecklistPanel;
 use App\Models\Lokasi;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -52,6 +53,25 @@ class FormCheckPanelController extends Controller
         ]);
 
         return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Disimpan!']);
+    }
+
+    public function copy(Request $request): RedirectResponse
+    {
+        $existsPanel = FormChecklistPanel::with('formitems')->find($request->id);
+
+        $newPanel = $existsPanel->replicate();
+        $newPanel->created_at = Carbon::now();
+        $newPanel->save();
+
+        // Replicate formitems
+        foreach ($existsPanel->formitems as $item) {
+            $newItem = $item->replicate();
+            $newItem->panel_id = $newPanel->id;
+            $newItem->created_at = Carbon::now();
+            $newItem->save();
+        }
+
+        return redirect()->route('adminFormpanels')->with(['success' => 'Data Berhasil Disalin!']);
     }
 
     public function show($id)
