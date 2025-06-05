@@ -29,6 +29,9 @@
                                     <a href="{{ route('adminFormpanelShow', $fp->id) }}" class="btn btn-dark">
                                         <i class="fas fa-eye mr-1"></i> DETAIL
                                     </a>
+                                    <a href="{{ route('formpanelCopy', $fp->id) }}" class="btn btn-warning">
+                                        <i class="fas fa-copy mr-1"></i> SALIN
+                                    </a>
                                     @auth
                                         <a href="{{ route('formpanelEdit', $fp->id) }}" class="btn btn-blue">
                                             <i class="fas fa-edit mr-1"></i> EDIT
