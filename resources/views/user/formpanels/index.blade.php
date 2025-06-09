@@ -10,6 +10,28 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
+                    <form action="{{ route('userFormpanels') }}" method="GET" class="mt-4 mb-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                            <div>
+                                <select name="lokasi" id="lokasi" class="form-select w-full"
+                                    onchange="this.form.submit()">
+                                    <option value="" disabled selected>Pilih Lokasi</option>
+                                    @foreach ($lokasis as $key => $value)
+                                        <option value="{{ $key }}"
+                                            {{ request('lokasi') == $key ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="{{ route('adminFormDaily') }}" class="btn btn-gray">
+                                    <i class="fas fa-sync-alt mr-1"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+
                     <!-- Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         @forelse ($formpanels as $fp)

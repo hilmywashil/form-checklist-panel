@@ -19,7 +19,6 @@ class FormCheckPanelController extends Controller
     {
         $formpanels = FormChecklistPanel::with('lokasiRel')->paginate();
         $lokasis = Lokasi::orderBy('nama_lokasi', 'asc')->pluck('nama_lokasi', 'id');
-        // dd($lokasis);
 
         if ($request->has('lokasi')) {
             $formpanels = FormChecklistPanel::with('lokasiRel')
@@ -32,8 +31,15 @@ class FormCheckPanelController extends Controller
     public function userPanels(Request $request)
     {
         $formpanels = FormChecklistPanel::with('lokasiRel')->paginate();
+        $lokasis = Lokasi::orderBy('nama_lokasi', 'asc')->pluck('nama_lokasi', 'id');
 
-        return view('user.formpanels.index', compact('formpanels'));
+        if ($request->has('lokasi')) {
+            $formpanels = FormChecklistPanel::with('lokasiRel')
+            ->where('lokasi', $request->lokasi)
+            ->paginate();
+        }
+
+        return view('user.formpanels.index', compact('formpanels', 'lokasis'));
     }
     public function create(): View
     {
