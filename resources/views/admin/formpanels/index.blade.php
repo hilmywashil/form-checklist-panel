@@ -10,13 +10,33 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    <!-- Button Tambah Panel -->
-                    <a href="{{ route('formpanelCreate') }}" class="btn btn-green">
-                        <i class="fas fa-plus-circle mr-1"></i> TAMBAH PANEL
-                    </a>
+                    <form action="{{ route('adminFormpanels') }}" method="GET" class="mt-4 mb-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                            <div>
+                                <select name="lokasi" id="lokasi" class="form-select w-full"
+                                    onchange="this.form.submit()">
+                                    <option value="" disabled selected>Pilih Lokasi</option>
+                                    @foreach ($lokasis as $key => $value)
+                                        <option value="{{ $key }}"
+                                            {{ request('lokasi') == $key ? 'selected' : '' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="{{ route('adminFormDaily') }}" class="btn btn-gray">
+                                    <i class="fas fa-sync-alt mr-1"></i> Reset
+                                </a>
+                            </div>
+                        </div>
+                    </form>
 
                     <!-- Cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                        <a href="{{ route('formpanelCreate') }}" class="bg-green-500 dark:bg-green-600 p-4 rounded-lg flex items-center justify-center flex-col text-white gap-4 text-xl">
+                            <i class="fa-solid fa-plus fa-2xl"></i> TAMBAH PANEL
+                        </a>
                         @forelse ($formpanels as $fp)
                             <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow-lg">
                                 <h3 class="text-lg font-semibold">{{ $fp->nama_panel }}</h3>
