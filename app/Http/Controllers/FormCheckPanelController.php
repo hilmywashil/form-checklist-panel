@@ -18,8 +18,16 @@ class FormCheckPanelController extends Controller
     public function index(Request $request)
     {
         $formpanels = FormChecklistPanel::with('lokasiRel')->paginate();
+        $lokasis = Lokasi::orderBy('nama_lokasi', 'asc')->pluck('nama_lokasi', 'id');
+        // dd($lokasis);
 
-        return view('admin.formpanels.index', compact('formpanels'));
+        if ($request->has('lokasi')) {
+            $formpanels = FormChecklistPanel::with('lokasiRel')
+            ->where('lokasi', $request->lokasi)
+            ->paginate();
+        }
+
+        return view('admin.formpanels.index', compact('formpanels', 'lokasis'));
     }
     public function userPanels(Request $request)
     {
