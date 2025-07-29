@@ -21,9 +21,9 @@
                     <div class="mb-4">
                         <span class="text-lg font-semibold">
                             @if ($panelStatus === 'Panel diperiksa')
-                                ✅ Panel telah diperiksa
+                            ✅ Panel telah diperiksa
                             @else
-                                ❌ Panel belum diperiksa
+                            ❌ Panel belum diperiksa
                             @endif
                         </span>
                     </div>
@@ -33,27 +33,27 @@
                         <div>
                             <h1 class="text-2xl font-bold mb-2">LAPORAN HARIAN</h1>
 
-                            <h3 class="text-lg font-semibold">Nama Panel: <span
-                                    class="font-normal">{{ $panel->nama_panel }}</span></h3>
-                            <h3 class="text-lg font-semibold">Lokasi Panel: <span
-                                    class="font-normal">{{ $panel->lokasiRel->nama_lokasi }}</span></h3>
-                            <h3 class="text-lg font-semibold">Pekerjaan: <span
-                                    class="font-normal">{{ $panel->nama_pekerjaan ?? '-' }}</span></h3>
-                            <h3 class="text-lg font-semibold">Nomor SPK: <span
-                                    class="font-normal">{{ $panel->nomor_spk ?? '-' }}</span></h3>
-                            <h3 class="text-lg font-semibold">Teknisi: <span
-                                    class="font-normal">{{ $daily->teknisi ?? '-' }}</span></h3>
+                            <h3 class="text-lg font-semibold">Nama Panel: <span class="font-normal">{{
+                                    $panel->nama_panel }}</span></h3>
+                            <h3 class="text-lg font-semibold">Lokasi Panel: <span class="font-normal">{{
+                                    $panel->lokasiRel->nama_lokasi }}</span></h3>
+                            <h3 class="text-lg font-semibold">Pekerjaan: <span class="font-normal">{{
+                                    $panel->nama_pekerjaan ?? '-' }}</span></h3>
+                            <h3 class="text-lg font-semibold">Nomor SPK: <span class="font-normal">{{ $panel->nomor_spk
+                                    ?? '-' }}</span></h3>
+                            <h3 class="text-lg font-semibold">Teknisi: <span class="font-normal">{{ $daily->teknisi ??
+                                    '-' }}</span></h3>
                         </div>
 
                         @if ($daily && $daily->id)
-                            <div class="text-sm-left text-md-center -mr-14">
-                                <img src="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" alt="QR Code"
-                                    class="w-50 h-50 mx-md-auto">
-                                <a href="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" download
-                                    class="mt-2 inline-block bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
-                                    <i class="fas fa-download mr-1"></i> Download QR
-                                </a>
-                            </div>
+                        <div class="text-sm-left text-md-center -mr-14">
+                            <img src="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" alt="QR Code"
+                                class="w-50 h-50 mx-md-auto">
+                            <a href="{{ asset('storage/qrcodes/ceklis_' . $daily->id . '.png') }}" download
+                                class="mt-2 inline-block bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                                <i class="fas fa-download mr-1"></i> Download QR
+                            </a>
+                        </div>
                         @endif
                     </div>
 
@@ -69,61 +69,67 @@
                             </thead>
                             <tbody>
                                 @foreach ($panel->formitems as $item)
-                                    <tr class="border dark:border-gray-700">
-                                        <td class="px-4 py-2">{{ $item->item_pemeriksaan }}</td>
-                                        <td class="px-4 py-2">
-                                            <!-- Pastikan $dailyChecklist tidak null sebelum mengakses items -->
-                                            @if ($dailyChecklist)
-                                                @php
-                                                    $dailyItem = $dailyChecklist->items->firstWhere(
-                                                        'form_checklist_item_id',
-                                                        $item->id,
-                                                    );
-                                                @endphp
-                                                @if ($dailyItem)
-                                                    <span
-                                                        class="font-semibold">{{ ucfirst($dailyItem->kondisi) }}</span>
-                                                @else
-                                                    <span class="text-gray-500">Belum diperiksa</span>
-                                                @endif
-                                            @else
-                                                <span class="text-gray-500">Belum diperiksa</span>
-                                            @endif
-                                        </td>
-                                        <td class="px-4 py-2 truncate-text"
-                                            title="{{ Str::limit($item->keterangan, 100) }}">
-                                            @if ($dailyChecklist)
-                                                @php
-                                                    $dailyItem = $dailyChecklist->items->firstWhere(
-                                                        'form_checklist_item_id',
-                                                        $item->id,
-                                                    );
-                                                @endphp
-                                                @if ($dailyItem)
-                                                    <span>{{ $dailyItem->keterangan ?? '-' }}</span>
-                                                @else
-                                                    <span class="text-gray-500">Belum diperiksa</span>
-                                                @endif
-                                            @else
-                                                <span class="text-gray-500">Belum diperiksa</span>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                <tr class="border dark:border-gray-700">
+                                    <td class="px-4 py-2">{{ $item->item_pemeriksaan }}</td>
+                                    <td class="px-4 py-2">
+                                        <!-- Pastikan $dailyChecklist tidak null sebelum mengakses items -->
+                                        @if ($dailyChecklist)
+                                        @php
+                                        $dailyItem = $dailyChecklist->items->firstWhere(
+                                        'form_checklist_item_id',
+                                        $item->id,
+                                        );
+                                        @endphp
+                                        @if ($dailyItem)
+                                        <span class="font-semibold">{{ ucfirst($dailyItem->kondisi) }}</span>
+                                        @else
+                                        <span class="text-gray-500">Belum diperiksa</span>
+                                        @endif
+                                        @else
+                                        <span class="text-gray-500">Belum diperiksa</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-2 truncate-text"
+                                        title="{{ Str::limit($item->keterangan, 100) }}">
+                                        @if ($dailyChecklist)
+                                        @php
+                                        $dailyItem = $dailyChecklist->items->firstWhere(
+                                        'form_checklist_item_id',
+                                        $item->id,
+                                        );
+                                        @endphp
+                                        @if ($dailyItem)
+                                        <span>{{ $dailyItem->keterangan ?? '-' }}</span>
+                                        @else
+                                        <span class="text-gray-500">Belum diperiksa</span>
+                                        @endif
+                                        @else
+                                        <span class="text-gray-500">Belum diperiksa</span>
+                                        @endif
+                                    </td>
+                                </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
 
-                    <div class="mt-6 flex flex-col gap-4 md:flex-row">
-                        <a href="{{ route('laporanHarian') }}"
-                            class="bg-red-500 text-white px-4 py-2 rounded mt-4 hover:bg-red-600">
-                            <i class="fas fa-arrow-left mr-1"></i> Kembali
-                        </a>
-                        <a href="{{ route('laporanHarian.exportPdf', $panel->id) }}?tanggal={{ $selectedDate }}"
-                            target="_blank"
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                            <i class="fas fa-file-pdf mr-1"></i> Export PDF
-                         </a>                         
+                    <div class="flex justify-between mt-4">
+                        <div class="flex flex-col-reverse gap-2 md:flex-row">
+                            <a href="{{ route('laporanHarian') }}"
+                                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                                <i class="fas fa-arrow-left mr-1"></i> Kembali
+                            </a>
+                            <a href="{{ route('laporanHarian.exportPdf', $panel->id) }}?tanggal={{ $selectedDate }}"
+                                target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                                <i class="fas fa-file-pdf mr-1"></i> Export PDF
+                            </a>
+                        </div>
+                        <form action="{{ route('formCheckDailyQuickCreate', ['panel' => $panel->id, 'tanggal' => $selectedDate]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn bg-yellow-500 hover:bg-yellow-600">
+                                <i class="fas fa-pencil mr-1"></i> Edit
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

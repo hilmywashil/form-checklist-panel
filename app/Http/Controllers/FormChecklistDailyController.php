@@ -85,16 +85,20 @@ class FormChecklistDailyController extends Controller
         return view('admin.formdailies.create', compact('panels'));
     }
 
-    public function quickCreate(FormChecklistPanel $panel)
+    public function quickCreate(FormChecklistPanel $panel, $tanggal = null)
     {
-        $existing = $panel->checklists()->whereDate('tanggal', today())->first();
+        if (!$tanggal) {
+            $tanggal = today()->toDateString();
+        }
+
+        $existing = $panel->checklists()->whereDate('tanggal', $tanggal)->first();
         if ($existing) {
             return redirect()->route('adminFormDaily')->with('error', 'Pemeriksaan hari ini sudah ada untuk panel ini.');
         }
 
         $newChecklist = new FormChecklistDaily();
         $newChecklist->form_checklist_panel_id = $panel->id;
-        $newChecklist->tanggal = today();
+        $newChecklist->tanggal = $tanggal;
         $newChecklist->teknisi = auth()->user()->name ?? 'Teknisi';
         $newChecklist->save();
 

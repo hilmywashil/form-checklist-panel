@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
     //Admin Daily with Auth
     Route::get('/admin/formdailies', [FormChecklistDailyController::class, 'index'])->name('adminFormDaily');
-    Route::post('/form-daily/quick-create/{panel}', [FormChecklistDailyController::class, 'quickCreate'])
+    Route::post('/form-daily/quick-create/{panel}/{tanggal?}', [FormChecklistDailyController::class, 'quickCreate'])
         ->name('formCheckDailyQuickCreate');
     Route::get('/admin/formdaily/create', [FormChecklistDailyController::class, 'create'])->name('formCheckDailyCreate');
     Route::post('/admin/formdaily/store', [FormChecklistDailyController::class, 'store'])->name('formCheckDailyStore');
